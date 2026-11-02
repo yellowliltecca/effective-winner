@@ -51,7 +51,10 @@ jobs:
         run: python scripts/cache_teacher_photos.py
 
       - name: Check notification module syntax
-        run: node --check features.js
+        run: |
+          node --check features.js
+          node --check student-tools.js
+          node --check sw.js
 
       - name: Save changes
         run: |
