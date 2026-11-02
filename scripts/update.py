@@ -75,7 +75,7 @@ def previous():
     return old
 
 
-def parse_schedule(soup):
+def parse_schedule(soup, strict=True):
     table = next(
         (t for t in soup.select('table')
          if 'понедельник' in t.get_text(' ', strip=True).lower()
@@ -190,7 +190,7 @@ def parse_schedule(soup):
                     after_change=changed
                 ))
 
-    if (
+    if strict and (
         len(lessons) < 5
         or len(slots) < 4
         or not any(
