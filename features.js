@@ -8,18 +8,55 @@ const save=()=>{try{localStorage.setItem(key,JSON.stringify(prefs))}catch{}};
 const clock=()=>{const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Saratov',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(new Date()).map(x=>[x.type,x.value]));return{date:p.year+'-'+p.month+'-'+p.day,sec:+p.hour*3600 + +p.minute*60 + +p.second}};
 const secs=t=>{const [h,m]=String(t).split(':').map(Number);return h*3600+m*60};
 const remaining=s=>{s=Math.max(0,Math.floor(s));return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')};
-const week=date=>{const d=new Date(date+'T12:00:00Z'),day=(d.getUTCDay()+6)%7;d.setUTCDate(d.getUTCDate()-day);const start=d.toISOString().slice(0,10),cal=data?.week_calendar||[],item=cal.find(x=>x.start===start);if(item)return item.type;const nearest=cal.map(x=>({...x,diff:Math.round((Date.parse(start)-Date.parse(x.start))/604800000)})).sort((a,b)=>Math.abs(a.diff)-Math.abs(b.diff))[0];return nearest&&Math.abs(nearest.diff)<=6?(Math.abs(nearest.diff)%2?nearest.type==='numerator'?'denominator':'numerator':nearest.type):null};
+const week=date=>{
+ const d=new Date(date+'T12:00:00Z');
+ d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));
+ const start=d.toISOString().slice(0,10);
+ const explicit=(data?.week_calendar||[]).find(x=>x.start===start);
+ if(explicit)return explicit.type;
+ const diff=Math.round((Date.parse(start)-Date.parse('2026-08-31'))/604800000);
+ return ((diff%2)+2)%2===0?'numerator':'denominator';
+};
 const group=()=>$('#group')?.value||'all';
 const relevant=e=>group()==='all'||!e.groups?.length||e.groups.includes(Number(group()));
 const events=()=>Array.isArray(data?.history)?data.history.filter(relevant):[];
 const seen=()=>new Set(Array.isArray(prefs.seen)?prefs.seen:[]);
-function timer(){if(!data)return;const now=clock(),day=(new Date(now.date+'T12:00:00Z').getUTCDay()+6)%7,w=week(now.date);
-const list=data.lessons.filter(l=>l.day===day&&(l.week==='both'||l.week===w)&&relevant(l)&&l.start&&l.end).sort((a,b)=>a.start.localeCompare(b.start));
-const current=list.find(l=>secs(l.start)<=now.sec&&now.sec<secs(l.end)),next=list.find(l=>secs(l.start)>now.sec);
-const label=$('#liveLabel'),value=$('#liveValue'),info=$('#liveInfo'),bar=$('#liveBar');
-if(current){label.textContent='Идёт пара · осталось';value.textContent=remaining(secs(current.end)-now.sec);info.textContent=current.title+' · до '+current.end;bar.hidden=false;bar.firstElementChild.style.width=((now.sec-secs(current.start))/(secs(current.end)-secs(current.start))*100).toFixed(1)+'%'}
-else if(next){label.textContent='До следующей пары';value.textContent=remaining(secs(next.start)-now.sec);info.textContent=next.title+' · '+next.start;bar.hidden=true}
-else{label.textContent=list.length?'Пары сегодня закончились':'Сегодня пар нет';value.textContent='✓';info.textContent='По времени Саратова';bar.hidden=true}}
+function timer(){
+ if(!data)return;
+ const now=clock(),baseDate=new Date(now.date+'T12:00:00Z');
+ const todayDay=(baseDate.getUTCDay()+6)%7;
+ const applicable=(l,day,parity)=>l.day===day&&(l.week==='both'||l.week===parity)&&relevant(l)&&l.start&&l.end;
+ const current=data.lessons.filter(l=>applicable(l,todayDay,week(now.date))).find(l=>secs(l.start)<=now.sec&&now.sec<secs(l.end));
+ let upcoming=null;
+ for(let offset=0;offset<21&&!upcoming;offset++){
+  const date=new Date(baseDate.getTime()+offset*86400000);
+  const iso=date.toISOString().slice(0,10),day=(date.getUTCDay()+6)%7,parity=week(iso);
+  const list=data.lessons.filter(l=>applicable(l,day,parity)).sort((a,b)=>secs(a.start)-secs(b.start));
+  const lesson=list.find(l=>offset>0||secs(l.start)>now.sec);
+  if(lesson)upcoming={lesson,iso,offset,seconds:offset*86400+secs(lesson.start)-now.sec};
+ }
+ const label=$('#liveLabel'),value=$('#liveValue'),info=$('#liveInfo');
+ const subject=$('#nextSubject'),nextLabel=$('#nextLabel'),nextInfo=$('#nextInfo'),bar=$('#liveBar');
+ if(!label||!value||!info||!subject||!nextLabel||!nextInfo)return;
+ if(bar)bar.hidden=true;
+ label.textContent='До следующей пары';
+ if(!upcoming){
+  value.textContent='—';value.setAttribute('aria-label','Нет занятий в ближайшие три недели');
+  info.textContent='По времени Саратова';nextLabel.textContent='Расписание';
+  subject.textContent='Пока занятий нет';
+  nextInfo.textContent='В ближайшие 3 недели · '+(group()==='all'?'все подгруппы':group()+'-я подгруппа');
+  return;
+ }
+ const l=upcoming.lesson,all=Math.max(0,Math.floor(upcoming.seconds));
+ const d=Math.floor(all/86400),h=Math.floor(all%86400/3600),m=Math.floor(all%3600/60),second=all%60;
+ const timerText=[h,m,second].map(x=>String(x).padStart(2,'0')).join(':');
+ value.textContent=(d?d+' дн.  ':'')+timerText;
+ value.setAttribute('aria-label',(d?d+' дней, ':'')+h+' часов, '+m+' минут, '+second+' секунд до следующей пары');
+ info.textContent=current?'Сейчас идёт: '+current.title+' · до '+current.end:'Время Саратова (UTC+4)';
+ nextLabel.textContent='Следующее занятие';subject.textContent=l.title;
+ const dateText=upcoming.offset===0?'Сегодня':upcoming.offset===1?'Завтра':new Intl.DateTimeFormat('ru-RU',{timeZone:'UTC',weekday:'short',day:'numeric',month:'short'}).format(new Date(upcoming.iso+'T12:00:00Z'));
+ nextInfo.textContent=[dateText+' в '+l.start,l.location,l.groups?.length?l.groups.join(' и ')+' подгруппа':null].filter(Boolean).join(' · ');
+}
 function paint(){const list=events(),ids=seen(),unread=list.filter(e=>!ids.has(e.id));const badge=$('#alertBadge');badge.hidden=!unread.length;badge.textContent=unread.length>99?'99+':unread.length;
 $('#alertSummary').textContent=list.length+' записей · '+unread.length+' непрочитанных';
 $('#alertList').innerHTML=list.length?list.slice(0,80).map(e=>'<article class="alert-item '+(ids.has(e.id)?'':'unread')+'"><div><b>'+esc(e.label||'Изменение')+'</b><time>'+esc(e.at?new Date(e.at).toLocaleString('ru-RU',{timeZone:'Europe/Saratov',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'')+'</time></div><small>'+esc((Number.isInteger(e.day)?['Пн','Вт','Ср','Чт','Пт','Сб'][e.day]+' · ':'')+(e.time||'')+(e.groups?.length?' · '+e.groups.join(', ')+' подгр.':''))+'</small>'+(e.before?'<p>Было: '+esc(e.before)+'</p>':'')+(e.after?'<p><strong>Стало: '+esc(e.after)+'</strong></p>':'')+'</article>').join(''):'<p class="alert-empty">Изменений пока нет. История заполняется при обновлении расписания СГУ.</p>'}
@@ -28,7 +65,8 @@ function close(){opened=false;$('#alertsPanel').hidden=true;$('#alertButton').se
 function accept(next){if(next?.group!=='111'||!Array.isArray(next.lessons)||next.lessons.length<5)return;data=next;const ids=(next.history||[]).map(x=>x.id),old=Array.isArray(prefs.known)?new Set(prefs.known):null;const fresh=old?events().filter(x=>!old.has(x.id)):[];prefs.known=ids.slice(0,400);save();if(fresh.length){$('#alertToast').hidden=false;$('#alertToastText').textContent='Изменений расписания: '+fresh.length;if(prefs.notify&&'Notification'in window&&Notification.permission==='granted'){try{new Notification('СГУ — изменения расписания',{body:fresh.length+' новых изменений',tag:'sgu111-alerts',icon:'./icon.svg'})}catch{}}}paint();timer()}
 async function load(){try{const r=await fetch('./data/schedule.json?t='+Date.now(),{cache:'no-store'});if(r.ok)accept(await r.json())}catch{}}
 function init(){if(!$('.next-card')||!$('.nav'))return;const style=document.createElement('style');style.textContent='.live-box{margin-top:13px;padding-top:12px;border-top:1px solid #ffffff35}.live-header{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#fff;font-size:12px}.live-header strong{font-size:19px;font-variant-numeric:tabular-nums}.live-info{font-size:11px;color:#c7d7ee;margin-top:5px}.live-track{margin-top:9px;height:7px;background:#ffffff30;border-radius:10px;overflow:hidden}.live-track span{display:block;height:100%;background:#77edc7;border-radius:10px}.alert-button{position:relative}.alert-badge{position:absolute;right:-4px;top:-5px;background:#e75455;color:white;font-size:10px;border-radius:100px;padding:2px 5px}.alerts-panel{margin:14px 0;background:var(--paper);border:1px solid var(--stroke);border-radius:17px;padding:17px}.alerts-panel[hidden],.alert-toast[hidden]{display:none!important}.alerts-head{display:flex;justify-content:space-between;align-items:start;gap:12px}.alerts-head h2{margin:0;font-size:17px}.alerts-head p{font-size:11px;color:var(--soft);margin:5px 0}.alerts-panel button{border:1px solid var(--stroke);background:var(--bg);color:var(--ink);padding:9px 12px;border-radius:10px;cursor:pointer}.alerts-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}.alerts-actions small{color:var(--soft)}.alert-list{display:grid;gap:9px;max-height:430px;overflow:auto}.alert-item{padding:12px;border:1px solid var(--stroke);border-radius:12px;font-size:12px;overflow-wrap:anywhere}.alert-item.unread{background:var(--primary-pale);border-color:var(--primary)}.alert-item div{display:flex;justify-content:space-between;gap:12px}.alert-item time,.alert-item small{color:var(--soft);font-size:10px}.alert-item p{margin:5px 0}.alert-empty{font-size:12px;color:var(--soft)}.alert-toast{position:fixed;bottom:20px;right:20px;z-index:30;padding:14px;background:var(--paper);border:1px solid var(--primary);color:var(--ink);box-shadow:0 12px 36px #101b3444;border-radius:13px}.alert-toast button{margin-left:12px;cursor:pointer}@media(max-width:650px){.alerts-panel{padding:12px}.alert-toast{left:12px;right:12px}}';document.head.append(style);
-$('.next-card').insertAdjacentHTML('beforeend','<div class="live-box"><div class="live-header"><span id="liveLabel">Загрузка времени…</span><strong id="liveValue">—</strong></div><div id="liveInfo" class="live-info">Время Саратова</div><div class="live-track" id="liveBar" hidden><span></span></div></div>');
+const timerStyle=document.createElement('style');timerStyle.textContent="\n.overview{grid-template-columns:minmax(0,.76fr) minmax(0,1.35fr);align-items:stretch;gap:18px}\n.overview-left{display:flex;flex-direction:column;justify-content:center}\n.next-card{display:flex;flex-direction:column;justify-content:center;min-width:0;padding:22px 25px;background:linear-gradient(120deg,#ffffff18,#ffffff0d);border:1px solid #ffffff40}\n.live-box{order:-1;margin:0 0 19px!important;padding:0 0 17px!important;border-top:0!important;border-bottom:1px solid #ffffff30}\n.live-header{display:flex!important;flex-direction:column;align-items:flex-start!important;gap:6px!important}\n.live-header span{font-size:12px;font-weight:780;color:#bed4fb;letter-spacing:.02em}\n.live-header strong{display:block;width:100%;font-size:clamp(39px,5.8vw,66px)!important;line-height:1.05!important;font-weight:850;letter-spacing:-.07em;white-space:nowrap;font-variant-numeric:tabular-nums;color:#fff}\n.live-info{font-size:12px!important;line-height:1.5;color:#cbdafa!important;margin-top:10px!important;overflow-wrap:anywhere}\n.next-label{font-weight:800;font-size:11px;color:#bed4fb}\n.next-card h2{font-size:clamp(17px,2.2vw,22px)!important;margin:6px 0!important}\n.next-details{font-size:12px!important;color:#d4e2fd!important}\n@media(max-width:900px){.overview{grid-template-columns:minmax(0,.7fr) minmax(0,1fr)}.live-header strong{font-size:clamp(36px,5vw,56px)!important}}\n@media(max-width:650px){.overview{grid-template-columns:1fr;gap:12px;padding:14px;border-radius:18px}.next-card{order:-1;padding:20px 18px;border-radius:15px}.overview-left{order:1;padding:4px 8px 8px}.overview h1{font-size:20px}.overview-sub{font-size:11px}.live-header strong{font-size:clamp(37px,10.5vw,56px)!important}.live-box{margin-bottom:13px!important;padding-bottom:13px!important}.next-details{font-size:11px!important}}\n@media(max-width:350px){.next-card{padding:17px 12px}.live-header strong{font-size:34px!important}}\n";document.head.append(timerStyle);
+$('.next-card').insertAdjacentHTML('beforeend','<div class="live-box"><div class="live-header"><span id="liveLabel">До следующей пары</span><strong id="liveValue" role="timer" aria-label="До начала ближайшего занятия">—</strong></div><div id="liveInfo" class="live-info">Время Саратова</div><div class="live-track" id="liveBar" hidden><span></span></div></div>');
 const b=document.createElement('button');b.id='alertButton';b.type='button';b.className='icon-btn alert-button';b.title='Изменения расписания';b.setAttribute('aria-expanded','false');b.innerHTML='🔔<span class="alert-badge" id="alertBadge" hidden></span>';$('.nav').insertBefore(b,$('#theme'));
 const panel=document.createElement('section');panel.className='alerts-panel';panel.id='alertsPanel';panel.hidden=true;panel.innerHTML='<div class="alerts-head"><div><h2>История изменений</h2><p id="alertSummary">Проверка…</p></div><button id="alertsClose" type="button" aria-label="Закрыть">✕</button></div><div class="alerts-actions"><button id="alertsPermission" type="button">Включить уведомления</button><small>Оповещения работают при открытом сайте. При закрытом сайте push-сервис не настроен.</small></div><div id="alertList" class="alert-list"></div>';$('#notice').after(panel);
 const toast=document.createElement('div');toast.className='alert-toast';toast.id='alertToast';toast.hidden=true;toast.innerHTML='<span id="alertToastText"></span><button id="alertToastOpen">Посмотреть</button>';document.body.append(toast);
