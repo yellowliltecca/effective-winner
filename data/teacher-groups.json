@@ -1,0 +1,1884 @@
+{
+  "faculty": "КНиИТ",
+  "source": "https://www.sgu.ru/schedule/knt",
+  "checked_at": "2026-11-02T15:48:10+00:00",
+  "groups_discovered": 41,
+  "groups_checked": 39,
+  "groups_failed": [
+    "142",
+    "481"
+  ],
+  "groups": [
+    {
+      "group": "121",
+      "url": "https://www.sgu.ru/schedule/knt/do/121",
+      "source_updated": "16.09.2026",
+      "checked_at": "2026-11-02T15:47:52+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "lecture",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 420/421 комната",
+          "week": "numerator",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Бассейн Физическая культура и спорт",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Введение в языкознание",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 304 комната",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "131",
+      "url": "https://www.sgu.ru/schedule/knt/do/131",
+      "source_updated": "26.10.2026",
+      "checked_at": "2026-11-02T15:47:52+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бассейн Физическая культура и спорт",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 303 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "lecture",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 333 комната",
+          "week": "denominator",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "lecture",
+          "title": "информационные технологии и программирование",
+          "teacher": "Иванова А. С.",
+          "location": "12 корпус, 303 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "информационные технологии и программирование",
+          "teacher": "Иванова А. С.",
+          "location": "12 корпус, 302 комната",
+          "week": "numerator",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Введение в языкознание",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "132",
+      "url": "https://www.sgu.ru/schedule/knt/do/132",
+      "source_updated": "14.10.2026",
+      "checked_at": "2026-11-02T15:47:52+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "информационные технологии и программирование",
+          "teacher": "Павлова А. А.",
+          "location": "12 корпус, 416 комната",
+          "week": "both",
+          "groups": [
+            2
+          ]
+        },
+        {
+          "day": 1,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "lecture",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 333 комната",
+          "week": "denominator",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "lecture",
+          "title": "информационные технологии и программирование",
+          "teacher": "Иванова А. С.",
+          "location": "12 корпус, 303 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Введение в языкознание",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 313 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Физическая культура и спорт",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "141",
+      "url": "https://www.sgu.ru/schedule/knt/do/141",
+      "source_updated": "24.09.2026",
+      "checked_at": "2026-11-02T15:47:52+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "lecture",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 420/421 комната",
+          "week": "numerator",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 303 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Введение в языкознание",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Бассейн Физическая культура и спорт",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "151",
+      "url": "https://www.sgu.ru/schedule/knt/do/151",
+      "source_updated": "28.09.2026",
+      "checked_at": "2026-11-02T15:47:54+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "lecture",
+          "title": "информационные технологии и программирование",
+          "teacher": "Иванова А. С.",
+          "location": "12 корпус, 333 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "информационные технологии и программирование",
+          "teacher": "Иванова А. С.",
+          "location": "12 корпус, 416 комната",
+          "week": "both",
+          "groups": [
+            2
+          ]
+        },
+        {
+          "day": 1,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Математический анализ",
+          "teacher": "Сахно Л. В.",
+          "location": "12 корпус, 333 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "История России",
+          "teacher": "Зайцев М. В.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "lecture",
+          "title": "История России",
+          "teacher": "Зайцев М. В.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "lecture",
+          "title": "Теоретическая информатика",
+          "teacher": "Иванов А. С.",
+          "location": "12 корпус, 310 комната",
+          "week": "denominator",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "lecture",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 333 комната",
+          "week": "numerator",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "lecture",
+          "title": "Математический анализ",
+          "teacher": "Сахно Л. В.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "lecture",
+          "title": "Русский язык и культура речи",
+          "teacher": "Шаповалова Н. Г.",
+          "location": "12 корпус, 420/421 комната",
+          "week": "numerator",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Теоретическая информатика",
+          "teacher": "Иванов А. С.",
+          "location": "12 корпус, 303 комната",
+          "week": "denominator",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Русский язык и культура речи",
+          "teacher": "Шаповалова Н. Г.",
+          "location": "12 корпус, 420/421 комната",
+          "week": "numerator",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Введение в языкознание",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "lecture",
+          "title": "Алгебра и геометрия",
+          "teacher": "Бредихин Д. А.",
+          "location": "12 корпус, 420/421 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 303 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Физическая культура и спорт",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "171",
+      "url": "https://www.sgu.ru/schedule/knt/do/171",
+      "source_updated": "26.10.2026",
+      "checked_at": "2026-11-02T15:47:54+00:00",
+      "lessons": []
+    },
+    {
+      "group": "173",
+      "url": "https://www.sgu.ru/schedule/knt/do/173",
+      "source_updated": "13.10.2026",
+      "checked_at": "2026-11-02T15:47:55+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Деловой иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "174",
+      "url": "https://www.sgu.ru/schedule/knt/do/174",
+      "source_updated": "23.09.2026",
+      "checked_at": "2026-11-02T15:47:55+00:00",
+      "lessons": []
+    },
+    {
+      "group": "181",
+      "url": "https://www.sgu.ru/schedule/knt/do/181",
+      "source_updated": "18.09.2026",
+      "checked_at": "2026-11-02T15:47:55+00:00",
+      "lessons": [
+        {
+          "day": 1,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Математический анализ",
+          "teacher": "Сахно Л. В.",
+          "location": "12 корпус, 313 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "lecture",
+          "title": "История России",
+          "teacher": "Зайцев М. В.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "lecture",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 333 комната",
+          "week": "numerator",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "lecture",
+          "title": "Математический анализ",
+          "teacher": "Сахно Л. В.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Бассейн Физическая культура и спорт",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Введение в языкознание",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "lecture",
+          "title": "Алгебра и геометрия",
+          "teacher": "Бредихин Д. А.",
+          "location": "12 корпус, 420/421 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 313 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "История России",
+          "teacher": "Зайцев М. В.",
+          "location": "12 корпус, 314 комната",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "191",
+      "url": "https://www.sgu.ru/schedule/knt/do/191",
+      "source_updated": "28.10.2026",
+      "checked_at": "2026-11-02T15:47:57+00:00",
+      "lessons": []
+    },
+    {
+      "group": "192",
+      "url": "https://www.sgu.ru/schedule/knt/do/192",
+      "source_updated": "28.10.2026",
+      "checked_at": "2026-11-02T15:47:57+00:00",
+      "lessons": []
+    },
+    {
+      "group": "194",
+      "url": "https://www.sgu.ru/schedule/knt/do/194",
+      "source_updated": "28.10.2026",
+      "checked_at": "2026-11-02T15:47:57+00:00",
+      "lessons": []
+    },
+    {
+      "group": "211",
+      "url": "https://www.sgu.ru/schedule/knt/do/211",
+      "source_updated": "18.09.2026",
+      "checked_at": "2026-11-02T15:47:57+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "lecture",
+          "title": "Математический анализ",
+          "teacher": "Сахно Л. В.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Математический анализ",
+          "teacher": "Комиссарова Н. Е.",
+          "location": "12 корпус, 224 комната",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "221",
+      "url": "https://www.sgu.ru/schedule/knt/do/221",
+      "source_updated": "08.09.2026",
+      "checked_at": "2026-11-02T15:47:58+00:00",
+      "lessons": [
+        {
+          "day": 1,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Бассейн 3 и 4 под Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Бассейн 1 и 2 под Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "231",
+      "url": "https://www.sgu.ru/schedule/knt/do/231",
+      "source_updated": "07.10.2026",
+      "checked_at": "2026-11-02T15:47:59+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 5,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бекенд-разработка",
+          "teacher": "Ковешников Д. В.",
+          "location": "12 корпус, 416 комната",
+          "week": "both",
+          "groups": [
+            2
+          ]
+        },
+        {
+          "day": 5,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Бекенд-разработка",
+          "teacher": "Ковешников Д. В.",
+          "location": "12 корпус, 416 комната",
+          "week": "both",
+          "groups": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "group": "241",
+      "url": "https://www.sgu.ru/schedule/knt/do/241",
+      "source_updated": "30.09.2026",
+      "checked_at": "2026-11-02T15:48:00+00:00",
+      "lessons": [
+        {
+          "day": 1,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бассейн 2 и 3 под Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Бассейн 1 под Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "251",
+      "url": "https://www.sgu.ru/schedule/knt/do/251",
+      "source_updated": "30.09.2026",
+      "checked_at": "2026-11-02T15:47:59+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бекенд-разработка",
+          "teacher": "Ковешников Д. В.",
+          "location": "12 корпус, 414 комната",
+          "week": "both",
+          "groups": [
+            1
+          ]
+        },
+        {
+          "day": 0,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": [
+            2,
+            3
+          ]
+        },
+        {
+          "day": 0,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бассейн 1 под Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "lecture",
+          "title": "Математический анализ",
+          "teacher": "Сахно Л. В.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Математический анализ",
+          "teacher": "Сахно Л. В.",
+          "location": "12 корпус, 313 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бассейн 1 и 2 под Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "group": "271",
+      "url": "https://www.sgu.ru/schedule/knt/do/271",
+      "source_updated": "07.09.2026",
+      "checked_at": "2026-11-02T15:47:59+00:00",
+      "lessons": []
+    },
+    {
+      "group": "272",
+      "url": "https://www.sgu.ru/schedule/knt/do/272",
+      "source_updated": "04.09.2026",
+      "checked_at": "2026-11-02T15:48:00+00:00",
+      "lessons": []
+    },
+    {
+      "group": "273",
+      "url": "https://www.sgu.ru/schedule/knt/do/273",
+      "source_updated": "24.09.2026",
+      "checked_at": "2026-11-02T15:48:02+00:00",
+      "lessons": []
+    },
+    {
+      "group": "281",
+      "url": "https://www.sgu.ru/schedule/knt/do/281",
+      "source_updated": "08.09.2026",
+      "checked_at": "2026-11-02T15:48:01+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "denominator",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "lecture",
+          "title": "Математический анализ",
+          "teacher": "Сахно Л. В.",
+          "location": "12 корпус, 424/425 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Математический анализ",
+          "teacher": "Комиссарова Н. Е.",
+          "location": "12 корпус, 224 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "numerator",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "291",
+      "url": "https://www.sgu.ru/schedule/knt/do/291",
+      "source_updated": "28.10.2026",
+      "checked_at": "2026-11-02T15:48:02+00:00",
+      "lessons": []
+    },
+    {
+      "group": "292",
+      "url": "https://www.sgu.ru/schedule/knt/do/292",
+      "source_updated": "28.10.2026",
+      "checked_at": "2026-11-02T15:48:02+00:00",
+      "lessons": []
+    },
+    {
+      "group": "311",
+      "url": "https://www.sgu.ru/schedule/knt/do/311",
+      "source_updated": "14.09.2026",
+      "checked_at": "2026-11-02T15:48:02+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Фронтенд-разработка",
+          "teacher": "Иванова А. С.",
+          "location": "12 корпус, 414 комната",
+          "week": "both",
+          "groups": [
+            2
+          ]
+        },
+        {
+          "day": 2,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Фронтенд-разработка",
+          "teacher": "Иванова А. С.",
+          "location": "12 корпус, 310 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Фронтенд-разработка",
+          "teacher": "Хамутова М. В.",
+          "location": "12 корпус, 314 комната",
+          "week": "both",
+          "groups": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "group": "321",
+      "url": "https://www.sgu.ru/schedule/knt/do/321",
+      "source_updated": "24.09.2026",
+      "checked_at": "2026-11-02T15:48:04+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бассейн 2 и 3 под Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Бассейн 1 под Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "331",
+      "url": "https://www.sgu.ru/schedule/knt/do/331",
+      "source_updated": "08.09.2026",
+      "checked_at": "2026-11-02T15:48:04+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Фронтенд-разработка",
+          "teacher": "Иванова А. С.",
+          "location": "12 корпус, 310 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Фронтенд-разработка",
+          "teacher": "Хамутова М. В.",
+          "location": "12 корпус, 314 комната",
+          "week": "both",
+          "groups": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "group": "341",
+      "url": "https://www.sgu.ru/schedule/knt/do/341",
+      "source_updated": "18.09.2026",
+      "checked_at": "2026-11-02T15:48:04+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "351",
+      "url": "https://www.sgu.ru/schedule/knt/do/351",
+      "source_updated": "22.09.2026",
+      "checked_at": "2026-11-02T15:48:04+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 1,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Фронтенд-разработка",
+          "teacher": "Иванова А. С.",
+          "location": "12 корпус, 414 комната",
+          "week": "both",
+          "groups": [
+            1
+          ]
+        },
+        {
+          "day": 2,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Фронтенд-разработка",
+          "teacher": "Иванова А. С.",
+          "location": "12 корпус, 310 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "381",
+      "url": "https://www.sgu.ru/schedule/knt/do/381",
+      "source_updated": "14.09.2026",
+      "checked_at": "2026-11-02T15:48:04+00:00",
+      "lessons": [
+        {
+          "day": 0,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 0,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Бассейн Элективные дисциплины по физической культуре и спорту",
+          "teacher": "Кудрявцева Е. В.",
+          "location": "Спортивный комплекс «Стадион Локомотив»: беговые дорожки; манеж.",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "391",
+      "url": "https://www.sgu.ru/schedule/knt/do/391",
+      "source_updated": "28.10.2026",
+      "checked_at": "2026-11-02T15:48:05+00:00",
+      "lessons": []
+    },
+    {
+      "group": "392",
+      "url": "https://www.sgu.ru/schedule/knt/do/392",
+      "source_updated": "03.03.2026",
+      "checked_at": "2026-11-02T15:48:06+00:00",
+      "lessons": []
+    },
+    {
+      "group": "393",
+      "url": "https://www.sgu.ru/schedule/knt/do/393",
+      "source_updated": "03.03.2026",
+      "checked_at": "2026-11-02T15:48:06+00:00",
+      "lessons": []
+    },
+    {
+      "group": "411",
+      "url": "https://www.sgu.ru/schedule/knt/do/411",
+      "source_updated": "19.10.2026",
+      "checked_at": "2026-11-02T15:48:06+00:00",
+      "lessons": [
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Интеллектуальные системы и технологии",
+          "teacher": "Иванов А. С.",
+          "location": "12 корпус, 415 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Интеллектуальные системы и технологии",
+          "teacher": "Иванов А. С.",
+          "location": "12 корпус, 420/421 комната",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "421",
+      "url": "https://www.sgu.ru/schedule/knt/do/421",
+      "source_updated": "30.10.2026",
+      "checked_at": "2026-11-02T15:48:06+00:00",
+      "lessons": [
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "431",
+      "url": "https://www.sgu.ru/schedule/knt/do/431",
+      "source_updated": "07.10.2026",
+      "checked_at": "2026-11-02T15:48:09+00:00",
+      "lessons": [
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "441",
+      "url": "https://www.sgu.ru/schedule/knt/do/441",
+      "source_updated": "07.10.2026",
+      "checked_at": "2026-11-02T15:48:09+00:00",
+      "lessons": [
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "451",
+      "url": "https://www.sgu.ru/schedule/knt/do/451",
+      "source_updated": "19.10.2026",
+      "checked_at": "2026-11-02T15:48:08+00:00",
+      "lessons": [
+        {
+          "day": 2,
+          "start": "12:05",
+          "end": "13:40",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 2,
+          "start": "13:50",
+          "end": "15:25",
+          "kind": "practice",
+          "title": "Иностранный язык",
+          "teacher": "Алексеева Д. А.",
+          "location": "12 корпус, 125 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 3,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "lecture",
+          "title": "Интеллектуальные системы и технологии",
+          "teacher": "Иванов А. С.",
+          "location": "12 корпус, 420/421 комната",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 4,
+          "start": "15:35",
+          "end": "17:10",
+          "kind": "practice",
+          "title": "Интеллектуальные системы и технологии",
+          "teacher": "Иванов А. С.",
+          "location": "12 корпус, 215 комната",
+          "week": "both",
+          "groups": []
+        }
+      ]
+    },
+    {
+      "group": "494",
+      "url": "https://www.sgu.ru/schedule/knt/do/494",
+      "source_updated": "03.03.2026",
+      "checked_at": "2026-11-02T15:48:09+00:00",
+      "lessons": []
+    },
+    {
+      "group": "531",
+      "url": "https://www.sgu.ru/schedule/knt/do/531",
+      "source_updated": "07.10.2026",
+      "checked_at": "2026-11-02T15:48:10+00:00",
+      "lessons": []
+    }
+  ]
+}
