@@ -50,6 +50,9 @@ jobs:
       - name: Cache teacher photos
         run: python scripts/cache_teacher_photos.py
 
+      - name: Check notification module syntax
+        run: node --check features.js
+
       - name: Save changes
         run: |
           git add data/schedule.json index.html assets/teachers
