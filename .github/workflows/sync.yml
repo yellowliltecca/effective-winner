@@ -54,6 +54,7 @@ jobs:
         run: |
           node --check features.js
           node --check student-tools.js
+          node --check attendance.js
           node --check sw.js
 
       - name: Save changes
