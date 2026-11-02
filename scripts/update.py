@@ -369,6 +369,12 @@ def main():
     if exams is not None:
         new['exams'] = exams
 
+    # Timestamp of the last successfully parsed and validated SGU schedule.
+    # Never update this value on network or parsing failure.
+    new['checked_at'] = dt.datetime.now(
+        dt.timezone.utc
+    ).isoformat(timespec='seconds')
+
     if changed:
         new['changes'] = [
             {
