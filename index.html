@@ -875,7 +875,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     $('#nextInfo').textContent=`${when} · ${l.start}–${l.end}${l.location?' · '+l.location:''}${l.groups.length?' · '+l.groups.join(' и ')+' подгруппа':''}`;
   }
   function renderChanges(){const changed=data.changes||[];$('#changesBox').hidden=!changed.length;if(changed.length)$('#changes').innerHTML=changed.slice(0,6).map(c=>`<div class="changes-item"><span class="point">●</span><div><strong>${c.event==='removed'?'Убрана: ':c.event==='added'?'Добавлена: ':'Изменена: '}${esc(c.text)}</strong><span>${shortDays[c.day]||''} ${esc(c.time)} · ${esc(c.detail)}</span></div></div>`).join('');}
-  function renderExams(){const exams=(data.exams||[]).slice().sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));$('#examCount').textContent=`${exams.length} событий`;$('#examList').innerHTML=exams.map(e=>{const d=parseISO(e.date);return `<article class="exam"><div class="exam-date">${fmt(d,{day:'numeric',month:'short'})}<span>${esc(e.time)}</span></div><div><div class="lesson-topline"><span class="tag">${esc(e.kind)}</span>${e.date<dateISO(saratovNow().date)?'<span class="tag shift">Архив</span>':''}</div><div class="exam-title">${esc(e.title)}</div><div class="exam-meta">${e.teacher?`<div class="exam-teacher">${teacherBlock(e.teacher)}</div>`:''}${esc(e.location)}</div></div></article>`}).join('')||'<div class="empty">Информация о сессии пока не опубликована.</div>';}
+  function renderExams(){/* Session calendar is rendered by session.js using the current SGU snapshot. */}
   function render(){renderOverview();renderDays();renderContent();renderChanges();nextLesson();}
   function updateSource(){
     const initial=!!data.initial_snapshot;
