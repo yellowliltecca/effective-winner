@@ -13,8 +13,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: sgu111-pages
-  cancel-in-progress: false
+  group: sgu111-pages-v2
+  cancel-in-progress: true
 
 jobs:
   publish:
@@ -59,12 +59,19 @@ jobs:
 
       - name: Save changes
         run: |
+          # Avoid pushing an outdated checkout over newly committed site changes.
+          git fetch origin main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+            echo "::error::Main moved during this run. A newer workflow will publish it."
+            exit 1
+          fi
+
           git add data/schedule.json index.html assets/teachers
           if ! git diff --cached --quiet; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "Update SGU schedule"
-            git push
+            git push origin HEAD:main
           fi
 
       - name: Configure GitHub Pages
