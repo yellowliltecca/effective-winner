@@ -55,6 +55,7 @@ jobs:
           node --check features.js
           node --check student-tools.js
           node --check attendance.js
+          node --check search.js
           node --check sw.js
 
       - name: Save changes
