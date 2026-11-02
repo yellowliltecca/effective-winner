@@ -4,7 +4,7 @@
   "source": "https://www.sgu.ru/schedule/knt/do/111",
   "calendar_source": "https://www.sgu.ru/schedule/knt",
   "source_updated": "26.10.2026",
-  "fetched_at": "2026-11-02T13:35:54.695937+00:00",
+  "fetched_at": "2026-11-02T14:19:58.107842+00:00",
   "initial_snapshot": false,
   "week_calendar": [
     {
@@ -618,5 +618,6 @@
     }
   },
   "changes_at": "2026-11-02T13:35:54.695922+00:00",
-  "history": []
+  "history": [],
+  "checked_at": "2026-11-02T14:19:58+00:00"
 }
