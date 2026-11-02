@@ -784,11 +784,31 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     }
     $('#dayTabs').style.display=state.view==='day'?'flex':'none';
     const current=saratovNow(),d=current.date,i=(d.getUTCDay()+6)%7,nowWeek=monday(d);
-    const n=lessonsFor(i,nowWeek).length;
+    const todayLessons=lessonsFor(i,nowWeek),n=todayLessons.length;
+    const activeIndex=todayLessons.findIndex(l=>timeNumber(l.start)<=current.minute&&current.minute<timeNumber(l.end));
+    const future=todayLessons.filter(l=>timeNumber(l.start)>current.minute);
+    const weekName=academicWeek(nowWeek).type==='numerator'?'Числитель':'Знаменатель';
+    const groupName=state.group==='all'?'Все подгруппы':state.group+'-я подгруппа';
     $('#summaryDate').textContent=`${fmt(d,{weekday:'long',day:'numeric',month:'long'})} · Саратов`;
-    $('#todayTitle').textContent=n?`Сегодня ${n} ${plural(n,['пара','пары','пар'])}`:'Сегодня пар нет';
-    const currentWeek=academicWeek(nowWeek);
-    $('#todaySummary').textContent=`${currentWeek.type==='numerator'?'Числитель':'Знаменатель'} · ${state.group==='all'?'Все подгруппы':state.group+'-я подгруппа'} · Саратов, UTC+4`;
+    let heading,detail;
+    if(!n){
+      heading='Сегодня пар нет';
+      detail='Свободный день';
+    }else if(activeIndex>=0){
+      heading=`Сейчас идёт ${activeIndex+1}-я пара`;
+      detail=future.length?`После неё ещё ${future.length} ${plural(future.length,['пара','пары','пар'])}`:'Это последняя пара сегодня';
+    }else if(!future.length){
+      heading='Все пары на сегодня закончились';
+      detail=`Сегодня завершились ${n} ${plural(n,['пара','пары','пар'])}`;
+    }else if(future.length===n){
+      heading=`Сегодня ${n} ${plural(n,['пара','пары','пар'])}`;
+      detail=`Первая пара в ${future[0].start}`;
+    }else{
+      heading=`Осталось ${future.length} ${plural(future.length,['пара','пары','пар'])}`;
+      detail=`Следующая пара в ${future[0].start}`;
+    }
+    $('#todayTitle').textContent=heading;
+    $('#todaySummary').textContent=`${detail} · ${weekName} · ${groupName} · Саратов, UTC+4`;
   }
   function renderDays(){
     const html=shortDays.map((day,i)=>{
@@ -875,7 +895,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     if(event.target===event.currentTarget)event.currentTarget.close();
   });
   if(localStorage.getItem('sgu111_theme')==='dark')document.body.classList.add('dark');
-  const now=saratovNow().date;state.week=monday(now);state.day=(now.getUTCDay()+6)%7;render();renderExams();updateSource();sync();setInterval(()=>sync(false),15*60*1000);let lastDay=dateISO(now);setInterval(()=>{const live=saratovNow().date,liveDay=dateISO(live);if(liveDay!==lastDay){const viewingToday=dateISO(thisDate(state.day))===lastDay;lastDay=liveDay;if(viewingToday){state.week=monday(live);state.day=(live.getUTCDay()+6)%7;}render();renderExams();}else{renderOverview();nextLesson();if(state.view==='day')renderContent();}},60*1000);
+  const now=saratovNow().date;state.week=monday(now);state.day=(now.getUTCDay()+6)%7;render();renderExams();updateSource();sync();setInterval(()=>sync(false),15*60*1000);setInterval(renderOverview,15000);let lastDay=dateISO(now);setInterval(()=>{const live=saratovNow().date,liveDay=dateISO(live);if(liveDay!==lastDay){const viewingToday=dateISO(thisDate(state.day))===lastDay;lastDay=liveDay;if(viewingToday){state.week=monday(live);state.day=(live.getUTCDay()+6)%7;}render();renderExams();}else{renderOverview();nextLesson();if(state.view==='day')renderContent();}},60*1000);
 })();
 </script>
 
