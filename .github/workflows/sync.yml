@@ -36,10 +36,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Save previous schedule for change detection
+        run: cp data/schedule.json /tmp/sgu111-previous.json
+
       - name: Update schedule
         id: refresh
         continue-on-error: true
         run: python scripts/update.py
+
+      - name: Track changes
+        run: python scripts/track_changes.py /tmp/sgu111-previous.json data/schedule.json
 
       - name: Cache teacher photos
         run: python scripts/cache_teacher_photos.py
