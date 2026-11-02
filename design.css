@@ -1,0 +1,393 @@
+/*
+  SGU 111 — Focus UI, v2
+  Clear hierarchy, large timetable, one primary hero action.
+  Works with existing semantic HTML and dynamic modules.
+*/
+:root{
+ color-scheme:light;
+ --bg:#f6f8fc;--paper:#ffffff;--ink:#17233a;--soft:#64748b;--light:#8490a4;
+ --primary:#2758c4;--primary-hover:#1e48a8;--primary-pale:#eaf0ff;
+ --stroke:#e3eaf4;--mint:#137b65;--mint-bg:#e8f7f1;
+ --gold:#93601d;--gold-bg:#fff4df;--purple:#7954a8;--purple-bg:#f4edfb;
+ --shadow:0 9px 30px rgba(24,42,78,.035);
+ --focus:#2974ee;
+}
+body.dark{
+ color-scheme:dark;
+ --bg:#0e1523;--paper:#171f31;--ink:#f1f5fc;--soft:#b1bfd2;--light:#9eabc0;
+ --primary:#a9c4ff;--primary-hover:#c2d3ff;--primary-pale:#26395b;
+ --stroke:#344258;--mint:#8addc4;--mint-bg:#203d37;
+ --gold:#f6c785;--gold-bg:#4c3824;--purple:#c5a6eb;--purple-bg:#382b49;
+ --shadow:0 12px 32px rgba(0,0,0,.13);
+ --focus:#96b6ff;
+}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{
+ min-width:300px;font-size:14px;line-height:1.55;
+ background:var(--bg);color:var(--ink);
+ font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
+ -webkit-font-smoothing:antialiased;
+}
+body::selection{background:#bcd4ff;color:#112957}
+a,button,select,input,textarea{transition:border-color .16s ease,background-color .16s ease,box-shadow .16s ease,color .16s ease}
+:where(button,a,select,input,textarea,summary):focus-visible{
+ outline:3px solid var(--focus)!important;
+ outline-offset:3px!important;
+}
+button,select,input,textarea{font-family:inherit}
+button,select{touch-action:manipulation}
+.shell{max-width:1160px;margin:auto;padding:0 28px 44px}
+.top{
+ position:sticky;top:0;z-index:25;
+ margin:0 -28px 22px;padding:14px 28px;
+ background:color-mix(in srgb,var(--bg) 94%,transparent);
+ backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+ border-bottom:1px solid var(--stroke);
+ gap:12px;
+}
+.brand{gap:11px;min-width:0}
+.brand-icon{
+ width:44px;height:44px;border-radius:15px;
+ background:#244caa;color:#fff;box-shadow:0 5px 15px rgba(36,76,170,.14);
+ font-size:16px;letter-spacing:-.05em;
+}
+.brand-name{font-size:18px;font-weight:800;letter-spacing:-.045em}
+.brand-sub{font-size:11px;color:var(--soft);font-weight:600;margin-top:1px}
+.nav{gap:7px}
+.nav-link{font-size:12px;color:var(--soft);font-weight:650}
+.nav-link:hover{color:var(--primary)}
+.icon-btn{
+ width:44px;height:44px;flex:0 0 44px;
+ display:grid;place-items:center;border-radius:14px;
+ background:var(--paper);border:1px solid var(--stroke);
+ color:var(--ink);box-shadow:0 2px 6px rgba(23,42,78,.025)
+}
+.icon-btn:hover{color:var(--primary);border-color:var(--primary-pale);background:var(--primary-pale)}
+.alert-button{font-size:19px;line-height:1}
+.alert-badge{border:2px solid var(--bg);font-size:10px}
+body .overview{
+ display:grid!important;
+ grid-template-columns:minmax(0,1.22fr) minmax(0,.78fr)!important;
+ gap:20px!important;align-items:stretch!important;
+ padding:31px 35px!important;
+ border-radius:26px!important;
+ background:radial-gradient(circle at 98% 0%,rgba(100,166,255,.25),transparent 38%),
+ linear-gradient(120deg,#102246 0%,#152f63 58%,#173d78 100%)!important;
+ color:#fff;isolation:isolate;box-shadow:0 13px 32px rgba(13,34,76,.11);
+}
+body .overview::before{
+ width:330px;height:330px;right:-145px;top:-170px;
+ border:70px solid rgba(255,255,255,.028);pointer-events:none
+}
+body .next-card{
+ grid-column:1;grid-row:1;order:0;
+ padding:2px 22px 2px 0!important;
+ border:0!important;background:transparent!important;
+ border-right:1px solid rgba(218,231,255,.20)!important;
+ border-radius:0!important;
+ display:flex;flex-direction:column;justify-content:center;min-width:0;
+}
+body .live-box{
+ order:-1;margin:0 0 16px!important;padding:0 0 18px!important;
+ border:0!important;border-bottom:1px solid rgba(217,230,255,.14)!important;
+}
+body .live-header{display:flex!important;flex-direction:column!important;gap:8px!important;align-items:flex-start!important}
+body .live-header span{
+ color:#c6ddff!important;font-size:12px!important;font-weight:750!important;
+ letter-spacing:.07em!important;text-transform:uppercase!important
+}
+body .live-header strong{
+ display:block;width:100%;
+ color:#fff!important;line-height:1.04!important;
+ font-size:clamp(46px,6vw,76px)!important;
+ font-weight:810!important;letter-spacing:-.065em!important;
+ white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+body .live-info{
+ margin-top:9px!important;font-size:12px!important;line-height:1.5!important;
+ color:#ceddff!important;overflow-wrap:anywhere;
+}
+body .live-track{
+ height:5px!important;border-radius:99px!important;margin-top:12px!important;
+ background:rgba(255,255,255,.17)!important;
+}
+body .live-track span{background:#62e0b8!important}
+body .next-label{color:#a9c5ee!important;font-size:11px!important;font-weight:750!important;letter-spacing:.08em!important;text-transform:uppercase}
+body .next-card h2{
+ color:#fff;line-height:1.35;
+ font-size:clamp(18px,2.15vw,25px)!important;
+ font-weight:760!important;margin:7px 0!important;letter-spacing:-.03em;
+}
+body .next-details{font-size:12px!important;line-height:1.6!important;color:#ccdcf7!important}
+body .overview-left{
+ grid-column:2;grid-row:1;order:0;display:flex;flex-direction:column;
+ align-items:flex-start;justify-content:center;padding:4px 0 4px 4px;
+ min-width:0;
+}
+body .overline{color:#c2d8fb;font-size:11px;letter-spacing:.05em;line-height:1.5}
+body .pulse{background:#58dfb6;box-shadow:0 0 0 4px rgba(88,223,182,.12)}
+body .overview h1{font-size:clamp(23px,2.75vw,32px);font-weight:780;line-height:1.2;letter-spacing:-.04em;margin:15px 0 7px}
+body .overview-sub{font-size:12px;color:#c1d4f3;line-height:1.65;max-width:320px}
+body .freshness-strip{
+ background:transparent!important;border:0!important;
+ margin:10px 0 3px!important;padding:6px 3px!important;
+ gap:9px!important;align-items:center!important;
+ box-shadow:none!important;
+}
+body .freshness-badge{
+ border-radius:999px!important;padding:6px 11px!important;
+ font-size:11px!important;font-weight:750!important;
+}
+body .freshness-badge.online{background:#e7f7ef;color:#126548}
+body .freshness-badge.offline{background:#eaeef4;color:#53657f}
+body .freshness-badge.stale{background:#fff0d4;color:#895513}
+body .freshness-data{gap:0!important}
+body .freshness-data strong{color:var(--ink);font-size:11px!important;font-weight:670!important}
+body .freshness-data small{color:var(--soft);font-size:10px!important;line-height:1.55}
+body.dark .freshness-badge.online{background:#164434;color:#a1e8c6}
+body.dark .freshness-badge.offline{background:#2a3547;color:#c3cedb}
+body.dark .freshness-badge.stale{background:#4a3924;color:#ffd196}
+.notice{border-radius:13px;line-height:1.55}
+.section-tabs{
+ display:inline-flex;width:auto;margin:18px 0 2px!important;
+ gap:3px!important;align-items:center;
+ border:1px solid var(--stroke)!important;border-radius:15px;
+ padding:4px;background:var(--paper);box-shadow:var(--shadow)
+}
+.section-tabs button{
+ min-height:38px;border:0!important;
+ padding:8px 21px!important;border-radius:11px;
+ font-size:13px!important;font-weight:730;color:var(--soft);
+}
+.section-tabs button.active{background:var(--primary)!important;color:#fff!important;box-shadow:0 3px 9px rgba(30,80,180,.1)}
+.toolbar{margin:21px 0 16px;gap:16px;align-items:center}
+.week-label{font-size:10px;font-weight:760;letter-spacing:.10em;color:var(--light)}
+.week-title h2{font-size:clamp(22px,2.6vw,28px);font-weight:800;letter-spacing:-.045em}
+.week-note{margin-top:8px;font-size:11px}
+.week-note .sep{color:var(--light)}
+.parity{font-size:11px;font-weight:800;padding:5px 9px;border-radius:8px}
+.week-controls{gap:6px}
+.arrow-btn{width:39px;height:39px;border-radius:12px;font-size:24px;background:var(--paper);border-color:var(--stroke)}
+.arrow-btn:hover{border-color:var(--primary);color:var(--primary)}
+.tools{gap:8px}
+.today-btn,.export-btn,.select-wrap,.toggle{height:44px;border-radius:12px;font-size:12px;box-shadow:none}
+.today-btn,.export-btn{padding:0 15px;font-weight:740}
+.today-btn{background:var(--primary-pale);color:var(--primary);border-color:transparent}
+.today-btn:hover{background:var(--primary-pale);border-color:var(--primary)}
+.select-wrap{gap:8px}
+.select-wrap select{font-size:12px;font-weight:790}
+.toggle button{min-height:34px;font-weight:740}
+.toggle button.active{background:var(--primary-pale);color:var(--primary)}
+.group-tip{font-size:11px;line-height:1.5;color:var(--soft);margin:0 0 13px;max-width:580px}
+.day-tabs{gap:9px;margin-bottom:16px;padding:1px 1px 6px;scrollbar-width:thin}
+.day-tab{
+ min-height:79px;min-width:75px;
+ border-radius:15px;border:1px solid var(--stroke);
+ background:var(--paper);
+ gap:4px;padding:10px 7px;
+ box-shadow:0 1px 2px rgba(25,44,80,.02);
+}
+.day-tab:hover{border-color:#9bb8ed;background:var(--primary-pale)}
+.day-tab.active{background:var(--primary)!important;color:#fff;box-shadow:0 7px 16px rgba(23,82,185,.16);border-color:var(--primary)}
+.day-tab.active:hover{background:var(--primary-hover)!important}
+.day-name{font-size:12px;font-weight:740}
+.day-num{font-size:23px;font-weight:820;letter-spacing:-.045em}
+.day-counter{font-size:10px;font-weight:640}
+.day-tab.today:not(.active){border:1.5px solid var(--primary)}
+.layout{grid-template-columns:minmax(0,1fr) 263px;gap:18px;align-items:start}
+.panel{border-radius:19px;box-shadow:var(--shadow)}
+.schedule-panel{padding:23px}
+.panel-top{margin-bottom:18px;gap:14px}
+.panel-title{font-size:20px;font-weight:800;letter-spacing:-.035em}
+.panel-sub{font-size:12px;line-height:1.5;margin-top:5px}
+.count-chip{font-size:11px;font-weight:770;padding:7px 12px;border-radius:99px}
+.lessons{gap:10px}
+.lesson{
+ grid-template-columns:64px 3px minmax(0,1fr);
+ padding:18px;gap:15px;align-items:stretch;
+ border-radius:15px;border:1px solid var(--stroke);
+ background:var(--paper);
+}
+.lesson.now{
+ border-color:#82acef!important;
+ background:linear-gradient(110deg,#edf5ff,var(--paper) 73%)!important;
+ box-shadow:inset 3px 0 0 var(--primary)
+}
+body.dark .lesson.now{background:linear-gradient(110deg,#1d3658,var(--paper) 77%)!important}
+.lesson-time{font-size:14px;font-weight:780;letter-spacing:-.02em}
+.lesson-time .end{font-size:12px;margin-top:6px;color:var(--soft)}
+.type-bar{border-radius:99px;background:#4264d3}
+.lesson.practice .type-bar{background:#14947b}
+.lesson.lab .type-bar{background:#aa7cd7}
+.lesson h3{font-size:16px;font-weight:750;line-height:1.35;letter-spacing:-.025em;margin:11px 0}
+.lesson-topline{gap:6px}
+.tag{font-size:10px;font-weight:730;border-radius:7px;padding:4px 8px}
+.tag.nowbadge{background:#e1f9ed;color:#106346}
+body.dark .tag.nowbadge{background:#1c483b;color:#b0f5d9}
+.lesson-meta{color:var(--soft);font-size:12px;gap:9px 14px}
+.lesson-meta span{align-items:center}
+.lesson-meta svg{width:15px;height:15px;margin-top:1px}
+.lesson-note{margin-top:8px}
+.teacher-line{gap:11px!important;margin:7px 0!important;min-width:0}
+.teacher-photo{
+ width:66px;height:66px;flex:0 0 66px;
+ border-radius:15px;border-color:var(--stroke);background:var(--primary-pale);
+}
+.teacher-photo img{object-position:center 17%}
+.teacher-label a,.teacher-label .teacher-name{font-size:13px;font-weight:720;line-height:1.5}
+.teacher-label small{font-size:10px;margin-top:3px}
+button.teacher-photo:hover{border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-pale)}
+.mini-lesson .mini-teacher .teacher-photo{width:38px;height:38px;flex:0 0 38px;border-radius:10px}
+.exam-teacher .teacher-photo{width:58px;height:58px;flex:0 0 58px}
+.empty{padding:50px 15px}
+.empty h3{font-size:17px}
+.side-card{padding:18px}
+.side-title{font-size:13px;font-weight:780}
+.source-button{display:inline-flex;align-items:center;min-height:36px;margin-top:8px}
+.expand{margin-top:12px;padding-top:10px}
+.expand summary{min-height:34px;align-items:center;line-height:1.4}
+.week-grid{gap:12px}
+.mini-day{border-radius:14px}
+.mini-day-head{padding:13px 14px}
+.mini-day-body{padding:5px 13px}
+.mini-lesson{padding:13px 0}
+.mini-lesson strong{font-size:12px}
+.exam{padding:16px;border-radius:14px;gap:16px}
+.exam-title{font-size:15px;font-weight:760}
+body .alerts-panel{
+ border-radius:17px;margin:15px 0!important;
+ padding:21px!important;background:var(--paper)!important;border:1px solid var(--stroke)!important
+}
+body .alerts-head h2{font-size:17px;letter-spacing:-.02em}
+body .alerts-panel button{min-height:39px}
+body .alert-item{border-radius:11px;padding:13px}
+body .alert-item.unread{border-color:var(--primary);background:var(--primary-pale)}
+body .alert-toast{border-radius:14px}
+body .homework-card{
+ background:var(--paper);border:1px solid var(--stroke);box-shadow:var(--shadow);
+ border-radius:19px;padding:23px;margin:20px 0
+}
+body .homework-card h2{font-size:19px;letter-spacing:-.025em}
+body .homework-form{gap:9px}
+body .homework-form input,body .homework-form select{
+ min-height:45px;border:1px solid var(--stroke);border-radius:10px
+}
+body .homework-form button{min-height:45px;border-radius:10px}
+body .student-task{border-radius:12px;padding:13px;margin-top:9px}
+body .hw-inline{
+ min-height:35px;margin-top:10px;border-radius:9px;
+ padding:7px 12px;background:var(--primary-pale);border:1px solid transparent;
+ color:var(--primary);font-size:11px;font-weight:750;
+}
+body .hw-inline:hover{border-color:var(--primary)}
+.teacher-dialog{border-radius:21px}
+.footer{padding-top:21px;margin-top:30px;line-height:1.7}
+@media(hover:hover){
+ .lesson:hover{border-color:#bfd0eb}
+ body.dark .lesson:hover{border-color:#596982}
+}
+@media(max-width:1000px){
+ .layout{grid-template-columns:minmax(0,1fr)}
+ .aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .changes-card{grid-column:1/-1}
+ .tools{width:auto}
+}
+@media(max-width:760px){
+ .shell{padding:0 19px 34px}
+ .top{margin:0 -19px 18px;padding:13px 19px}
+ body .overview{grid-template-columns:minmax(0,1fr)!important;gap:17px!important;padding:25px!important;border-radius:21px!important}
+ body .next-card{grid-column:auto;grid-row:auto;order:0;padding:0!important;border-right:0!important;border-bottom:1px solid rgba(218,231,255,.20)!important;padding-bottom:17px!important}
+ body .overview-left{grid-column:auto;grid-row:auto;order:1;padding:0;align-items:flex-start}
+ body .live-box{margin-bottom:14px!important;padding-bottom:14px!important}
+ body .live-header strong{font-size:clamp(44px,8.6vw,68px)!important}
+ body .overview h1{margin:8px 0 3px;font-size:25px}
+ .overview-sub{font-size:11px}
+ .toolbar{align-items:flex-start}
+ .tools{width:100%}
+ .day-tab{min-height:73px}
+ .schedule-panel{padding:18px}
+}
+@media(max-width:540px){
+ html{scroll-padding-top:80px}
+ .shell{padding:0 13px 24px}
+ .top{margin:0 -13px 13px;padding:11px 13px;gap:8px}
+ .brand{gap:8px}
+ .brand-icon{width:38px;height:38px;flex:0 0 38px;border-radius:12px;font-size:14px}
+ .brand-name{font-size:15px}
+ .brand-sub{font-size:10px}
+ .nav{gap:6px}
+ .nav-link{display:none}
+ .icon-btn{height:39px;width:39px;flex:0 0 39px;border-radius:12px}
+ body .overview{padding:20px 19px!important;border-radius:19px!important;gap:12px!important}
+ body .live-header strong{font-size:clamp(38px,11vw,57px)!important;line-height:1.05!important}
+ body .live-header span{font-size:11px!important}
+ body .live-info{font-size:11px!important}
+ body .next-card h2{font-size:18px!important}
+ body .next-details{font-size:11px!important}
+ body .overview h1{font-size:22px;margin:5px 0 2px}
+ body .overview-sub{font-size:11px}
+ body .freshness-strip{padding:5px 2px!important;margin-top:8px!important;align-items:flex-start!important}
+ body .freshness-data strong{font-size:11px!important}
+ body .freshness-data small{font-size:10px!important}
+ .section-tabs{margin:13px 0 0!important}
+ .section-tabs button{min-height:36px;padding:7px 20px!important}
+ .toolbar{margin:17px 0 11px;gap:11px}
+ .week-title{gap:10px}
+ .week-title h2{font-size:22px}
+ .week-controls{gap:5px}
+ .arrow-btn{width:41px;height:41px}
+ .tools{display:grid;grid-template-columns:1fr auto auto;gap:7px}
+ .today-btn{grid-column:1;grid-row:1}
+ .select-wrap{grid-column:2/4;grid-row:1}
+ .toggle{grid-column:1/3;grid-row:2}
+ .export-btn{grid-column:3;grid-row:2;padding:0 11px}
+ .today-btn,.export-btn,.select-wrap,.toggle{height:42px}
+ .toggle button{min-height:32px}
+ .group-tip{font-size:11px}
+ .day-tabs{gap:7px;margin:0 -13px 13px 0;padding-right:13px}
+ .day-tab{min-width:57px;min-height:69px;padding:7px 5px;border-radius:12px;gap:3px}
+ .day-name{font-size:10px}
+ .day-num{font-size:20px}
+ .day-counter{font-size:10px}
+ .schedule-panel{padding:15px 12px;border-radius:16px}
+ .panel-top{margin-bottom:13px}
+ .panel-title{font-size:19px}
+ .panel-sub{font-size:11px}
+ .count-chip{font-size:10px;padding:6px 9px}
+ .lesson{padding:13px 10px;grid-template-columns:49px 3px minmax(0,1fr);gap:9px;border-radius:12px}
+ .lesson-time{font-size:12px}
+ .lesson-time .end{font-size:11px}
+ .lesson h3{font-size:14px;margin:8px 0}
+ .tag{font-size:10px;padding:3px 6px}
+ .lesson-meta{font-size:11px;gap:7px}
+ .teacher-line{gap:8px!important;margin:6px 0!important}
+ .teacher-photo{width:52px!important;height:52px!important;flex:0 0 52px!important;border-radius:12px!important;font-size:15px}
+ .mini-lesson .mini-teacher .teacher-photo{width:38px!important;height:38px!important;flex:0 0 38px!important}
+ .teacher-label a,.teacher-label .teacher-name{font-size:12px}
+ .aside{grid-template-columns:1fr;gap:10px}
+ .side-card{padding:15px}
+ .week-grid{grid-template-columns:1fr}
+ .exam{grid-template-columns:78px minmax(0,1fr);gap:9px;padding:12px}
+ body .homework-card{padding:16px;margin-top:16px}
+ body .homework-card h2{font-size:17px}
+ body .homework-form{grid-template-columns:1fr 1fr}
+ body .homework-form label:first-child{grid-column:1/-1}
+ .footer{font-size:10px}
+}
+@media(max-width:370px){
+ .shell{padding-left:10px;padding-right:10px}
+ .top{margin-left:-10px;margin-right:-10px;padding-left:10px;padding-right:10px}
+ .brand-name{font-size:14px}
+ .nav{gap:4px}
+ .icon-btn{width:36px;height:36px;flex:0 0 36px}
+ body .live-header strong{font-size:36px!important}
+ .tools{grid-template-columns:1fr 1fr}
+ .select-wrap{grid-column:2;grid-row:1}
+ .select-wrap span{display:none}
+ .toggle{grid-column:1;grid-row:2}
+ .export-btn{grid-column:2;grid-row:2}
+ .day-tab{min-width:53px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
