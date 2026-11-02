@@ -15,6 +15,7 @@ let data={lessons:[],teachers:{}};
 let lastCheck=0;
 let activeRequest=null;
 let expanded=new Set();
+let otherGroups={groups:[],checked_at:null,groups_failed:[]};
 try{
  const seed=JSON.parse($('#initialData').textContent);
  if(seed.group==='111'&&Array.isArray(seed.lessons))data=seed;
@@ -36,6 +37,7 @@ function collection(){
   }
   result.get(alias).lessons.push(l);
  }
+ for(const group of otherGroups.groups||[])for(const lesson of group.lessons||[]){const teacher=result.get(lesson.teacher);if(!teacher)continue;(teacher.other||(teacher.other=[])).push({...lesson,group:group.group,group_url:group.url,checked_at:group.checked_at});}
  return [...result.values()].sort((a,b)=>a.name.localeCompare(b.name,'ru-RU'));
 }
 function matching(teachers,query,group,kind){
@@ -57,7 +59,8 @@ function matching(teachers,query,group,kind){
    if(surnameRestricted)return false;
    return [l.title,l.location,SHORT[l.day],DAYS[l.day],KINDS[l.kind],l.start].some(text=>norm(text).includes(query));
   }).sort((a,b)=>a.day-b.day||String(a.start).localeCompare(String(b.start))||String(a.week).localeCompare(String(b.week)));
-  if(lessons.length)selected.push({...teacher,lessons});
+  const other=(teacher.other||[]).filter(l=>{if(!query||teacherMatch)return true;if(surnameRestricted)return false;return [l.title,l.location,l.group].some(x=>norm(x).includes(query))}).filter(l=>kind==='all'||l.kind===kind).sort((a,b)=>a.group.localeCompare(b.group)||a.day-b.day||a.start.localeCompare(b.start));
+  if(lessons.length||other.length)selected.push({...teacher,lessons,other});
  }
  return selected;
 }
@@ -107,7 +110,7 @@ function teacherCard(teacher,query){
  title.append(item('strong',teacher.name),item('span',teacher.short===teacher.name?'Преподаватель':teacher.short));
  const subjects=[...new Set(teacher.lessons.map(l=>l.title))];
  title.append(item('small',subjects.join(' · ')));
- const qty=item('span',teacher.lessons.length+' '+(teacher.lessons.length===1?'занятие':teacher.lessons.length<5?'занятия':'занятий'),'search-teacher-count');
+ const qty=item('span',teacher.lessons.length+' в 111 · '+(teacher.other?.length||0)+' в других','search-teacher-count');
  summary.append(title,qty,item('span','⌄','search-chevron'));
  card.append(summary);
  const content=item('div',undefined,'search-teacher-content');
@@ -122,6 +125,7 @@ function teacherCard(teacher,query){
  const list=item('ul',undefined,'search-lessons');
  for(const l of teacher.lessons)list.append(lessonRow(l));
  content.append(list);
+ if(teacher.other?.length){const title=item('div',undefined,'search-teacher-info');title.append(item('b','Занятия в других группах КНиИТ'));content.append(title);const byGroup=new Map();for(const lesson of teacher.other){if(!byGroup.has(lesson.group))byGroup.set(lesson.group,[]);byGroup.get(lesson.group).push(lesson);}for(const [group,lessons] of byGroup){const groupTitle=item('div',undefined,'search-other-group');groupTitle.append(item('strong','Группа '+group));const url=lessons[0].group_url;if(/^https:\/\/(?:www\.)?sgu\.ru\/schedule\/knt\/do\/\d{3}\/?$/.test(url||'')){const link=item('a','Расписание СГУ ↗');link.href=url;link.target='_blank';link.rel='noopener noreferrer';groupTitle.append(link)}content.append(groupTitle);const list=item('ul',undefined,'search-lessons');lessons.forEach(l=>list.append(lessonRow(l)));content.append(list)}}
  card.append(content);
  card.addEventListener('toggle',()=>{
   if(card.open)expanded.add(teacher.short);
@@ -147,8 +151,9 @@ function render(){
   for(const teacher of found)fragment.append(teacherCard(teacher,query));
  }
  results.replaceChildren(fragment);
- $('#searchSource').textContent='Расписание СГУ 111 · данные от '+(data.source_updated||'дата не указана')+'. Вне подтверждённого календаря СГУ чередование недель может меняться.';
+ $('#searchSource').textContent='Расписание 111: '+(data.source_updated||'дата неизвестна')+' · Другие группы: '+(otherGroups.checked_at?new Date(otherGroups.checked_at).toLocaleString('ru-RU'):'индекс пока не опубликован')+' · Не проверено групп при последнем обновлении: '+(otherGroups.groups_failed?.length||0)+'. Показанные занятия — по опубликованным данным СГУ.';
 }
+async function updateGroups(){try{const r=await fetch('./data/teacher-groups.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('no index');const next=await r.json();if(next.faculty==='КНиИТ'&&Array.isArray(next.groups)){otherGroups=next;render()}}catch{}}
 async function update(){
  if(activeRequest)return;
  const now=Date.now();
@@ -178,11 +183,11 @@ function init(){
   $('#searchQuery').value='';$('#searchGroup').value='all';$('#searchType').value='all';
   expanded.clear();render();$('#searchQuery').focus();
  });
- window.addEventListener('search:open',()=>{render();update()});
+ window.addEventListener('search:open',()=>{render();update();updateGroups()});
  window.addEventListener('focus',()=>{if($('#search').style.display!=='none')update()});
  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&$('#search').style.display!=='none')update()});
  setInterval(()=>{if($('#search').style.display!=='none')update()},300000);
- render();
+ render();updateGroups();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
