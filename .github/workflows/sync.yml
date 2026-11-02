@@ -47,6 +47,10 @@ jobs:
       - name: Track changes
         run: python scripts/track_changes.py /tmp/sgu111-previous.json data/schedule.json
 
+      - name: Index teacher lessons across faculty groups
+        continue-on-error: true
+        run: python scripts/update_teacher_groups.py
+
       - name: Cache teacher photos
         run: python scripts/cache_teacher_photos.py
 
@@ -56,6 +60,7 @@ jobs:
           node --check student-tools.js
           node --check attendance.js
           node --check search.js
+          node --check session.js
           node --check sw.js
 
       - name: Save changes
@@ -68,6 +73,7 @@ jobs:
           fi
 
           git add data/schedule.json index.html assets/teachers
+          if test -f data/teacher-groups.json; then git add data/teacher-groups.json; fi
           if ! git diff --cached --quiet; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
