@@ -26,7 +26,8 @@ function timer(){
  const now=clock(),baseDate=new Date(now.date+'T12:00:00Z');
  const todayDay=(baseDate.getUTCDay()+6)%7;
  const applicable=(l,day,parity)=>l.day===day&&(l.week==='both'||l.week===parity)&&relevant(l)&&l.start&&l.end;
- const current=data.lessons.filter(l=>applicable(l,todayDay,week(now.date))).find(l=>secs(l.start)<=now.sec&&now.sec<secs(l.end));
+ const todayLessons=data.lessons.filter(l=>applicable(l,todayDay,week(now.date)));
+ const current=todayLessons.find(l=>secs(l.start)<=now.sec&&now.sec<secs(l.end));
  let upcoming=null;
  for(let offset=0;offset<21&&!upcoming;offset++){
   const date=new Date(baseDate.getTime()+offset*86400000);
@@ -52,7 +53,22 @@ function timer(){
  const timerText=[h,m,second].map(x=>String(x).padStart(2,'0')).join(':');
  value.textContent=(d?d+' дн.  ':'')+timerText;
  value.setAttribute('aria-label',(d?d+' дней, ':'')+h+' часов, '+m+' минут, '+second+' секунд до следующей пары');
- info.textContent=current?'Сейчас идёт: '+current.title+' · до '+current.end:'Время Саратова (UTC+4)';
+ const prior=(!current&&upcoming.offset===0)
+   ?todayLessons.filter(x=>secs(x.end)<=now.sec&&secs(x.end)<secs(l.start))
+      .sort((a,b)=>secs(b.end)-secs(a.end))[0]
+   :null;
+ const onBreak=!!prior;
+ if(onBreak){
+   label.textContent='☕ Перерыв · до следующей пары';
+   info.textContent='Перерыв '+prior.end+'–'+l.start+' · время Саратова';
+   if(bar){
+     bar.hidden=false;
+     const duration=secs(l.start)-secs(prior.end);
+     bar.firstElementChild.style.width=Math.max(0,Math.min(100,(now.sec-secs(prior.end))/duration*100)).toFixed(1)+'%';
+   }
+ }else{
+   info.textContent=current?'Сейчас идёт: '+current.title+' · до '+current.end:'Время Саратова (UTC+4)';
+ }
  nextLabel.textContent='Следующее занятие';subject.textContent=l.title;
  const dateText=upcoming.offset===0?'Сегодня':upcoming.offset===1?'Завтра':new Intl.DateTimeFormat('ru-RU',{timeZone:'UTC',weekday:'short',day:'numeric',month:'short'}).format(new Date(upcoming.iso+'T12:00:00Z'));
  nextInfo.textContent=[dateText+' в '+l.start,l.location,l.groups?.length?l.groups.join(' и ')+' подгруппа':null].filter(Boolean).join(' · ');
