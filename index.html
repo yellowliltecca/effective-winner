@@ -722,6 +722,11 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   },
   "changes_at": "2026-11-02T13:35:54.695922+00:00"
 }</script>
+
+<dialog class="teacher-dialog" id="teacherDialog" aria-labelledby="teacherDialogTitle">
+ <div class="teacher-dialog-head"><strong id="teacherDialogTitle"></strong><button type="button" class="teacher-dialog-close" id="teacherDialogClose" aria-label="Закрыть фотографию">×</button></div>
+ <div class="teacher-dialog-body"><img class="teacher-dialog-image" id="teacherDialogImage" alt=""><div class="teacher-dialog-hint">Нажмите «×» или Esc, чтобы закрыть</div></div>
+</dialog>
 <script>
 (() => {
   'use strict';
@@ -862,10 +867,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
 })();
 </script>
 
-<dialog class="teacher-dialog" id="teacherDialog" aria-labelledby="teacherDialogTitle">
- <div class="teacher-dialog-head"><strong id="teacherDialogTitle"></strong><button type="button" class="teacher-dialog-close" id="teacherDialogClose" aria-label="Закрыть фотографию">×</button></div>
- <div class="teacher-dialog-body"><img class="teacher-dialog-image" id="teacherDialogImage" alt=""><div class="teacher-dialog-hint">Нажмите «×» или Esc, чтобы закрыть</div></div>
-</dialog>
+
 <!-- Фотографии и ФИО: публичные профили СГУ; для отсутствующих фотографий — инициалы. -->
 </body>
 </html>
