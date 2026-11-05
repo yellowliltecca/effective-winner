@@ -36,6 +36,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Run schedule history regression tests
+        run: python -m unittest discover -s tests -v
+
       - name: Save previous schedule for change detection
         run: cp data/schedule.json /tmp/sgu111-previous.json
 
