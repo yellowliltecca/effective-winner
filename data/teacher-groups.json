@@ -1,7 +1,7 @@
 {
   "faculty": "КНиИТ",
   "source": "https://www.sgu.ru/schedule/knt",
-  "checked_at": "2026-11-14T10:20:46+00:00",
+  "checked_at": "2026-11-14T17:58:38+00:00",
   "groups_discovered": 41,
   "groups_checked": 39,
   "groups_failed": [
@@ -13,7 +13,7 @@
       "group": "121",
       "url": "https://www.sgu.ru/schedule/knt/do/121",
       "source_updated": "16.09.2026",
-      "checked_at": "2026-11-14T10:20:31+00:00",
+      "checked_at": "2026-11-14T17:58:25+00:00",
       "lessons": [
         {
           "day": 0,
@@ -87,7 +87,7 @@
       "group": "131",
       "url": "https://www.sgu.ru/schedule/knt/do/131",
       "source_updated": "06.11.2026",
-      "checked_at": "2026-11-14T10:20:31+00:00",
+      "checked_at": "2026-11-14T17:58:25+00:00",
       "lessons": [
         {
           "day": 0,
@@ -183,7 +183,7 @@
       "group": "132",
       "url": "https://www.sgu.ru/schedule/knt/do/132",
       "source_updated": "06.11.2026",
-      "checked_at": "2026-11-14T10:20:31+00:00",
+      "checked_at": "2026-11-14T17:58:25+00:00",
       "lessons": [
         {
           "day": 0,
@@ -281,7 +281,7 @@
       "group": "141",
       "url": "https://www.sgu.ru/schedule/knt/do/141",
       "source_updated": "24.09.2026",
-      "checked_at": "2026-11-14T10:20:31+00:00",
+      "checked_at": "2026-11-14T17:58:25+00:00",
       "lessons": [
         {
           "day": 0,
@@ -355,7 +355,7 @@
       "group": "151",
       "url": "https://www.sgu.ru/schedule/knt/do/151",
       "source_updated": "28.09.2026",
-      "checked_at": "2026-11-14T10:20:32+00:00",
+      "checked_at": "2026-11-14T17:58:26+00:00",
       "lessons": [
         {
           "day": 0,
@@ -552,14 +552,14 @@
       "group": "171",
       "url": "https://www.sgu.ru/schedule/knt/do/171",
       "source_updated": "12.11.2026",
-      "checked_at": "2026-11-14T10:20:33+00:00",
+      "checked_at": "2026-11-14T17:58:26+00:00",
       "lessons": []
     },
     {
       "group": "173",
       "url": "https://www.sgu.ru/schedule/knt/do/173",
       "source_updated": "11.11.2026",
-      "checked_at": "2026-11-14T10:20:33+00:00",
+      "checked_at": "2026-11-14T17:58:27+00:00",
       "lessons": [
         {
           "day": 0,
@@ -578,14 +578,14 @@
       "group": "174",
       "url": "https://www.sgu.ru/schedule/knt/do/174",
       "source_updated": "23.09.2026",
-      "checked_at": "2026-11-14T10:20:33+00:00",
+      "checked_at": "2026-11-14T17:58:26+00:00",
       "lessons": []
     },
     {
       "group": "181",
       "url": "https://www.sgu.ru/schedule/knt/do/181",
       "source_updated": "18.09.2026",
-      "checked_at": "2026-11-14T10:20:33+00:00",
+      "checked_at": "2026-11-14T17:58:27+00:00",
       "lessons": [
         {
           "day": 1,
@@ -714,28 +714,28 @@
       "group": "191",
       "url": "https://www.sgu.ru/schedule/knt/do/191",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-14T10:20:34+00:00",
+      "checked_at": "2026-11-14T17:58:28+00:00",
       "lessons": []
     },
     {
       "group": "192",
       "url": "https://www.sgu.ru/schedule/knt/do/192",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-14T10:20:35+00:00",
+      "checked_at": "2026-11-14T17:58:28+00:00",
       "lessons": []
     },
     {
       "group": "194",
       "url": "https://www.sgu.ru/schedule/knt/do/194",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-14T10:20:35+00:00",
+      "checked_at": "2026-11-14T17:58:28+00:00",
       "lessons": []
     },
     {
       "group": "211",
       "url": "https://www.sgu.ru/schedule/knt/do/211",
       "source_updated": "18.09.2026",
-      "checked_at": "2026-11-14T10:20:35+00:00",
+      "checked_at": "2026-11-14T17:58:29+00:00",
       "lessons": [
         {
           "day": 0,
@@ -809,7 +809,7 @@
       "group": "221",
       "url": "https://www.sgu.ru/schedule/knt/do/221",
       "source_updated": "08.09.2026",
-      "checked_at": "2026-11-14T10:20:36+00:00",
+      "checked_at": "2026-11-14T17:58:29+00:00",
       "lessons": [
         {
           "day": 1,
@@ -872,7 +872,7 @@
       "group": "231",
       "url": "https://www.sgu.ru/schedule/knt/do/231",
       "source_updated": "07.10.2026",
-      "checked_at": "2026-11-14T10:20:37+00:00",
+      "checked_at": "2026-11-14T17:58:30+00:00",
       "lessons": [
         {
           "day": 0,
@@ -950,7 +950,7 @@
       "group": "241",
       "url": "https://www.sgu.ru/schedule/knt/do/241",
       "source_updated": "30.09.2026",
-      "checked_at": "2026-11-14T10:20:38+00:00",
+      "checked_at": "2026-11-14T17:58:30+00:00",
       "lessons": [
         {
           "day": 1,
@@ -1013,7 +1013,7 @@
       "group": "251",
       "url": "https://www.sgu.ru/schedule/knt/do/251",
       "source_updated": "30.09.2026",
-      "checked_at": "2026-11-14T10:20:38+00:00",
+      "checked_at": "2026-11-14T17:58:30+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1127,28 +1127,28 @@
       "group": "271",
       "url": "https://www.sgu.ru/schedule/knt/do/271",
       "source_updated": "11.11.2026",
-      "checked_at": "2026-11-14T10:20:37+00:00",
+      "checked_at": "2026-11-14T17:58:31+00:00",
       "lessons": []
     },
     {
       "group": "272",
       "url": "https://www.sgu.ru/schedule/knt/do/272",
       "source_updated": "04.09.2026",
-      "checked_at": "2026-11-14T10:20:38+00:00",
+      "checked_at": "2026-11-14T17:58:31+00:00",
       "lessons": []
     },
     {
       "group": "273",
       "url": "https://www.sgu.ru/schedule/knt/do/273",
       "source_updated": "13.11.2026",
-      "checked_at": "2026-11-14T10:20:38+00:00",
+      "checked_at": "2026-11-14T17:58:31+00:00",
       "lessons": []
     },
     {
       "group": "281",
       "url": "https://www.sgu.ru/schedule/knt/do/281",
       "source_updated": "08.09.2026",
-      "checked_at": "2026-11-14T10:20:40+00:00",
+      "checked_at": "2026-11-14T17:58:31+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1233,21 +1233,21 @@
       "group": "291",
       "url": "https://www.sgu.ru/schedule/knt/do/291",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-14T10:20:40+00:00",
+      "checked_at": "2026-11-14T17:58:31+00:00",
       "lessons": []
     },
     {
       "group": "292",
       "url": "https://www.sgu.ru/schedule/knt/do/292",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-14T10:20:40+00:00",
+      "checked_at": "2026-11-14T17:58:33+00:00",
       "lessons": []
     },
     {
       "group": "311",
       "url": "https://www.sgu.ru/schedule/knt/do/311",
       "source_updated": "14.09.2026",
-      "checked_at": "2026-11-14T10:20:40+00:00",
+      "checked_at": "2026-11-14T17:58:33+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1336,7 +1336,7 @@
       "group": "321",
       "url": "https://www.sgu.ru/schedule/knt/do/321",
       "source_updated": "24.09.2026",
-      "checked_at": "2026-11-14T10:20:40+00:00",
+      "checked_at": "2026-11-14T17:58:33+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1399,7 +1399,7 @@
       "group": "331",
       "url": "https://www.sgu.ru/schedule/knt/do/331",
       "source_updated": "08.09.2026",
-      "checked_at": "2026-11-14T10:20:41+00:00",
+      "checked_at": "2026-11-14T17:58:33+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1475,7 +1475,7 @@
       "group": "341",
       "url": "https://www.sgu.ru/schedule/knt/do/341",
       "source_updated": "18.09.2026",
-      "checked_at": "2026-11-14T10:20:42+00:00",
+      "checked_at": "2026-11-14T17:58:33+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1527,7 +1527,7 @@
       "group": "351",
       "url": "https://www.sgu.ru/schedule/knt/do/351",
       "source_updated": "22.09.2026",
-      "checked_at": "2026-11-14T10:20:42+00:00",
+      "checked_at": "2026-11-14T17:58:34+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1603,7 +1603,7 @@
       "group": "381",
       "url": "https://www.sgu.ru/schedule/knt/do/381",
       "source_updated": "14.09.2026",
-      "checked_at": "2026-11-14T10:20:42+00:00",
+      "checked_at": "2026-11-14T17:58:34+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1655,28 +1655,28 @@
       "group": "391",
       "url": "https://www.sgu.ru/schedule/knt/do/391",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-14T10:20:42+00:00",
+      "checked_at": "2026-11-14T17:58:35+00:00",
       "lessons": []
     },
     {
       "group": "392",
       "url": "https://www.sgu.ru/schedule/knt/do/392",
       "source_updated": "03.03.2026",
-      "checked_at": "2026-11-14T10:20:43+00:00",
+      "checked_at": "2026-11-14T17:58:35+00:00",
       "lessons": []
     },
     {
       "group": "393",
       "url": "https://www.sgu.ru/schedule/knt/do/393",
       "source_updated": "03.03.2026",
-      "checked_at": "2026-11-14T10:20:44+00:00",
+      "checked_at": "2026-11-14T17:58:35+00:00",
       "lessons": []
     },
     {
       "group": "411",
       "url": "https://www.sgu.ru/schedule/knt/do/411",
       "source_updated": "19.10.2026",
-      "checked_at": "2026-11-14T10:20:44+00:00",
+      "checked_at": "2026-11-14T17:58:36+00:00",
       "lessons": [
         {
           "day": 2,
@@ -1728,7 +1728,7 @@
       "group": "421",
       "url": "https://www.sgu.ru/schedule/knt/do/421",
       "source_updated": "30.10.2026",
-      "checked_at": "2026-11-14T10:20:44+00:00",
+      "checked_at": "2026-11-14T17:58:36+00:00",
       "lessons": [
         {
           "day": 2,
@@ -1758,7 +1758,7 @@
       "group": "431",
       "url": "https://www.sgu.ru/schedule/knt/do/431",
       "source_updated": "07.10.2026",
-      "checked_at": "2026-11-14T10:20:44+00:00",
+      "checked_at": "2026-11-14T17:58:36+00:00",
       "lessons": [
         {
           "day": 2,
@@ -1788,7 +1788,7 @@
       "group": "441",
       "url": "https://www.sgu.ru/schedule/knt/do/441",
       "source_updated": "07.10.2026",
-      "checked_at": "2026-11-14T10:20:45+00:00",
+      "checked_at": "2026-11-14T17:58:36+00:00",
       "lessons": [
         {
           "day": 2,
@@ -1818,7 +1818,7 @@
       "group": "451",
       "url": "https://www.sgu.ru/schedule/knt/do/451",
       "source_updated": "19.10.2026",
-      "checked_at": "2026-11-14T10:20:46+00:00",
+      "checked_at": "2026-11-14T17:58:37+00:00",
       "lessons": [
         {
           "day": 2,
@@ -1870,14 +1870,14 @@
       "group": "494",
       "url": "https://www.sgu.ru/schedule/knt/do/494",
       "source_updated": "03.03.2026",
-      "checked_at": "2026-11-14T10:20:46+00:00",
+      "checked_at": "2026-11-14T17:58:37+00:00",
       "lessons": []
     },
     {
       "group": "531",
       "url": "https://www.sgu.ru/schedule/knt/do/531",
       "source_updated": "07.10.2026",
-      "checked_at": "2026-11-14T10:20:46+00:00",
+      "checked_at": "2026-11-14T17:58:38+00:00",
       "lessons": []
     }
   ]
