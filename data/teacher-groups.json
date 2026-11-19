@@ -1,7 +1,7 @@
 {
   "faculty": "КНиИТ",
   "source": "https://www.sgu.ru/schedule/knt",
-  "checked_at": "2026-11-19T02:32:57+00:00",
+  "checked_at": "2026-11-19T11:34:34+00:00",
   "groups_discovered": 41,
   "groups_checked": 39,
   "groups_failed": [
@@ -12,8 +12,8 @@
     {
       "group": "121",
       "url": "https://www.sgu.ru/schedule/knt/do/121",
-      "source_updated": "16.09.2026",
-      "checked_at": "2026-11-19T02:32:42+00:00",
+      "source_updated": "19.11.2026",
+      "checked_at": "2026-11-19T11:34:18+00:00",
       "lessons": [
         {
           "day": 0,
@@ -71,13 +71,24 @@
           "groups": []
         },
         {
-          "day": 3,
-          "start": "13:50",
-          "end": "15:25",
+          "day": 5,
+          "start": "08:20",
+          "end": "09:50",
           "kind": "practice",
           "title": "Основы Российской государственности",
           "teacher": "Дорошин И. А.",
-          "location": "12 корпус, 304 комната",
+          "location": "12 корпус, 304 комната 28.11.2026 - 12.12.2026",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 5,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 304 комната 28.11.2026 - 12.12.2026",
           "week": "both",
           "groups": []
         }
@@ -87,7 +98,7 @@
       "group": "131",
       "url": "https://www.sgu.ru/schedule/knt/do/131",
       "source_updated": "06.11.2026",
-      "checked_at": "2026-11-19T02:32:42+00:00",
+      "checked_at": "2026-11-19T11:34:18+00:00",
       "lessons": [
         {
           "day": 0,
@@ -183,7 +194,7 @@
       "group": "132",
       "url": "https://www.sgu.ru/schedule/knt/do/132",
       "source_updated": "06.11.2026",
-      "checked_at": "2026-11-19T02:32:42+00:00",
+      "checked_at": "2026-11-19T11:34:19+00:00",
       "lessons": [
         {
           "day": 0,
@@ -281,7 +292,7 @@
       "group": "141",
       "url": "https://www.sgu.ru/schedule/knt/do/141",
       "source_updated": "24.09.2026",
-      "checked_at": "2026-11-19T02:32:42+00:00",
+      "checked_at": "2026-11-19T11:34:18+00:00",
       "lessons": [
         {
           "day": 0,
@@ -355,7 +366,7 @@
       "group": "151",
       "url": "https://www.sgu.ru/schedule/knt/do/151",
       "source_updated": "28.09.2026",
-      "checked_at": "2026-11-19T02:32:44+00:00",
+      "checked_at": "2026-11-19T11:34:20+00:00",
       "lessons": [
         {
           "day": 0,
@@ -552,14 +563,14 @@
       "group": "171",
       "url": "https://www.sgu.ru/schedule/knt/do/171",
       "source_updated": "12.11.2026",
-      "checked_at": "2026-11-19T02:32:44+00:00",
+      "checked_at": "2026-11-19T11:34:20+00:00",
       "lessons": []
     },
     {
       "group": "173",
       "url": "https://www.sgu.ru/schedule/knt/do/173",
       "source_updated": "16.11.2026",
-      "checked_at": "2026-11-19T02:32:44+00:00",
+      "checked_at": "2026-11-19T11:34:20+00:00",
       "lessons": [
         {
           "day": 0,
@@ -578,14 +589,14 @@
       "group": "174",
       "url": "https://www.sgu.ru/schedule/knt/do/174",
       "source_updated": "23.09.2026",
-      "checked_at": "2026-11-19T02:32:44+00:00",
+      "checked_at": "2026-11-19T11:34:21+00:00",
       "lessons": []
     },
     {
       "group": "181",
       "url": "https://www.sgu.ru/schedule/knt/do/181",
-      "source_updated": "18.09.2026",
-      "checked_at": "2026-11-19T02:32:44+00:00",
+      "source_updated": "19.11.2026",
+      "checked_at": "2026-11-19T11:34:20+00:00",
       "lessons": [
         {
           "day": 1,
@@ -687,17 +698,6 @@
           "groups": []
         },
         {
-          "day": 3,
-          "start": "12:05",
-          "end": "13:40",
-          "kind": "practice",
-          "title": "Основы Российской государственности",
-          "teacher": "Дорошин И. А.",
-          "location": "12 корпус, 313 комната",
-          "week": "both",
-          "groups": []
-        },
-        {
           "day": 4,
           "start": "10:00",
           "end": "11:35",
@@ -707,6 +707,28 @@
           "location": "12 корпус, 314 комната",
           "week": "both",
           "groups": []
+        },
+        {
+          "day": 5,
+          "start": "08:20",
+          "end": "09:50",
+          "kind": "practice",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 304 комната 28.11.2026 - 12.12.2026",
+          "week": "both",
+          "groups": []
+        },
+        {
+          "day": 5,
+          "start": "10:00",
+          "end": "11:35",
+          "kind": "practice",
+          "title": "Основы Российской государственности",
+          "teacher": "Дорошин И. А.",
+          "location": "12 корпус, 304 комната 28.11.2026 - 12.12.2026",
+          "week": "both",
+          "groups": []
         }
       ]
     },
@@ -714,28 +736,28 @@
       "group": "191",
       "url": "https://www.sgu.ru/schedule/knt/do/191",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-19T02:32:46+00:00",
+      "checked_at": "2026-11-19T11:34:22+00:00",
       "lessons": []
     },
     {
       "group": "192",
       "url": "https://www.sgu.ru/schedule/knt/do/192",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-19T02:32:47+00:00",
+      "checked_at": "2026-11-19T11:34:22+00:00",
       "lessons": []
     },
     {
       "group": "194",
       "url": "https://www.sgu.ru/schedule/knt/do/194",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-19T02:32:46+00:00",
+      "checked_at": "2026-11-19T11:34:22+00:00",
       "lessons": []
     },
     {
       "group": "211",
       "url": "https://www.sgu.ru/schedule/knt/do/211",
       "source_updated": "18.09.2026",
-      "checked_at": "2026-11-19T02:32:47+00:00",
+      "checked_at": "2026-11-19T11:34:23+00:00",
       "lessons": [
         {
           "day": 0,
@@ -809,7 +831,7 @@
       "group": "221",
       "url": "https://www.sgu.ru/schedule/knt/do/221",
       "source_updated": "08.09.2026",
-      "checked_at": "2026-11-19T02:32:46+00:00",
+      "checked_at": "2026-11-19T11:34:23+00:00",
       "lessons": [
         {
           "day": 1,
@@ -872,7 +894,7 @@
       "group": "231",
       "url": "https://www.sgu.ru/schedule/knt/do/231",
       "source_updated": "07.10.2026",
-      "checked_at": "2026-11-19T02:32:48+00:00",
+      "checked_at": "2026-11-19T11:34:24+00:00",
       "lessons": [
         {
           "day": 0,
@@ -950,7 +972,7 @@
       "group": "241",
       "url": "https://www.sgu.ru/schedule/knt/do/241",
       "source_updated": "30.09.2026",
-      "checked_at": "2026-11-19T02:32:48+00:00",
+      "checked_at": "2026-11-19T11:34:25+00:00",
       "lessons": [
         {
           "day": 1,
@@ -1013,7 +1035,7 @@
       "group": "251",
       "url": "https://www.sgu.ru/schedule/knt/do/251",
       "source_updated": "30.09.2026",
-      "checked_at": "2026-11-19T02:32:48+00:00",
+      "checked_at": "2026-11-19T11:34:24+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1127,28 +1149,28 @@
       "group": "271",
       "url": "https://www.sgu.ru/schedule/knt/do/271",
       "source_updated": "11.11.2026",
-      "checked_at": "2026-11-19T02:32:49+00:00",
+      "checked_at": "2026-11-19T11:34:24+00:00",
       "lessons": []
     },
     {
       "group": "272",
       "url": "https://www.sgu.ru/schedule/knt/do/272",
       "source_updated": "16.11.2026",
-      "checked_at": "2026-11-19T02:32:49+00:00",
+      "checked_at": "2026-11-19T11:34:25+00:00",
       "lessons": []
     },
     {
       "group": "273",
       "url": "https://www.sgu.ru/schedule/knt/do/273",
       "source_updated": "13.11.2026",
-      "checked_at": "2026-11-19T02:32:50+00:00",
+      "checked_at": "2026-11-19T11:34:26+00:00",
       "lessons": []
     },
     {
       "group": "281",
       "url": "https://www.sgu.ru/schedule/knt/do/281",
       "source_updated": "08.09.2026",
-      "checked_at": "2026-11-19T02:32:50+00:00",
+      "checked_at": "2026-11-19T11:34:26+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1233,21 +1255,21 @@
       "group": "291",
       "url": "https://www.sgu.ru/schedule/knt/do/291",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-19T02:32:50+00:00",
+      "checked_at": "2026-11-19T11:34:26+00:00",
       "lessons": []
     },
     {
       "group": "292",
       "url": "https://www.sgu.ru/schedule/knt/do/292",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-19T02:32:50+00:00",
+      "checked_at": "2026-11-19T11:34:26+00:00",
       "lessons": []
     },
     {
       "group": "311",
       "url": "https://www.sgu.ru/schedule/knt/do/311",
       "source_updated": "14.09.2026",
-      "checked_at": "2026-11-19T02:32:51+00:00",
+      "checked_at": "2026-11-19T11:34:27+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1336,7 +1358,7 @@
       "group": "321",
       "url": "https://www.sgu.ru/schedule/knt/do/321",
       "source_updated": "24.09.2026",
-      "checked_at": "2026-11-19T02:32:52+00:00",
+      "checked_at": "2026-11-19T11:34:28+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1399,7 +1421,7 @@
       "group": "331",
       "url": "https://www.sgu.ru/schedule/knt/do/331",
       "source_updated": "08.09.2026",
-      "checked_at": "2026-11-19T02:32:52+00:00",
+      "checked_at": "2026-11-19T11:34:28+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1475,7 +1497,7 @@
       "group": "341",
       "url": "https://www.sgu.ru/schedule/knt/do/341",
       "source_updated": "18.09.2026",
-      "checked_at": "2026-11-19T02:32:52+00:00",
+      "checked_at": "2026-11-19T11:34:28+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1527,7 +1549,7 @@
       "group": "351",
       "url": "https://www.sgu.ru/schedule/knt/do/351",
       "source_updated": "22.09.2026",
-      "checked_at": "2026-11-19T02:32:52+00:00",
+      "checked_at": "2026-11-19T11:34:28+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1603,7 +1625,7 @@
       "group": "381",
       "url": "https://www.sgu.ru/schedule/knt/do/381",
       "source_updated": "14.09.2026",
-      "checked_at": "2026-11-19T02:32:53+00:00",
+      "checked_at": "2026-11-19T11:34:29+00:00",
       "lessons": [
         {
           "day": 0,
@@ -1655,28 +1677,28 @@
       "group": "391",
       "url": "https://www.sgu.ru/schedule/knt/do/391",
       "source_updated": "28.10.2026",
-      "checked_at": "2026-11-19T02:32:54+00:00",
+      "checked_at": "2026-11-19T11:34:30+00:00",
       "lessons": []
     },
     {
       "group": "392",
       "url": "https://www.sgu.ru/schedule/knt/do/392",
       "source_updated": "03.03.2026",
-      "checked_at": "2026-11-19T02:32:54+00:00",
+      "checked_at": "2026-11-19T11:34:30+00:00",
       "lessons": []
     },
     {
       "group": "393",
       "url": "https://www.sgu.ru/schedule/knt/do/393",
       "source_updated": "03.03.2026",
-      "checked_at": "2026-11-19T02:32:54+00:00",
+      "checked_at": "2026-11-19T11:34:30+00:00",
       "lessons": []
     },
     {
       "group": "411",
       "url": "https://www.sgu.ru/schedule/knt/do/411",
       "source_updated": "19.10.2026",
-      "checked_at": "2026-11-19T02:32:54+00:00",
+      "checked_at": "2026-11-19T11:34:31+00:00",
       "lessons": [
         {
           "day": 2,
@@ -1728,7 +1750,7 @@
       "group": "421",
       "url": "https://www.sgu.ru/schedule/knt/do/421",
       "source_updated": "30.10.2026",
-      "checked_at": "2026-11-19T02:32:55+00:00",
+      "checked_at": "2026-11-19T11:34:31+00:00",
       "lessons": [
         {
           "day": 2,
@@ -1758,7 +1780,7 @@
       "group": "431",
       "url": "https://www.sgu.ru/schedule/knt/do/431",
       "source_updated": "07.10.2026",
-      "checked_at": "2026-11-19T02:32:55+00:00",
+      "checked_at": "2026-11-19T11:34:32+00:00",
       "lessons": [
         {
           "day": 2,
@@ -1788,7 +1810,7 @@
       "group": "441",
       "url": "https://www.sgu.ru/schedule/knt/do/441",
       "source_updated": "07.10.2026",
-      "checked_at": "2026-11-19T02:32:56+00:00",
+      "checked_at": "2026-11-19T11:34:32+00:00",
       "lessons": [
         {
           "day": 2,
@@ -1818,7 +1840,7 @@
       "group": "451",
       "url": "https://www.sgu.ru/schedule/knt/do/451",
       "source_updated": "19.10.2026",
-      "checked_at": "2026-11-19T02:32:56+00:00",
+      "checked_at": "2026-11-19T11:34:32+00:00",
       "lessons": [
         {
           "day": 2,
@@ -1870,14 +1892,14 @@
       "group": "494",
       "url": "https://www.sgu.ru/schedule/knt/do/494",
       "source_updated": "03.03.2026",
-      "checked_at": "2026-11-19T02:32:57+00:00",
+      "checked_at": "2026-11-19T11:34:33+00:00",
       "lessons": []
     },
     {
       "group": "531",
       "url": "https://www.sgu.ru/schedule/knt/do/531",
       "source_updated": "07.10.2026",
-      "checked_at": "2026-11-19T02:32:57+00:00",
+      "checked_at": "2026-11-19T11:34:34+00:00",
       "lessons": []
     }
   ]
