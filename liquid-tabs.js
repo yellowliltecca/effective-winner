@@ -9,6 +9,10 @@
   svg.innerHTML = `
     <defs>
       <g id="tab-art"></g>
+      <filter id="tab-refraction" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <feImage class="refraction-map" x="0" y="0" preserveAspectRatio="none" result="field"/>
+        <feDisplacementMap class="refraction-pass" in="SourceGraphic" in2="field" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
       <rect id="lens-shape"/>
       <clipPath id="lens-clip"><use href="#lens-shape"/></clipPath>
       <mask id="outside-lens" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
@@ -30,9 +34,9 @@
     <use href="#tab-art" mask="url(#outside-lens)" class="glass-normal"/>
     <use href="#lens-shape" fill="url(#glass-body)"/>
     <g clip-path="url(#lens-clip)">
-      <g class="glass-image"><use href="#tab-art" class="glass-fringe" x="-.95" fill="#56cfff"/>
+      <g class="glass-local"><g class="glass-filter"><g class="glass-image"><use href="#tab-art" class="glass-fringe" x="-.95" fill="#56cfff"/>
         <use href="#tab-art" class="glass-fringe" x=".95" fill="#ff88b6"/>
-        <use href="#tab-art" class="glass-focused"/></g>
+        <use href="#tab-art" class="glass-focused"/></g></g></g>
       <ellipse class="glass-highlight" fill="url(#glass-glint)"/>
     </g>
     <use href="#lens-shape" fill="none" stroke="url(#glass-rim)" stroke-width="1.5"/>`;
@@ -43,6 +47,24 @@
   let position = 0, speed = 0, target = 0, frame = 0, last = 0, pressed = false;
   let width = 0, height = 0, step = 0, origin = 0, touch = .3;
 
+  const local = part('.glass-local'), filtered = part('.glass-filter');
+  const filter = part('#tab-refraction'), mapImage = part('.refraction-map');
+  const displacement = part('.refraction-pass');
+  let generator, lastMapSize = '';
+  function prepareMap() {
+    if (!generator || !step || height <= 8) return;
+    const key = [step,height].join('/');
+    if (key === lastMapSize) return;
+    const halfH = (height-8)/2;
+    const uri = generator.generate({
+      lensHalfWidth:step/2, lensHalfHeight:halfH, borderRadius:halfH,
+      depth:.85, curvature:.65, bend:.85, bendWidth:.28, clipToShape:true, softEdge:true
+    });
+    mapImage.setAttribute('href',uri);
+    mapImage.setAttributeNS('http://www.w3.org/1999/xlink','href',uri);
+    filtered.setAttribute('filter','url(#tab-refraction)');
+    lastMapSize = key;
+  }
   function layout() {
     const box = svg.getBoundingClientRect();
     width = box.width; height = box.height;
@@ -66,10 +88,12 @@
       text.style.font = style.fontWeight + ' ' + style.fontSize + ' ' + style.fontFamily;
       art.append(icon,text);
     });
+    prepareMap();
     draw();
   }
 
   function draw() {
+    if (!step || !width) return;
     const cx = origin + (position + .5) * step, cy = height / 2;
     const stretch = motion.matches ? 0 : Math.min(.17,Math.abs(speed)*.024);
     const w = Math.min(width-2,step*(1+stretch)+(pressed?5:0));
@@ -77,8 +101,15 @@
     const left = Math.max(1,Math.min(width-w-1,cx-w/2));
     for (const [key,value] of Object.entries({x:left,y:cy-h/2,width:w,height:h,rx:h/2}))
       shape.setAttribute(key,value);
-    const zoom = pressed ? 1.23 : 1.09;
-    lensImage.setAttribute('transform',`translate(${cx} ${cy}) scale(${zoom+stretch} ${zoom}) translate(${-cx} ${-cy})`);
+    const top = cy-h/2;
+    local.setAttribute('transform',`translate(${left} ${top})`);
+    for (const node of [filter,mapImage]) {
+      node.setAttribute('width',w);node.setAttribute('height',h);
+    }
+    filter.setAttribute('x',0);filter.setAttribute('y',0);
+    displacement.setAttribute('scale',pressed ? 23 : 12);
+    const zoom = pressed ? 1.25 : 1.09;
+    lensImage.setAttribute('transform',`translate(${cx-left} ${cy-top}) scale(${zoom+stretch} ${zoom}) translate(${-cx} ${-cy})`);
     const angle = -25 + position*62 + touch*40;
     rim.setAttribute('gradientTransform',`rotate(${angle} .5 .5)`);
     glint.setAttribute('cx',left+w*(.15+.7*touch));
@@ -103,6 +134,11 @@
     touch=Math.max(0,Math.min(1,(e.clientX-svg.getBoundingClientRect().left-origin-position*step)/step));
     draw();
   }
+  import('./vendor/liquid-glass/displacement.js').then(({createLensMapGenerator})=>{
+    generator=createLensMapGenerator(128);
+    prepareMap();
+    draw();
+  }).catch(()=>{/* Keep the magnifying lens if the optical module is unavailable. */});
   bar.append(svg);
   layout();
   bar.classList.add('refractive');
