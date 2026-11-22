@@ -4,7 +4,7 @@
   "source": "https://www.sgu.ru/schedule/knt/do/111",
   "calendar_source": "https://www.sgu.ru/schedule/knt",
   "source_updated": "26.10.2026",
-  "fetched_at": "2026-11-21T19:11:38.843968+00:00",
+  "fetched_at": "2026-11-22T01:15:41.378654+00:00",
   "initial_snapshot": false,
   "week_calendar": [
     {
@@ -832,5 +832,5 @@
       "after": "Иностранный (англ.) язык · 12 корпус, 125 комната · Алексеева Дина Алексеевна"
     }
   ],
-  "checked_at": "2026-11-21T19:11:38+00:00"
+  "checked_at": "2026-11-22T01:15:41+00:00"
 }
