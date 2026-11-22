@@ -391,3 +391,49 @@ body .hw-inline:hover{border-color:var(--primary)}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+/* Surfaces and ink shared by the timetable, search and calendar. */
+:root {
+ --bg:#fff; --paper:#fff; --surface:#f2f6f9; --tile:#e6edf3;
+ --ink:#082947; --soft:#49677a; --light:#577183;
+ --primary:#082947; --primary-hover:#174566; --primary-pale:#e6edf3;
+ --stroke:#dbe5ec; --focus:#356a90; --on-primary:#fff;
+ --mint:var(--primary); --mint-bg:var(--tile); --gold:#475f70; --gold-bg:var(--surface);
+ --purple:var(--soft); --purple-bg:var(--tile); --shadow:none;
+}
+body.dark {
+ --bg:#0d1c28; --paper:#152936; --surface:#1c3343; --tile:#253f50;
+ --ink:#eff6fa; --soft:#b9cbd7; --light:#a7becd;
+ --primary:#bad9ed; --primary-hover:#d5ebf8; --primary-pale:var(--tile);
+ --stroke:#345161; --focus:#a7d5ef; --on-primary:#082947;
+ --mint:var(--primary); --mint-bg:var(--tile); --gold:var(--soft); --gold-bg:var(--surface);
+ --purple:var(--soft); --purple-bg:var(--tile); --shadow:none;
+}
+.brand-icon {background:#082947;box-shadow:none}
+.icon-btn,.arrow-btn,.session-month-control button {
+ background:var(--tile); color:var(--ink); border-color:transparent; box-shadow:none;
+}
+.ui-icon {width:18px;height:18px;vertical-align:middle}
+body .overview {background:var(--surface)!important;color:var(--ink);box-shadow:none}
+body .overview::before {content:none}
+body .overview h1,body .next-card h2 {color:var(--ink);font-weight:580!important}
+body .live-header strong {color:var(--ink)!important;font-weight:550!important}
+body .live-header span,body .next-label,body .live-info,body .next-details,
+body .overview-sub,body .overline {color:var(--soft)!important}
+body .next-card,body .live-box {border-color:var(--stroke)!important}
+.brand-name,.panel-title,.week-title h2,.session-header h2 {font-weight:600}
+body .freshness-badge,body .live-track,.type-bar,.status-dot,.changes-item .point,.alert-badge {display:none!important}
+.lesson {grid-template-columns:64px minmax(0,1fr)}
+body .lesson.now,body.dark .lesson.now {background:var(--surface)!important;border-color:var(--stroke)!important;box-shadow:none}
+.section-tabs,.session-calendar,.search-filter {background:var(--surface)}
+.section-tabs button.active,.day-tab.active {color:var(--on-primary)!important;box-shadow:none}
+body .session-day {background:var(--paper)}
+body .session-day.has-exam,body .session-day.has-consult {background:var(--tile);color:var(--ink)}
+.session-header button {color:var(--ink)}
+@media(max-width:540px) {
+ .lesson {grid-template-columns:49px minmax(0,1fr)}
+ .section-tabs {display:grid;grid-template-columns:repeat(4,auto);width:100%}
+ .section-tabs button {min-width:0;padding:7px 3px!important;font-size:clamp(10px,3vw,13px)!important}
+}
+.mini-lesson .ml-bar {display:none}
+.mini-lesson {grid-template-columns:42px minmax(0,1fr)}

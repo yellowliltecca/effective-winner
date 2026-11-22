@@ -20,7 +20,6 @@ function calendar(){
   const date=month+'-'+String(i).padStart(2,'0'),group=events.filter(e=>e.date===date);
   const button=node('button',String(i),'session-day'+(group.some(e=>eventType(e)!=='Консультация')?' has-exam':'')+(group.length&&!group.some(e=>eventType(e)!=='Консультация')?' has-consult':'')+(chosen===date?' picked':''));
   button.type='button';button.setAttribute('aria-label',fmt(date)+', '+group.length+' событий');button.setAttribute('aria-pressed',String(chosen===date));
-  if(group.length){const dots=node('span',undefined,'session-dots');for(const e of group.slice(0,3))dots.append(node('i',undefined,eventType(e)==='Консультация'?'consult':''));button.append(dots)}
   button.onclick=()=>{chosen=chosen===date?'':date;render()};root.append(button);
  }
 }

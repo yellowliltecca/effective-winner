@@ -95,7 +95,7 @@ function lessonRow(l){
   tags.append(item('span',l.groups.join(' и ')+' подгр.','search-chip search-chip-alt'));
  }
  details.append(subject,tags);
- if(l.location)details.append(item('p','📍 '+l.location,'search-room'));
+ if(l.location)details.append(item('p',l.location,'search-room'));
  if(l.note)details.append(item('p',l.note,'search-note'));
  row.append(time,details);
  return row;
