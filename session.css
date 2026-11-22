@@ -1,1 +1,19 @@
 .session-shell{margin-top:17px}.session-header{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.session-month-control{display:flex;align-items:center;gap:10px}.session-month-control button,.session-all{border:1px solid var(--stroke);border-radius:10px;background:var(--paper);color:var(--ink);padding:8px 12px;min-height:40px}.session-month-control strong{min-width:160px;text-align:center;font-size:15px}.session-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;background:var(--paper);border:1px solid var(--stroke);padding:14px;border-radius:16px}.session-dayname{text-align:center;color:var(--soft);font-size:11px;font-weight:700;padding:6px}.session-day{position:relative;display:flex;justify-content:flex-start;align-items:flex-start;padding:10px;border:1px solid var(--stroke);border-radius:10px;background:var(--bg);color:var(--ink);min-height:57px;flex-direction:column;font-weight:700}.session-day.has-exam{background:var(--mint-bg);color:var(--mint);border-color:var(--mint)}.session-day.has-consult{background:var(--primary-pale);color:var(--primary)}.session-day.picked{outline:3px solid var(--primary);outline-offset:1px}.session-dots{display:flex;gap:3px;margin-top:5px}.session-dots i{width:5px;height:5px;background:currentColor;border-radius:50%}.session-dots i.consult{opacity:.45}.session-empty{color:var(--soft)}.session-event-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.session-event{background:var(--paper);border:1px solid var(--stroke);border-radius:13px;padding:15px}.session-event-top{display:flex;align-items:flex-start;justify-content:space-between;gap:9px}.session-event-top strong{font-size:13px}.session-type{white-space:nowrap;padding:4px 8px;border-radius:7px;font-size:10px;font-weight:750;color:var(--mint);background:var(--mint-bg)}.session-type.consult{color:var(--primary);background:var(--primary-pale)}.session-event-date{font-weight:700;margin-top:8px;font-size:12px}.session-meta,.session-past{font-size:11px;color:var(--soft);margin:5px 0 0}.session-key{font-size:11px;color:var(--soft);margin:9px 0 20px}.session-key b{color:var(--mint)}.search-other-group{display:flex;justify-content:space-between;align-items:center;padding:12px 2px 8px;font-size:12px;border-top:1px solid var(--stroke);margin-top:12px}.search-other-group a{font-size:11px;font-weight:700;text-decoration:none}@media(max-width:600px){.session-calendar{gap:4px;padding:7px}.session-day{min-height:47px;padding:6px;border-radius:7px;font-size:12px}.session-event-list{grid-template-columns:1fr}.session-month-control strong{min-width:125px;font-size:13px}}
+.session-legend {display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.session-shell .exam-date {--event-fill:#ac3823;--event-ink:white}
+.session-shell .credit {--event-fill:#006e4c;--event-ink:white}
+.session-shell .consult {--event-fill:#225fb3;--event-ink:white}
+.dark .session-shell .exam-date {--event-fill:#ff886b;--event-ink:#231009}
+.dark .session-shell .credit {--event-fill:#52dca2;--event-ink:#061c12}
+.dark .session-shell .consult {--event-fill:#81baff;--event-ink:#081a31}
+body .session-shell .event-date,
+.session-shell .session-type,.session-shell .date-label {
+ background:var(--event-fill);color:var(--event-ink);border-color:transparent;
+}
+.session-shell .event-date {gap:2px}
+.session-shell .date-label {font-size:10px;line-height:1.4;font-weight:750;border-radius:3px;padding:0 2px}
+.session-shell .picked {outline:2px solid var(--ink);outline-offset:1px}
+@media(max-width:420px){
+ .session-shell .session-day {padding:5px 2px;align-items:center}
+ .session-shell .date-label {padding:0 1px}
+}

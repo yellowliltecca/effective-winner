@@ -6,6 +6,11 @@ const iso=date=>date.toISOString().slice(0,10);
 const weekdays=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
 let events=[],month='',chosen='',source='';
 const eventType=e=>/экзамен/i.test(e.kind)?'Экзамен':/зач[её]т/i.test(e.kind)?'Зачёт':'Консультация';
+const eventStyles={
+ 'Экзамен':{name:'exam-date',short:'Экз.'},
+ 'Зачёт':{name:'credit',short:'Зач.'},
+ 'Консультация':{name:'consult',short:'Конс.'}
+};
 const fmt=day=>new Intl.DateTimeFormat('ru-RU',{timeZone:'UTC',day:'numeric',month:'long',year:'numeric'}).format(d(day));
 const node=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e};
 function setData(next){if(!next||!Array.isArray(next.exams))return;events=next.exams.filter(e=>/^\d{4}-\d\d-\d\d$/.test(e.date||'')).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));source=next.source_updated||'';if(!month){const upcoming=events.find(e=>e.date>=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Saratov',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()));month=(upcoming||events[events.length-1])?.date.slice(0,7)||new Date().toISOString().slice(0,7)}render()}
@@ -18,8 +23,18 @@ function calendar(){
  for(let i=0;i<offset;i++)root.append(node('span',undefined,'session-blank'));
  for(let i=1;i<=days;i++){
   const date=month+'-'+String(i).padStart(2,'0'),group=events.filter(e=>e.date===date);
-  const button=node('button',String(i),'session-day'+(group.some(e=>eventType(e)!=='Консультация')?' has-exam':'')+(group.length&&!group.some(e=>eventType(e)!=='Консультация')?' has-consult':'')+(chosen===date?' picked':''));
-  button.type='button';button.setAttribute('aria-label',fmt(date)+', '+group.length+' событий');button.setAttribute('aria-pressed',String(chosen===date));
+  const types=Object.keys(eventStyles).filter(type=>group.some(e=>eventType(e)===type));
+  const button=node('button',String(i),'session-day'+(chosen===date?' picked':''));
+  button.type='button';
+  button.setAttribute('aria-label',[fmt(date),...types].join(', '));
+  button.setAttribute('aria-pressed',String(chosen===date));
+  if(types.length){
+   button.classList.add('event-date',eventStyles[types[0]].name);
+   for(const type of types){
+    const style=eventStyles[type];
+    button.append(node('span',style.short,'date-label '+style.name));
+   }
+  }
   button.onclick=()=>{chosen=chosen===date?'':date;render()};root.append(button);
  }
 }
@@ -31,7 +46,7 @@ function details(){
  for(const e of filtered){
   const card=node('article',undefined,'session-event');
   const top=node('div',undefined,'session-event-top');
-  top.append(node('strong',e.title),node('span',eventType(e),'session-type'+(eventType(e)==='Консультация'?' consult':'')));
+  top.append(node('strong',e.title),node('span',eventType(e),'session-type '+eventStyles[eventType(e)].name));
   const dateLine=node('div',fmt(e.date)+(e.time?' · '+e.time:''),'session-event-date');
   const teacher=node('p',e.teacher?'Преподаватель: '+e.teacher:'','session-meta');
   const room=node('p',e.location?'Место: '+e.location:'','session-meta');
@@ -47,6 +62,9 @@ function render(){if(!$('#sessionCalendar'))return;calendar();details();$('#sess
 async function sync(){try{const r=await fetch('./data/schedule.json?session='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('http');const payload=await r.json();if(payload.group==='111')setData(payload)}catch{}}
 function init(){
  if(!$('#sessionCalendar'))return;
+ const legend=node('div',undefined,'session-legend');
+ for(const [type,style] of Object.entries(eventStyles))legend.append(node('span',type,'session-type '+style.name));
+ $('#sessionCalendar').before(legend);
  try{setData(JSON.parse($('#initialData').textContent))}catch{}
  $('#sessionPrev').onclick=()=>{const [y,m]=month.split('-').map(Number);month=new Date(Date.UTC(y,m-2,1,12)).toISOString().slice(0,7);chosen='';render()};
  $('#sessionNext').onclick=()=>{const [y,m]=month.split('-').map(Number);month=new Date(Date.UTC(y,m,1,12)).toISOString().slice(0,7);chosen='';render()};

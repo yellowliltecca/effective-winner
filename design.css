@@ -402,10 +402,10 @@ body .hw-inline:hover{border-color:var(--primary)}
  --purple:var(--soft); --purple-bg:var(--tile); --shadow:none;
 }
 body.dark {
- --bg:#0d1c28; --paper:#152936; --surface:#1c3343; --tile:#253f50;
- --ink:#eff6fa; --soft:#b9cbd7; --light:#a7becd;
+ --bg:#000; --paper:#080808; --surface:#0d0d0e; --tile:#19191b;
+ --ink:#fafafa; --soft:#c2c2c7; --light:#aaaab1;
  --primary:#bad9ed; --primary-hover:#d5ebf8; --primary-pale:var(--tile);
- --stroke:#345161; --focus:#a7d5ef; --on-primary:#082947;
+ --stroke:#333337; --focus:#a7d5ef; --on-primary:#082947;
  --mint:var(--primary); --mint-bg:var(--tile); --gold:var(--soft); --gold-bg:var(--surface);
  --purple:var(--soft); --purple-bg:var(--tile); --shadow:none;
 }
@@ -428,7 +428,7 @@ body .lesson.now,body.dark .lesson.now {background:var(--surface)!important;bord
 .section-tabs,.session-calendar,.search-filter {background:var(--surface)}
 .section-tabs button.active,.day-tab.active {color:var(--on-primary)!important;box-shadow:none}
 body .session-day {background:var(--paper)}
-body .session-day.has-exam,body .session-day.has-consult {background:var(--tile);color:var(--ink)}
+body.dark .brand-icon {background:var(--tile)}
 .session-header button {color:var(--ink)}
 @media(max-width:540px) {
  .lesson {grid-template-columns:49px minmax(0,1fr)}
