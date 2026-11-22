@@ -484,3 +484,12 @@ body .section-tabs button.active {color:var(--ink)!important}
 }
 body .section-tabs {touch-action:pan-y;-webkit-user-select:none;user-select:none}
 body .section-tabs.dragging::before {transform:translateX(calc(100% * var(--drag-index))) scale(1.025);transition:none}
+
+.section-tabs .liquid-optics {position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+body .section-tabs.refractive::before {display:none}
+.section-tabs.refractive button > :is(span,svg) {opacity:0}
+.liquid-optics .glass-normal {fill:var(--soft);stroke:var(--soft)}
+.liquid-optics .glass-focused {fill:var(--ink);stroke:var(--ink)}
+.liquid-optics .glass-fringe {stroke:inherit;opacity:.46}
+.liquid-optics .glass-fringe:first-child {stroke:#56cfff}
+.liquid-optics .glass-fringe:nth-child(2) {stroke:#ff88b6}

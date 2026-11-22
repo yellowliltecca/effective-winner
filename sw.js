@@ -1,6 +1,6 @@
 /* SGU 111 offline cache. Scoped exclusively to this GitHub Pages project. */
-const VERSION='sgu111-offline-20261123-v8';
-const CORE=['./','./index.html','./features.js','./student-tools.js','./design.css','./attendance.js','./attendance.css','./search.js','./search.css','./session.js','./session.css','./data/teacher-groups.json','./manifest.webmanifest','./icon.svg','./data/schedule.json'];
+const VERSION='sgu111-offline-20261123-v9';
+const CORE=['./','./index.html','./features.js','./student-tools.js','./design.css','./liquid-tabs.js','./attendance.js','./attendance.css','./search.js','./search.css','./session.js','./session.css','./data/teacher-groups.json','./manifest.webmanifest','./icon.svg','./data/schedule.json'];
 const coreURL=u=>new URL(u,self.registration.scope).href;
 const isLocal=url=>url.origin===self.location.origin&&url.pathname.startsWith(new URL(self.registration.scope).pathname);
 const known=url=>CORE.some(x=>coreURL(x).split('?')[0]===url.split('?')[0]);
