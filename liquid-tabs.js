@@ -32,17 +32,21 @@
       </radialGradient>
     </defs>
     <use href="#tab-art" mask="url(#outside-lens)" class="glass-normal"/>
-    <use href="#lens-shape" fill="url(#glass-body)"/>
+    <use href="#lens-shape" class="glass-seat"/>
+    <use href="#lens-shape" class="glass-surface" fill="url(#glass-body)"/>
     <g clip-path="url(#lens-clip)">
       <g class="glass-local"><g class="glass-filter"><g class="glass-image"><use href="#tab-art" class="glass-fringe" x="-.95" fill="#56cfff"/>
         <use href="#tab-art" class="glass-fringe" x=".95" fill="#ff88b6"/>
         <use href="#tab-art" class="glass-focused"/></g></g></g>
       <ellipse class="glass-highlight" fill="url(#glass-glint)"/>
     </g>
-    <use href="#lens-shape" fill="none" stroke="url(#glass-rim)" stroke-width="1.5"/>`;
+    <use href="#lens-shape" class="glass-edge" fill="none" stroke="url(#glass-rim)" stroke-width="1.2"/>`;
   const part = sel => svg.querySelector(sel);
   const art = part('#tab-art'), shape = part('#lens-shape'), lensImage = part('.glass-image');
   const glint = part('.glass-highlight'), rim = part('#glass-rim');
+  const seat = part('.glass-seat'), surface = part('.glass-surface'), edge = part('.glass-edge');
+  const fringes = [...svg.querySelectorAll('.glass-fringe')];
+  let lift = 0, pressedIndex = 0;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   let position = 0, speed = 0, target = 0, frame = 0, last = 0, pressed = false;
   let width = 0, height = 0, step = 0, origin = 0, touch = .3;
@@ -55,9 +59,9 @@
     if (!generator || !step || height <= 8) return;
     const key = [step,height].join('/');
     if (key === lastMapSize) return;
-    const halfH = (height-8)/2;
+    const halfH = height*.59;
     const uri = generator.generate({
-      lensHalfWidth:step/2, lensHalfHeight:halfH, borderRadius:halfH,
+      lensHalfWidth:step*.62, lensHalfHeight:halfH, borderRadius:halfH,
       depth:.85, curvature:.65, bend:.85, bendWidth:.28, clipToShape:true, softEdge:true
     });
     mapImage.setAttribute('href',uri);
@@ -95,10 +99,10 @@
   function draw() {
     if (!step || !width) return;
     const cx = origin + (position + .5) * step, cy = height / 2;
-    const stretch = motion.matches ? 0 : Math.min(.17,Math.abs(speed)*.024);
-    const w = Math.min(width-2,step*(1+stretch)+(pressed?5:0));
-    const h = height-(pressed?3:8);
-    const left = Math.max(1,Math.min(width-w-1,cx-w/2));
+    const stretch = motion.matches ? 0 : Math.min(.1,Math.abs(speed)*.012)*lift;
+    const w = Math.min(width-2,step*(1+.24*lift+stretch));
+    const h = height-6+(height*.19+6)*lift;
+    const left = Math.max(-5,Math.min(width-w+5,cx-w/2));
     for (const [key,value] of Object.entries({x:left,y:cy-h/2,width:w,height:h,rx:h/2}))
       shape.setAttribute(key,value);
     const top = cy-h/2;
@@ -107,8 +111,13 @@
       node.setAttribute('width',w);node.setAttribute('height',h);
     }
     filter.setAttribute('x',0);filter.setAttribute('y',0);
-    displacement.setAttribute('scale',pressed ? 23 : 12);
-    const zoom = pressed ? 1.25 : 1.09;
+    displacement.setAttribute('scale',28*lift);
+    seat.setAttribute('opacity',1-lift);
+    surface.setAttribute('opacity',lift*.84);
+    edge.setAttribute('opacity',lift*.9);
+    glint.setAttribute('opacity',lift);
+    fringes.forEach(node=>node.setAttribute('opacity',lift*.55));
+    const zoom = 1+.30*lift;
     lensImage.setAttribute('transform',`translate(${cx-left} ${cy-top}) scale(${zoom+stretch} ${zoom}) translate(${-cx} ${-cy})`);
     const angle = -25 + position*62 + touch*40;
     rim.setAttribute('gradientTransform',`rotate(${angle} .5 .5)`);
@@ -117,16 +126,18 @@
   }
   function animate(now) {
     const dt = Math.min(.024,(now-last)/1000 || .016); last=now;
-    speed += ((target-position)*420-speed*34)*dt;
+    const desiredLift = pressed ? 1 : 0;
+    lift += (desiredLift-lift)*(1-Math.exp(-dt*(pressed?26:18)));
+    speed += ((target-position)*(pressed?980:460)-speed*(pressed?52:35))*dt;
     position += speed*dt;
-    if (motion.matches || (Math.abs(target-position)<.001 && Math.abs(speed)<.01)){
-      position=target;speed=0;frame=0;draw();return;
+    if (motion.matches || (Math.abs(target-position)<.001 && Math.abs(speed)<.01 && Math.abs(lift-desiredLift)<.002)){
+      position=target;lift=desiredLift;speed=0;frame=0;draw();return;
     }
     draw();frame=requestAnimationFrame(animate);
   }
   function update() {
     const drag = bar.style.getPropertyValue('--drag-index');
-    target = drag ? Number(drag) : Math.max(0,tabs.findIndex(t=>t.getAttribute('aria-selected')==='true'));
+    target = drag ? Number(drag) : pressed ? pressedIndex : Math.max(0,tabs.findIndex(t=>t.getAttribute('aria-selected')==='true'));
     if(!frame){last=performance.now();frame=requestAnimationFrame(animate);}
   }
   function track(e){
@@ -144,7 +155,11 @@
   bar.classList.add('refractive');
   new ResizeObserver(layout).observe(bar);
   new MutationObserver(update).observe(bar,{attributes:true,subtree:true,attributeFilter:['aria-selected','style'],childList:false});
-  bar.addEventListener('pointerdown',e=>{if(e.isPrimary){pressed=true;track(e);}});
+  bar.addEventListener('pointerdown',e=>{
+    const index=tabs.indexOf(e.target.closest('[role="tab"]'));
+    if(!e.isPrimary || e.button!==0 || index<0)return;
+    pressedIndex=index;pressed=true;track(e);update();
+  });
   bar.addEventListener('pointermove',e=>{if(pressed)track(e);});
   function release(){if(pressed){pressed=false;update();}}
   window.addEventListener('pointerup',release);

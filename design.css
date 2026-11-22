@@ -490,6 +490,17 @@ body .section-tabs.refractive::before {display:none}
 .section-tabs.refractive button > :is(span,svg) {opacity:0}
 .liquid-optics .glass-normal {fill:var(--soft);stroke:var(--soft)}
 .liquid-optics .glass-focused {fill:var(--ink);stroke:var(--ink)}
-.liquid-optics .glass-fringe {stroke:inherit;opacity:.46}
+.liquid-optics .glass-fringe {stroke:inherit}
 .liquid-optics .glass-fringe:first-child {stroke:#56cfff}
 .liquid-optics .glass-fringe:nth-child(2) {stroke:#ff88b6}
+
+/* The raised lens extends above and below the stationary capsule. */
+body .section-tabs.refractive,.section-tabs.refractive .liquid-optics {overflow:visible}
+body .section-tabs.refractive {--tab-accent:#08732b;--tab-seat:#dce5e6}
+body.dark .section-tabs.refractive {
+ --glass:rgba(43,43,45,.84);--tab-accent:#55ff18;--tab-seat:#111113;
+ --rim:rgba(255,255,255,.13);--shine:rgba(255,255,255,.19)
+}
+.liquid-optics .glass-seat {fill:var(--tab-seat)}
+.liquid-optics .glass-focused {fill:var(--tab-accent);stroke:var(--tab-accent)}
+.dark .liquid-optics .glass-normal {fill:#f7f7f8;stroke:#f7f7f8}
