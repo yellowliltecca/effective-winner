@@ -437,3 +437,50 @@ body.dark .brand-icon {background:var(--tile)}
 }
 .mini-lesson .ml-bar {display:none}
 .mini-lesson {grid-template-columns:42px minmax(0,1fr)}
+
+/* The four sections share a single moving glass lens. */
+body .section-tabs {
+ --tab-index:0;
+ --glass:rgba(244,248,252,.83); --rim:rgba(61,83,104,.24);
+ --lens:rgba(167,194,219,.42); --shine:rgba(255,255,255,.95);
+ position:relative; isolation:isolate; display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+ box-sizing:border-box; width:min(100%,480px); gap:0!important; padding:4px;
+ overflow:hidden; background:var(--glass); border:1px solid var(--rim)!important; border-radius:36px;
+ box-shadow:inset 0 1px 0 var(--shine),0 5px 20px #00152d16;
+ -webkit-backdrop-filter:blur(20px) saturate(150%); backdrop-filter:blur(20px) saturate(150%);
+}
+body.dark .section-tabs {
+ --glass:rgba(27,27,30,.84); --rim:rgba(255,255,255,.22);
+ --lens:rgba(255,255,255,.13); --shine:rgba(255,255,255,.32);
+}
+.section-tabs:has(#tabAttendance.active) {--tab-index:1}
+.section-tabs:has(#tabSearch.active) {--tab-index:2}
+.section-tabs:has(#tabExams.active) {--tab-index:3}
+body .section-tabs::before {
+ content:""; position:absolute; inset:4px auto 4px 4px; width:calc((100% - 8px)/4);
+ box-sizing:border-box; pointer-events:none; border-radius:30px;
+ background:linear-gradient(155deg,var(--shine) -120%,transparent 53%,var(--lens)),var(--lens);
+ border:1px solid var(--rim); box-shadow:inset 0 1px 1px var(--shine),inset 0 -1px 2px var(--rim);
+ transform:translateX(calc(100% * var(--tab-index))); transition:transform .32s cubic-bezier(.22,.85,.26,1);
+}
+body .section-tabs button,body .section-tabs button.active {
+ position:relative; display:grid; justify-items:center; align-content:center; gap:3px;
+ min-width:0; min-height:49px; padding:3px 0!important; border-radius:26px;
+ color:var(--soft)!important; background:transparent!important; box-shadow:none;
+ font-size:clamp(10px,2.8vw,12px)!important; line-height:1.2;
+}
+body .section-tabs button.active {color:var(--ink)!important}
+.section-tabs button svg {width:19px;height:19px;transition:transform .24s}
+.section-tabs button.active svg {transform:scale(1.12)}
+.section-tabs button:focus-visible {outline-offset:-3px!important}
+@media(max-width:760px) {
+ body .section-tabs {position:fixed;z-index:26;left:50%;bottom:calc(9px + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%);width:min(440px,calc(100% - 16px));margin:0!important}
+ body .shell {padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+ html {scroll-padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+@media(prefers-reduced-motion:reduce) {
+ body .section-tabs::before,.section-tabs button svg {transition:none}
+}
+body .section-tabs {touch-action:pan-y;-webkit-user-select:none;user-select:none}
+body .section-tabs.dragging::before {transform:translateX(calc(100% * var(--drag-index))) scale(1.025);transition:none}

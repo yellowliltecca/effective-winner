@@ -77,7 +77,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
 <body>
 <div class="shell">
   <header class="top">
-    <a class="brand" href="./" aria-label="На главную расписания"><span class="brand-icon">111</span><span><span class="brand-name">Моё расписание</span><span class="brand-sub" style="display:block">КНиИТ · СГУ</span></span></a>
+    <a class="brand" href="./" aria-label="На главную расписания"><span><span class="brand-name">Моё расписание</span><span class="brand-sub" style="display:block">КНиИТ · СГУ</span></span></a>
     <nav class="nav" aria-label="Полезные ссылки и настройки"><a class="nav-link" href="https://www.sgu.ru/schedule/knt/do/111" target="_blank" rel="noopener noreferrer">Официальное расписание ↗</a>
       <button class="icon-btn" id="theme" type="button" title="Сменить тему" aria-label="Переключить светлую и тёмную тему"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></svg></button>
       <button class="icon-btn" id="refresh" type="button" title="Проверить доступные обновления" aria-label="Проверить обновления на моём сайте"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.3 9A8 8 0 0 1 19 6l1 1M4 17l1 1a8 8 0 0 0 13.7-3"/></svg></button>
@@ -88,7 +88,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     <div class="next-card"><div class="next-label" id="nextLabel">Ближайшая пара</div><h2 id="nextSubject">Проверяем…</h2><div class="next-details" id="nextInfo">По времени Саратова</div></div>
   </section>
   <div class="notice" id="notice" role="status" aria-live="polite"></div>
-  <nav class="section-tabs" role="tablist" aria-label="Разделы"><button id="tabClasses" role="tab" aria-selected="true" class="active" type="button">Занятия</button><button id="tabAttendance" role="tab" aria-selected="false" type="button">Посещаемость</button><button id="tabSearch" role="tab" aria-selected="false" type="button">Поиск</button><button id="tabExams" role="tab" aria-selected="false" type="button">Сессия</button></nav>
+  <nav class="section-tabs" role="tablist" aria-label="Разделы"><button id="tabClasses" role="tab" aria-selected="true" class="active" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v15H4zM4 10h16M8 3v5m8-5v5M8 14h2m3 0h3"/></svg><span>Занятия</span></button><button id="tabAttendance" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4zM8 12l3 3 5-6"/></svg><span>Посещаемость</span></button><button id="tabSearch" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 16l5 5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg><span>Поиск</span></button><button id="tabExams" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5-10-5Zm4 3v5q6 5 12 0v-5m3-2v7"/></svg><span>Сессия</span></button></nav>
   <section id="classes" aria-label="Расписание занятий">
     <div class="toolbar">
       <div class="week-info"><div class="week-label">Учебная неделя</div><div class="week-title"><h2 id="range">—</h2><div class="week-controls"><button class="arrow-btn" id="prev" type="button" title="Неделя назад" aria-label="Предыдущая неделя"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button class="arrow-btn" id="next" type="button" title="Неделя вперёд" aria-label="Следующая неделя"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div></div><div class="week-note"><span class="parity" id="parity">—</span><span class="sep">•</span><span id="weekLabel">—</span></div></div>
@@ -1100,6 +1100,45 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   async function sync(manual=false){if(loading)return;loading=true;$('#refresh').classList.add('spin');try{const response=await fetch(`./data/schedule.json?ts=${Date.now()}`,{cache:'no-store'});if(!response.ok)throw Error('HTTP '+response.status);const incoming=await response.json();if(incoming.group!=='111'||!Array.isArray(incoming.lessons)||incoming.lessons.length<4)throw Error('Неверные данные');const was=JSON.stringify(data.lessons);data=incoming;online=true;render();updateSource();renderExams();if(manual)notice(was!==JSON.stringify(data.lessons)?'Расписание обновилось. Изменения уже показаны на странице.':'Данные сайта проверены. Новых изменений в опубликованном расписании нет.');}catch(e){online=false;updateSource();if(manual)notice(location.protocol==='file:'?'Открыта локальная копия файла. Для автоматического обновления опубликуй проект на GitHub Pages по инструкции в архиве.':'Не удалось загрузить свежую опубликованную копию. Показаны последние доступные данные. Проверь <a href="https://www.sgu.ru/schedule/knt/do/111" target="_blank" rel="noopener noreferrer">официальное расписание</a>.');}finally{loading=false;$('#refresh').classList.remove('spin');}}
   function downloadICS(){const today=saratovNow().date,events=[];let start=state.week;for(let offset=0;offset<28;offset++){const date=addDays(start,offset),day=(date.getUTCDay()+6)%7,week=academicWeek(date).type;for(const l of data.lessons){if(l.day!==day||!(l.week==='both'||l.week===week)||!(state.group==='all'||!l.groups.length||l.groups.includes(+state.group)))continue;const u=val=>val.replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');const utc=hm=>{const [h,m]=hm.split(':').map(Number);const d=new Date(date.getTime()+(h*60+m-240)*60000);return `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`};const uid=`sgu111-${dateISO(date)}-${l.start.replace(':','')}-${l.day}-${Array.from(l.title).reduce((a,c)=>((a*31+c.codePointAt(0))>>>0),0).toString(36)}-${l.groups.join('')||'all'}@sgu111`;events.push(['BEGIN:VEVENT',`UID:${u(uid)}`,`DTSTAMP:${utc('12:00')}`,`DTSTART:${utc(l.start)}`,`DTEND:${utc(l.end)}`,`SUMMARY:${u(l.title)}`,`LOCATION:${u(l.location||'')}`,`DESCRIPTION:${u([kinds[l.kind],teacherInfo(l.teacher).name,l.groups.length?'Подгруппа: '+l.groups.join(' и '):''].filter(Boolean).join(' · '))}`,'END:VEVENT'].join('\r\n'));}}
     const cal=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//SGU111//Schedule//RU','CALSCALE:GREGORIAN','X-WR-CALNAME:SGU 111 группа',...events,'END:VCALENDAR'].join('\r\n');const blob=new Blob(['\ufeff',cal],{type:'text/calendar;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`SGU_111_${dateISO(start)}.ics`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+  const sectionNav=document.querySelector('.section-tabs');
+  const sectionButtons=Array.from(sectionNav.querySelectorAll('[role="tab"]'));
+  let gesture=null;
+  sectionNav.addEventListener('pointerdown',event=>{
+    const button=event.target.closest('[role="tab"]');
+    if(!event.isPrimary||event.button!==0||!button)return;
+    gesture={id:event.pointerId,start:event.clientX,button,dragging:false};
+  });
+  sectionNav.addEventListener('pointermove',event=>{
+    if(!gesture||gesture.id!==event.pointerId)return;
+    if(!gesture.dragging){
+      if(Math.abs(event.clientX-gesture.start)<6)return;
+      gesture.dragging=true;
+      gesture.button.setPointerCapture(event.pointerId);
+      sectionNav.classList.add('dragging');
+    }
+    const box=sectionButtons[0].getBoundingClientRect();
+    const index=Math.max(0,Math.min(sectionButtons.length-1,(event.clientX-box.left)/box.width-.5));
+    sectionNav.style.setProperty('--drag-index',String(index));
+  });
+  function finishGesture(event){
+    if(!gesture||gesture.id!==event.pointerId)return;
+    const {dragging,button}=gesture;
+    gesture=null;
+    sectionNav.classList.remove('dragging');
+    sectionNav.style.removeProperty('--drag-index');
+    if(dragging&&event.type==='pointerup'){
+      const box=sectionButtons[0].getBoundingClientRect();
+      const index=Math.max(0,Math.min(sectionButtons.length-1,Math.floor((event.clientX-box.left)/box.width)));
+      // Consume the native click synthesized on the captured starting button.
+      const consume=e=>{e.preventDefault();e.stopImmediatePropagation()};
+      button.addEventListener('click',consume,{capture:true,once:true});
+      setTimeout(()=>button.removeEventListener('click',consume,true),0);
+      if(sectionButtons[index]===button)button.removeEventListener('click',consume,true);
+      sectionButtons[index].click();
+    }
+  }
+  window.addEventListener('pointerup',finishGesture);
+  window.addEventListener('pointercancel',finishGesture);
   function setTab(tab){selectedTab=tab;for(const [key,id] of [['classes','Classes'],['attendance','Attendance'],['search','Search'],['exams','Exams']]){const active=tab===key;$('#'+key).style.display=active?'block':'none';$('#tab'+id).classList.toggle('active',active);$('#tab'+id).setAttribute('aria-selected',String(active));} const hw=$('#homework');if(hw)hw.style.display=tab==='classes'?'block':'none';if(tab==='attendance')window.dispatchEvent(new Event('attendance:open'));if(tab==='search')window.dispatchEvent(new Event('search:open'));if(tab==='exams')window.dispatchEvent(new Event('session:open'));}
   $('#prev').onclick=()=>{state.week=addDays(state.week,-7);render();};$('#next').onclick=()=>{state.week=addDays(state.week,7);render();};$('#today').onclick=()=>{const now=saratovNow().date;state.week=monday(now);state.day=(now.getUTCDay()+6)%7;state.view='day';localStorage.setItem('sgu111_view','day');setTab('classes');render();};$('#group').onchange=e=>{state.group=e.target.value;localStorage.setItem('sgu111_group',state.group);render();};$('#viewDay').onclick=()=>{state.view='day';localStorage.setItem('sgu111_view','day');render();};$('#viewWeek').onclick=()=>{state.view='week';localStorage.setItem('sgu111_view','week');render();};$('#ics').onclick=downloadICS;$('#refresh').onclick=()=>sync(true);$('#tabClasses').onclick=()=>setTab('classes');$('#tabExams').onclick=()=>setTab('exams');$('#tabAttendance').onclick=()=>setTab('attendance');$('#tabSearch').onclick=()=>setTab('search');$('#theme').onclick=()=>{document.body.classList.toggle('dark');syncThemeColor();localStorage.setItem('sgu111_theme',document.body.classList.contains('dark')?'dark':'light');};
 
