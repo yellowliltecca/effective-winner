@@ -402,10 +402,10 @@ body .hw-inline:hover{border-color:var(--primary)}
  --purple:var(--soft); --purple-bg:var(--tile); --shadow:none;
 }
 body.dark {
- --bg:#000; --paper:#080808; --surface:#0d0d0e; --tile:#19191b;
+ --bg:#000; --paper:#101114; --surface:#181a1e; --tile:#24272d;
  --ink:#fafafa; --soft:#c2c2c7; --light:#aaaab1;
  --primary:#bad9ed; --primary-hover:#d5ebf8; --primary-pale:var(--tile);
- --stroke:#333337; --focus:#a7d5ef; --on-primary:#082947;
+ --stroke:#454b55; --focus:#a7d5ef; --on-primary:#082947;
  --mint:var(--primary); --mint-bg:var(--tile); --gold:var(--soft); --gold-bg:var(--surface);
  --purple:var(--soft); --purple-bg:var(--tile); --shadow:none;
 }
@@ -504,3 +504,8 @@ body.dark .section-tabs.refractive {
 .liquid-optics .glass-seat {fill:var(--tab-seat)}
 .liquid-optics .glass-focused {fill:var(--tab-accent);stroke:var(--tab-accent)}
 .dark .liquid-optics .glass-normal {fill:#f7f7f8;stroke:#f7f7f8}
+
+body.dark .day-tab.active .day-name,body.dark .day-tab.active .day-counter,
+body.dark .day-tab.active .day-num {color:var(--on-primary);opacity:1}
+body.dark .schedule-panel .lesson {background:var(--surface)}
+body.dark .overview {box-shadow:inset 0 0 0 1px var(--stroke)}

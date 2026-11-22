@@ -23,55 +23,51 @@ const events=()=>Array.isArray(data?.history)?data.history.filter(relevant):[];
 const seen=()=>new Set(Array.isArray(prefs.seen)?prefs.seen:[]);
 function timer(){
  if(!data)return;
- const now=clock(),baseDate=new Date(now.date+'T12:00:00Z');
- const todayDay=(baseDate.getUTCDay()+6)%7;
- const applicable=(l,day,parity)=>l.day===day&&(l.week==='both'||l.week===parity)&&relevant(l)&&l.start&&l.end;
- const todayLessons=data.lessons.filter(l=>applicable(l,todayDay,week(now.date)));
- const current=todayLessons.find(l=>secs(l.start)<=now.sec&&now.sec<secs(l.end));
- let upcoming=null;
- for(let offset=0;offset<21&&!upcoming;offset++){
-  const date=new Date(baseDate.getTime()+offset*86400000);
-  const iso=date.toISOString().slice(0,10),day=(date.getUTCDay()+6)%7,parity=week(iso);
-  const list=data.lessons.filter(l=>applicable(l,day,parity)).sort((a,b)=>secs(a.start)-secs(b.start));
-  const lesson=list.find(l=>offset>0||secs(l.start)>now.sec);
-  if(lesson)upcoming={lesson,iso,offset,seconds:offset*86400+secs(lesson.start)-now.sec};
- }
- const label=$('#liveLabel'),value=$('#liveValue'),info=$('#liveInfo');
- const subject=$('#nextSubject'),nextLabel=$('#nextLabel'),nextInfo=$('#nextInfo'),bar=$('#liveBar');
- if(!label||!value||!info||!subject||!nextLabel||!nextInfo)return;
- if(bar)bar.hidden=true;
- label.textContent='До следующей пары';
- if(!upcoming){
-  value.textContent='—';value.setAttribute('aria-label','Нет занятий в ближайшие три недели');
-  info.textContent='По времени Саратова';nextLabel.textContent='Расписание';
-  subject.textContent='Пока занятий нет';
-  nextInfo.textContent='В ближайшие 3 недели · '+(group()==='all'?'все подгруппы':group()+'-я подгруппа');
-  return;
- }
- const l=upcoming.lesson,all=Math.max(0,Math.floor(upcoming.seconds));
- const d=Math.floor(all/86400),h=Math.floor(all%86400/3600),m=Math.floor(all%3600/60),second=all%60;
- const timerText=[h,m,second].map(x=>String(x).padStart(2,'0')).join(':');
- value.textContent=(d?d+' дн.  ':'')+timerText;
- value.setAttribute('aria-label',(d?d+' дней, ':'')+h+' часов, '+m+' минут, '+second+' секунд до следующей пары');
- const prior=(!current&&upcoming.offset===0)
-   ?todayLessons.filter(x=>secs(x.end)<=now.sec&&secs(x.end)<secs(l.start))
-      .sort((a,b)=>secs(b.end)-secs(a.end))[0]
-   :null;
- const onBreak=!!prior;
- if(onBreak){
-   label.textContent='☕ Перерыв · до следующей пары';
-   info.textContent='Перерыв '+prior.end+'–'+l.start+' · время Саратова';
-   if(bar){
-     bar.hidden=false;
-     const duration=secs(l.start)-secs(prior.end);
-     bar.firstElementChild.style.width=Math.max(0,Math.min(100,(now.sec-secs(prior.end))/duration*100)).toFixed(1)+'%';
-   }
+ const now=clock(), base=Date.parse(now.date+'T12:00:00Z');
+ const selectedGroup=group();
+ const lessonsOn=offset=>{
+   const date=new Date(base+offset*86400000),iso=date.toISOString().slice(0,10);
+   const day=(date.getUTCDay()+6)%7,parity=week(iso);
+   return data.lessons.filter(l=>l.day===day&&(l.week==='both'||l.week===parity)
+     &&(selectedGroup==='all'||!l.groups?.length||l.groups.includes(Number(selectedGroup)))
+     &&secs(l.end)>secs(l.start)).sort((a,b)=>secs(a.start)-secs(b.start));
+ };
+ const today=lessonsOn(0);
+ const current=today.find(l=>secs(l.start)<=now.sec&&now.sec<secs(l.end));
+ const previous=today.filter(l=>secs(l.end)<=now.sec).sort((a,b)=>secs(b.end)-secs(a.end))[0];
+ let offset=0,next=today.find(l=>secs(l.start)>now.sec);
+ while(!next&&offset<20){offset++;next=lessonsOn(offset)[0];}
+ const laterToday=next&&offset===0;
+ let label,info,seconds;
+ if(current){
+   const hasBreak=laterToday&&secs(next.start)>secs(current.end);
+   label=hasBreak?'До перемены':laterToday?'До конца пары':'До конца последней пары';
+   seconds=secs(current.end)-now.sec;
+   info=current.title+' · '+current.start+'–'+current.end;
+   if(hasBreak)info+=' · Затем перерыв '+((secs(next.start)-secs(current.end))/60)+' мин';
  }else{
-   info.textContent=current?'Сейчас идёт: '+current.title+' · до '+current.end:'Время Саратова (UTC+4)';
+   label=laterToday?(previous?'Перемена · до пары':'До первой пары'):'До следующей пары';
+   info=laterToday?(previous?'Перемена '+previous.end+'–'+next.start:'Начало занятий в '+next.start)
+     :today.length?'На сегодня пары закончились':'Сегодня пар нет';
+   if(next)seconds=offset*86400+secs(next.start)-now.sec;
  }
- nextLabel.textContent='Следующее занятие';subject.textContent=l.title;
- const dateText=upcoming.offset===0?'Сегодня':upcoming.offset===1?'Завтра':new Intl.DateTimeFormat('ru-RU',{timeZone:'UTC',weekday:'short',day:'numeric',month:'short'}).format(new Date(upcoming.iso+'T12:00:00Z'));
- nextInfo.textContent=[dateText+' в '+l.start,l.location,l.groups?.length?l.groups.join(' и ')+' подгруппа':null].filter(Boolean).join(' · ');
+ const value=$('#liveValue');
+ if(!value)return;
+ $('#liveLabel').textContent=label;
+ $('#liveInfo').textContent=info;
+ const days=Math.floor(seconds/86400);
+ const display=seconds===undefined?'—':(days?days+' дн. ':'')+remaining(seconds%86400);
+ value.textContent=display;
+ value.setAttribute('aria-label',seconds===undefined?'Нет запланированных занятий':label+' '+display);
+ const subject=$('#nextSubject');
+ subject.dataset.liveTimer='true';
+ $('#nextLabel').textContent='Следующее занятие';
+ subject.textContent=next?next.title:'Занятий пока нет';
+ if(!next){$('#nextInfo').textContent='В ближайшие три недели занятий в расписании нет';return;}
+ const dateText=offset===0?'Сегодня':offset===1?'Завтра':new Intl.DateTimeFormat('ru-RU',{
+   timeZone:'Europe/Saratov',weekday:'short',day:'numeric',month:'long'
+ }).format(base+offset*86400000);
+ $('#nextInfo').textContent=[dateText+' в '+next.start,next.location,next.groups?.length?next.groups.join(' и ')+' подгруппа':''].filter(Boolean).join(' · ');
 }
 function paint(){const list=events(),ids=seen(),unread=list.filter(e=>!ids.has(e.id));const badge=$('#alertBadge');badge.hidden=!unread.length;badge.textContent=unread.length>99?'99+':unread.length;
 $('#alertSummary').textContent=list.length+' записей · '+unread.length+' непрочитанных';

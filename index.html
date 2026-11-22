@@ -1068,6 +1068,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   function emptyMarkup(){return '<div class="empty"><div class="empty-icon">☀</div><h3>Пар нет</h3><p>Для этого дня, недели и выбранной подгруппы<br>занятий в расписании нет.</p></div>';}
   function plural(n,words){return n%10===1&&n%100!==11?words[0]:n%10>=2&&n%10<=4&&(n%100<12||n%100>14)?words[1]:words[2]}
   function nextLesson(){
+    if($('#nextSubject').dataset.liveTimer)return;
     const now=saratovNow(),today=now.date, result=[];
     for(let offset=0;offset<15;offset++){
       const date=addDays(today,offset),day=(date.getUTCDay()+6)%7,w=academicWeek(date).type;
