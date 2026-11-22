@@ -402,10 +402,10 @@ body .hw-inline:hover{border-color:var(--primary)}
  --purple:var(--soft); --purple-bg:var(--tile); --shadow:none;
 }
 body.dark {
- --bg:#000; --paper:#101114; --surface:#181a1e; --tile:#24272d;
+ --bg:#000; --paper:#020304; --surface:#040608; --tile:#070a0e;
  --ink:#fafafa; --soft:#c2c2c7; --light:#aaaab1;
  --primary:#bad9ed; --primary-hover:#d5ebf8; --primary-pale:var(--tile);
- --stroke:#454b55; --focus:#a7d5ef; --on-primary:#082947;
+ --stroke:#202832; --focus:#a7d5ef; --on-primary:#082947;
  --mint:var(--primary); --mint-bg:var(--tile); --gold:var(--soft); --gold-bg:var(--surface);
  --purple:var(--soft); --purple-bg:var(--tile); --shadow:none;
 }
@@ -450,7 +450,7 @@ body .section-tabs {
  -webkit-backdrop-filter:blur(20px) saturate(150%); backdrop-filter:blur(20px) saturate(150%);
 }
 body.dark .section-tabs {
- --glass:rgba(27,27,30,.84); --rim:rgba(255,255,255,.22);
+ --glass:rgba(1,3,5,.95); --rim:rgba(162,192,220,.16);
  --lens:rgba(255,255,255,.13); --shine:rgba(255,255,255,.32);
 }
 .section-tabs:has(#tabAttendance.active) {--tab-index:1}
@@ -498,8 +498,8 @@ body .section-tabs.refractive::before {display:none}
 body .section-tabs.refractive,.section-tabs.refractive .liquid-optics {overflow:visible}
 body .section-tabs.refractive {--tab-accent:#08732b;--tab-seat:#dce5e6}
 body.dark .section-tabs.refractive {
- --glass:rgba(43,43,45,.84);--tab-accent:#55ff18;--tab-seat:#111113;
- --rim:rgba(255,255,255,.13);--shine:rgba(255,255,255,.19)
+ --glass:rgba(1,3,5,.95);--tab-accent:#55ff18;--tab-seat:#090d12;
+ --rim:rgba(162,192,220,.16);--shine:rgba(162,192,220,.10)
 }
 .liquid-optics .glass-seat {fill:var(--tab-seat)}
 .liquid-optics .glass-focused {fill:var(--tab-accent);stroke:var(--tab-accent)}
@@ -509,3 +509,8 @@ body.dark .day-tab.active .day-name,body.dark .day-tab.active .day-counter,
 body.dark .day-tab.active .day-num {color:var(--on-primary);opacity:1}
 body.dark .schedule-panel .lesson {background:var(--surface)}
 body.dark .overview {box-shadow:inset 0 0 0 1px var(--stroke)}
+
+body.dark .icon-btn,body.dark .arrow-btn {border-color:var(--stroke)}
+body.dark .day-tab.active,body.dark .day-tab.active:hover {
+ background:#081320!important;border-color:#7daacd;--on-primary:#d8edff;box-shadow:none;
+}
