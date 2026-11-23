@@ -131,6 +131,7 @@ function renderChart(counts,total,percent){
  const ring=$('#attendanceRing'), legend=$('#attendanceLegend');
  const info=$('#attendanceChartInfo'), value=$('#attendanceRingValue');
  const labels=['Был','Пропустил','Уважительная причина'];
+ const centerLabels=['присутствие','пропуски','уваж. причина'];
  const colors=['var(--chart-present)','var(--chart-absent)','var(--chart-excused)'];
  if(!counts[chartSelection])chartSelection=-1;
  legend.replaceChildren();
@@ -145,19 +146,29 @@ function renderChart(counts,total,percent){
   button.type='button';
   button.disabled=!counts[index];
   button.style.setProperty('--segment-color',colors[index]);
-  button.append(el('span',label),el('strong',String(counts[index])));
+  const figures=el('span',undefined,'attendance-legend-figures');
+  figures.append(el('strong',String(counts[index])),el('small',total?Math.round(100*counts[index]/total)+'%':'—'));
+  button.append(el('span',label),figures);
   button.onclick=()=>select(index);
   legend.append(button);
   return button;
  });
  function paint(){
-  const stops=segments.flatMap(({start,end},index)=>counts[index]?
-   [(chartSelection<0||chartSelection===index?colors[index]:'var(--stroke)')+' '+start+'% '+end+'%']:[]);
+  const stops=segments.flatMap(({start,end},index)=>{
+   if(!counts[index])return [];
+   const color=chartSelection<0||chartSelection===index?colors[index]:
+    'color-mix(in srgb, '+colors[index]+' 64%, var(--paper))';
+   const gap=counts.filter(Boolean).length>1?Math.min(.7,(end-start)/5):0;
+   if(!gap)return [color+' '+start+'% '+end+'%'];
+   return [color+' '+start+'% '+(end-gap)+'%','var(--paper) '+(end-gap)+'% '+end+'%'];
+  });
   ring.style.background=stops.length?'conic-gradient('+stops.join(', ')+')':'var(--stroke)';
-  value.textContent=chartSelection<0?(percent===null?'—':percent+'%'):counts[chartSelection];
+  const share=chartSelection<0?percent:Math.round(100*counts[chartSelection]/total);
+  value.textContent=share===null?'—':share+'%';
+  $('#attendanceRingLabel').textContent=centerLabels[chartSelection]||'посещаемость';
   buttons.forEach((button,index)=>button.setAttribute('aria-pressed',String(index===chartSelection)));
   info.textContent=chartSelection>=0?labels[chartSelection]+' · '+counts[chartSelection]+' из '+total+' ('+Math.round(100*counts[chartSelection]/total)+'%)':
-   total?'Посещено '+counts[0]+' из '+total+' отмеченных пар.':'Диаграмма появится после первой отметки.';
+   total?'Учитываются только отмеченные пары · всего '+total:'Диаграмма появится после первой отметки.';
  }
  function select(index){
   chartSelection=chartSelection===index?-1:index;
