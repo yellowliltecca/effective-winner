@@ -1091,10 +1091,46 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   const tabOrder=['classes','attendance','search','exams'];
   let classesScroll=0;
   let panelAnimations=[];
+  let historyOrigin=null;
+  function showJournal(trigger){
+    if(selectedTab==='alertsPanel')return;
+    historyOrigin={tab:selectedTab,top:window.scrollY,trigger};
+    history.pushState({sguJournal:true},'','#changes');
+    setTab('alertsPanel');
+  }
+  function returnFromJournal(){
+    const origin=historyOrigin;
+    setTab(origin?.tab||'classes');
+    if(origin){
+      window.scrollTo({top:origin.top,behavior:'instant'});
+      origin.trigger?.focus({preventScroll:true});
+    }
+  }
+  window.addEventListener('journal:open',e=>showJournal(e.detail));
+  window.addEventListener('journal:back',()=>{
+    if(selectedTab!=='alertsPanel')return;
+    if(history.state?.sguJournal && historyOrigin)history.back();
+    else returnFromJournal();
+  });
+  window.addEventListener('popstate',()=>{
+    if(location.hash==='#changes')setTab('alertsPanel');
+    else if(selectedTab==='alertsPanel')returnFromJournal();
+  });
+  window.addEventListener('journal:ready',()=>{
+    if(location.hash==='#changes')setTab('alertsPanel');
+  });
   function setTab(tab){
     const previous=selectedTab;
     if(previous==='classes' && tab!==previous)classesScroll=window.scrollY;
     document.body.classList.toggle('secondary-tab',tab!=='classes');
+    const journal=tab==='alertsPanel';
+    if(previous==='alertsPanel' && !journal && location.hash==='#changes'){
+      history.replaceState(null,'',location.pathname+location.search);
+    }
+    document.body.classList.toggle('journal-screen',journal);
+    const journalPanel=$('#alertsPanel');
+    if(journalPanel)journalPanel.hidden=!journal;
+    $('#alertButton')?.setAttribute('aria-expanded',String(journal));
     selectedTab=tab;
     for(const [index,key] of tabOrder.entries()){
       const active=tab===key;
@@ -1105,6 +1141,10 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     const homework=$('#homework');
     if(homework)homework.style.display=tab==='classes'?'block':'none';
     const openEvent={attendance:'attendance:open',search:'search:open',exams:'session:open'}[tab];
+    if(journal){
+      window.dispatchEvent(new Event('journal:shown'));
+      $('#journalTitle')?.focus({preventScroll:true});
+    }
     if(openEvent)window.dispatchEvent(new Event(openEvent));
     if(tab===previous)return;
     window.scrollTo({top:tab==='classes'?classesScroll:0,behavior:'instant'});

@@ -3,7 +3,7 @@
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const key='sgu111-alerts-v1';
 let prefs;try{prefs=JSON.parse(localStorage.getItem(key))||{}}catch{prefs={}}
-let data=null,opened=false;
+let data=null;
 const save=()=>{try{localStorage.setItem(key,JSON.stringify(prefs))}catch{}};
 const clock=()=>{const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Saratov',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(new Date()).map(x=>[x.type,x.value]));return{date:p.year+'-'+p.month+'-'+p.day,sec:+p.hour*3600 + +p.minute*60 + +p.second}};
 const secs=t=>{const [h,m]=String(t).split(':').map(Number);return h*3600+m*60};
@@ -95,8 +95,9 @@ function paint(){
  $('#changesBox').hidden=false;
  $('#changesHistory').hidden=!list.length;
 }
-function open(){opened=true;$('#alertsPanel').hidden=false;$('#alertButton').setAttribute('aria-expanded','true');prefs.seen=[...new Set([...(prefs.seen||[]),...events().map(e=>e.id)])].slice(-400);save();paint()}
-function close(){opened=false;$('#alertsPanel').hidden=true;$('#alertButton').setAttribute('aria-expanded','false')}
+function markJournalRead(){prefs.seen=[...new Set([...(prefs.seen||[]),...events().map(e=>e.id)])].slice(-400);save();paint()}
+function open(trigger){window.dispatchEvent(new CustomEvent('journal:open',{detail:trigger}));}
+function close(){window.dispatchEvent(new Event('journal:back'));}
 function accept(next,seed=false){if(next?.group!=='111'||!Array.isArray(next.lessons)||next.lessons.length<5)return;data=next;const ids=(next.history||[]).map(x=>x.id),old=Array.isArray(prefs.known)?new Set(prefs.known):null;const fresh=!seed&&old?events().filter(x=>!old.has(x.id)&&!archived(x)):[];if(!seed){prefs.known=ids.slice(0,400);save();}if(fresh.length){$('#alertToast').hidden=false;$('#alertToastText').textContent='Изменений расписания: '+fresh.length;if(prefs.notify&&'Notification'in window&&Notification.permission==='granted'){try{new Notification('СГУ — изменения расписания',{body:fresh.length+' новых изменений',tag:'sgu111-alerts',icon:'./icon.svg'})}catch{}}}paint();timer();renderFreshness()}
 let lastReachable=false;
 let lastSiteCheck=null;
@@ -146,11 +147,13 @@ setInterval(renderFreshness,60000);
 $('#updated').after($('#freshnessDetails'));
 $('.next-card').insertAdjacentHTML('beforeend','<div class="live-box"><div class="live-header"><span id="liveLabel">До следующей пары</span><strong id="liveValue" role="timer" aria-label="До начала ближайшего занятия">—</strong></div><div id="liveInfo" class="live-info">Время Саратова</div><div class="live-track" id="liveBar" hidden><span></span></div></div>');
 const b=document.createElement('button');b.id='alertButton';b.type='button';b.className='icon-btn alert-button';b.title='Изменения расписания';b.setAttribute('aria-expanded','false');b.innerHTML='<svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16c2-2 2-4 2-7a5 5 0 0 1 10 0c0 3 0 5 2 7H5Zm5 3a2 2 0 0 0 4 0"/></svg><span class="alert-badge" id="alertBadge" hidden></span>';$('.nav').insertBefore(b,$('#theme'));
-const panel=document.createElement('section');panel.className='alerts-panel';panel.id='alertsPanel';panel.hidden=true;panel.innerHTML='<div class="alerts-head"><div><h2>История изменений</h2><p id="alertSummary">Проверка…</p></div><button id="alertsClose" type="button" aria-label="Закрыть">✕</button></div><div class="alerts-actions"><button id="alertsPermission" type="button">Включить уведомления</button><small>Оповещения работают при открытом сайте. При закрытом сайте push-сервис не настроен.</small></div><div id="alertList" class="alert-list"></div>';$('#notice').after(panel);
+const panel=document.createElement('section');panel.className='alerts-panel';panel.id='alertsPanel';panel.hidden=true;panel.innerHTML='<div class="alerts-head"><div><h2 id="journalTitle" tabindex="-1">История изменений СГУ</h2><p id="alertSummary">Проверка…</p></div><button id="alertsClose" type="button" aria-label="Вернуться к предыдущей вкладке">← Назад</button></div><div class="alerts-actions"><button id="alertsPermission" type="button">Включить уведомления</button><small>Оповещения работают при открытом сайте. При закрытом сайте push-сервис не настроен.</small></div><div id="alertList" class="alert-list"></div>';panel.setAttribute('aria-labelledby','journalTitle');$('#exams').after(panel);b.setAttribute('aria-controls','alertsPanel');
 const toast=document.createElement('div');toast.className='alert-toast';toast.id='alertToast';toast.hidden=true;toast.innerHTML='<span id="alertToastText"></span><button id="alertToastOpen">Посмотреть</button>';document.body.append(toast);
-$('#changesHistory').onclick=()=>{open();panel.scrollIntoView({block:'start'});$('#alertsClose').focus({preventScroll:true});};
-b.onclick=()=>opened?close():open();$('#alertsClose').onclick=close;$('#alertToastOpen').onclick=()=>{$('#alertToast').hidden=true;open()};$('#group').addEventListener('change',()=>{timer();paint()});
+$('#changesHistory').onclick=e=>open(e.currentTarget);
+window.addEventListener('journal:shown',markJournalRead);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden)close()});
+b.onclick=()=>panel.hidden?open(b):close();$('#alertsClose').onclick=close;$('#alertToastOpen').onclick=()=>{$('#alertToast').hidden=true;open(b)};$('#group').addEventListener('change',()=>{timer();paint()});
 const permission=$('#alertsPermission');function label(){permission.textContent=prefs.notify?'Отключить уведомления':'Включить уведомления';if(!('Notification'in window)||!window.isSecureContext||Notification.permission==='denied'){permission.disabled=true;permission.textContent='Недоступно в браузере'}}permission.onclick=async()=>{if(prefs.notify)prefs.notify=false;else if('Notification'in window){try{prefs.notify=await Notification.requestPermission()==='granted'}catch{prefs.notify=false}}save();label()};label();
-try{accept(JSON.parse($('#initialData').textContent),true)}catch{}load();setInterval(timer,1000);setInterval(load,90000);window.addEventListener('focus',load);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()})}
+try{accept(JSON.parse($('#initialData').textContent),true)}catch{}window.dispatchEvent(new Event('journal:ready'));load();setInterval(timer,1000);setInterval(load,90000);window.addEventListener('focus',load);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();

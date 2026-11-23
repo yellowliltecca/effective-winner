@@ -583,3 +583,10 @@ body.secondary-tab :is(.overview,.freshness-strip){display:none!important}
 .journal-item time{font-size:11px;color:var(--soft)}
 #changesHistory,.consult-jump{background:var(--paper);color:var(--primary);border:1px solid var(--stroke);border-radius:10px;min-height:40px;padding:6px 12px;margin:5px 0 10px}
 #alertsPanel{scroll-margin-top:76px}
+
+#alertsPanel .alert-list{max-height:none;overflow:visible}
+#alertsPanel .alerts-head h2{font-size:clamp(21px,4vw,28px)}
+#alertsPanel #alertsClose{white-space:nowrap;min-height:44px}
+.journal-screen .section-tabs .liquid-optics,.journal-screen .section-tabs::before{visibility:hidden}
+.journal-screen .section-tabs.refractive button > :is(span,svg){opacity:1}
+.journal-screen #alertButton{color:var(--primary);border-color:var(--primary)}
