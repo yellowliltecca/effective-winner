@@ -109,21 +109,10 @@ function selectedRecords(){
   return dateDiff(today,r.date)<Number(filter)&&dateDiff(today,r.date)>=0;
  }).sort((a,b)=>(b.date+b.start).localeCompare(a.date+a.start));
 }
-function makeStat(label,value,description){
- const box=el('article',undefined,'att-stat');
- box.append(el('div',label,'att-stat-label'),el('strong',String(value),'att-stat-value'),el('small',description||'','att-stat-note'));
- return box;
-}
 function summary(list){
  const total=list.length,present=list.filter(r=>r.status==='present').length,missed=total-present;
  const excused=list.filter(r=>r.status==='absent'&&r.excused).length;
  const percent=total?Math.round(present/total*100):null;
- const root=$('#attendanceStats');root.replaceChildren(
-  makeStat('Отмечено',total,'пар и занятий'),
-  makeStat('Посетил',present,'из отмеченных'),
-  makeStat('Пропустил',missed,'из них уваж. '+excused),
-  makeStat('Посещаемость',percent===null?'—':percent+'%','по отмеченным парам')
- );
  renderChart([present,missed-excused,excused],total,percent);
 }
 let chartSelection=-1;
@@ -254,7 +243,7 @@ function renderPending(){
 }
 function renderReport(){
  renderPending();
- if(!$('#attendanceStats'))return;
+ if(!$('#attendanceRing'))return;
  const list=selectedRecords();
  summary(list);groupSubjects(list);renderHistory(list);
  $('#attendanceTotalRecords').textContent=Object.keys(records).length+' отметок на этом устройстве';

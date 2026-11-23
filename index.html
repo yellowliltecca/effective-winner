@@ -83,9 +83,9 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
       <button class="icon-btn" id="refresh" type="button" title="Проверить доступные обновления" aria-label="Проверить обновления на моём сайте"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.3 9A8 8 0 0 1 19 6l1 1M4 17l1 1a8 8 0 0 0 13.7-3"/></svg></button>
     </nav>
   </header>
-  <section class="overview" aria-label="Ближайшее занятие">
+  <section class="overview compact-overview" aria-label="Ближайшее занятие">
     <div class="overview-left"><div class="overline"><span id="summaryDate">Расписание 111 группы</span></div><h1 id="todayTitle">Пары на сегодня</h1><p class="overview-sub" id="todaySummary">Загружаем информацию…</p></div>
-    <div class="next-card"><div class="next-label" id="nextLabel">Ближайшая пара</div><h2 id="nextSubject">Проверяем…</h2><div class="next-details" id="nextInfo">По времени Саратова</div></div>
+    <div class="next-card"><div class="next-label" id="nextLabel">Ближайшая пара</div><h2 id="nextSubject">Проверяем…</h2><p class="next-location" id="nextLocation" hidden></p><div class="next-details" id="nextInfo">По времени Саратова</div></div>
   </section>
   <div class="notice" id="notice" role="status" aria-live="polite"></div>
   <nav class="section-tabs" role="tablist" aria-label="Разделы"><button id="tabClasses" role="tab" aria-selected="true" class="active" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v15H4zM4 10h16M8 3v5m8-5v5M8 14h2m3 0h3"/></svg><span>Занятия</span></button><button id="tabAttendance" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4zM8 12l3 3 5-6"/></svg><span>Посещаемость</span></button><button id="tabSearch" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 16l5 5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg><span>Поиск</span></button><button id="tabExams" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5-10-5Zm4 3v5q6 5 12 0v-5m3-2v7"/></svg><span>Сессия</span></button></nav>
@@ -94,6 +94,13 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
       <div class="week-info"><div class="week-label">Учебная неделя</div><div class="week-title"><h2 id="range">—</h2><div class="week-controls"><button class="arrow-btn" id="prev" type="button" title="Неделя назад" aria-label="Предыдущая неделя"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button class="arrow-btn" id="next" type="button" title="Неделя вперёд" aria-label="Следующая неделя"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div></div><div class="week-note"><span class="parity" id="parity">—</span><span class="sep">•</span><span id="weekLabel">—</span></div></div>
       <div class="tools"><button id="today" class="today-btn" type="button">↗ Сегодня</button><label class="select-wrap" for="group"><span>Моя подгруппа</span><select id="group"><option value="all">Все</option><option value="1">1-я</option><option value="2">2-я</option><option value="3">3-я</option></select></label><div class="toggle" role="group" aria-label="Как показать расписание"><button type="button" id="viewDay" class="active" aria-pressed="true">День</button><button type="button" id="viewWeek" aria-pressed="false">Неделя</button></div></div>
     </div>
+    <p class="group-tip" id="groupTip"><i aria-hidden="true">ⓘ</i> Выбери свою подгруппу, чтобы не видеть чужие занятия. Выбор сохранится.</p>
+    <div class="day-tabs" id="dayTabs" aria-label="Выберите день"></div>
+    <div class="layout"><main class="panel schedule-panel" id="content" aria-live="polite"></main><aside class="aside">
+      <section class="panel side-card"><h3 class="side-title">Проверка расписания</h3><p class="source-meta" id="updated">СГУ · обновлено —</p><div class="status"><span class="status-dot" id="statusDot"></span><span id="statusText">Загрузка данных…</span></div><a class="source-button" href="https://www.sgu.ru/schedule/knt/do/111" target="_blank" rel="noopener noreferrer">Сверить с сайтом СГУ ↗</a><details class="expand"><summary>Как обновляется расписание</summary><p class="side-help">На опубликованном сайте данные проверяются автоматически через GitHub Actions. Кнопка ↻ проверяет опубликованную копию. При открытии HTML-файла без сервера показан сохранённый снимок, автоматической синхронизации нет.</p></details></section>
+      <section class="panel side-card"><h3 class="side-title">Коротко о неделе</h3><div class="side-kv"><span>Неделя</span><strong id="sideWeek">—</strong></div><div class="side-kv"><span>Всего занятий</span><strong id="sideTotal">—</strong></div><div class="side-kv"><span>Подгруппа</span><strong id="sideGroup">Все</strong></div><details class="expand"><summary>Что такое числитель и знаменатель?</summary><p class="side-help">Некоторые занятия проходят через неделю. <b>Ч</b> — числитель, <b>З</b> — знаменатель. Сайт берёт чередование из опубликованного календаря СГУ, а вне его отмечает неделю как неподтверждённую.</p><div class="legend"><strong>1/2/3</strong> отдельные подгруппы</div></details></section>
+      <section class="panel side-card changes-card" id="changesBox" hidden><h3 class="side-title">Недавние изменения СГУ</h3><div id="changes"></div><button id="changesHistory" type="button">Вся история изменений</button></section>
+    </aside></div>
     <details class="calendar-export">
       <summary>Добавить в календарь для виджетов</summary>
       <div class="calendar-export-body">
@@ -108,13 +115,6 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
         <p role="status" id="exportStatus"></p>
       </div>
     </details>
-    <p class="group-tip" id="groupTip"><i aria-hidden="true">ⓘ</i> Выбери свою подгруппу, чтобы не видеть чужие занятия. Выбор сохранится.</p>
-    <div class="day-tabs" id="dayTabs" aria-label="Выберите день"></div>
-    <div class="layout"><main class="panel schedule-panel" id="content" aria-live="polite"></main><aside class="aside">
-      <section class="panel side-card"><h3 class="side-title">Проверка расписания</h3><p class="source-meta" id="updated">СГУ · обновлено —</p><div class="status"><span class="status-dot" id="statusDot"></span><span id="statusText">Загрузка данных…</span></div><a class="source-button" href="https://www.sgu.ru/schedule/knt/do/111" target="_blank" rel="noopener noreferrer">Сверить с сайтом СГУ ↗</a><details class="expand"><summary>Как обновляется расписание</summary><p class="side-help">На опубликованном сайте данные проверяются автоматически через GitHub Actions. Кнопка ↻ проверяет опубликованную копию. При открытии HTML-файла без сервера показан сохранённый снимок, автоматической синхронизации нет.</p></details></section>
-      <section class="panel side-card"><h3 class="side-title">Коротко о неделе</h3><div class="side-kv"><span>Неделя</span><strong id="sideWeek">—</strong></div><div class="side-kv"><span>Всего занятий</span><strong id="sideTotal">—</strong></div><div class="side-kv"><span>Подгруппа</span><strong id="sideGroup">Все</strong></div><details class="expand"><summary>Что такое числитель и знаменатель?</summary><p class="side-help">Некоторые занятия проходят через неделю. <b>Ч</b> — числитель, <b>З</b> — знаменатель. Сайт берёт чередование из опубликованного календаря СГУ, а вне его отмечает неделю как неподтверждённую.</p><div class="legend"><strong>1/2/3</strong> отдельные подгруппы</div></details></section>
-      <section class="panel side-card changes-card" id="changesBox" hidden><h3 class="side-title">Недавние изменения СГУ</h3><div id="changes"></div><button id="changesHistory" type="button">Вся история изменений</button></section>
-    </aside></div>
   </section>
 <section id="attendance" style="display:none" role="tabpanel" aria-label="Отчёт посещаемости">
  <div class="att-intro"><div><h2>Моя посещаемость</h2><p>Отмечай завершившиеся пары и следи за посещаемостью. Неотмеченные пары не считаются пропусками.</p></div><span id="attendanceTotalRecords">0 отметок</span></div>
@@ -130,7 +130,6 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   </div>
   <p id="attendanceChartInfo" role="status"></p>
  </section>
- <div id="attendanceStats" class="att-stats"></div>
  <details class="panel pending-panel" id="pendingPanel"><summary>Отметить прошедшие пары</summary><small>За последние 7 дней · выбранная подгруппа</small><div id="pendingLessons"></div></details>
  <div class="att-columns"><section class="panel att-panel"><h3>По предметам</h3><div id="attendanceSubjects"></div></section><section class="panel att-panel"><h3>История отметок</h3><div id="attendanceHistory"></div></section></div>
  <div class="att-backup"><div><strong>Личные данные — только на устройстве</strong><p>Сделай резервную копию перед сменой браузера или телефона. Экспорт и импорт выполняются вручную.</p></div><div class="att-backup-actions"><button id="attendanceExport" type="button">Экспорт JSON</button><button id="attendanceImport" type="button">Импорт JSON</button><input id="attendanceFile" type="file" accept=".json,application/json" hidden></div></div><p id="attendanceMessage" class="att-explain" role="status"></p>
@@ -1029,12 +1028,14 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     }
     result.sort((a,b)=>a.start.localeCompare(b.start));
     const l=result[0];
+    $('#nextLocation').hidden=!l?.location;
+    $('#nextLocation').textContent=l?.location||'';
     if(!l){$('#nextLabel').textContent='Ближайшая пара';$('#nextSubject').textContent='Занятий пока нет';$('#nextInfo').textContent='Проверь официальный сайт СГУ';return;}
     const during=l.offset===0&&now.minute>=timeNumber(l.start);
     const when=l.offset===0?'Сегодня':l.offset===1?'Завтра':fmt(l.date,{weekday:'long',day:'numeric',month:'short'});
     $('#nextLabel').textContent=during?'Сейчас идёт':'Следующая по расписанию';
     $('#nextSubject').textContent=l.title;
-    $('#nextInfo').textContent=`${when} · ${l.start}–${l.end}${l.location?' · '+l.location:''}${l.groups.length?' · '+l.groups.join(' и ')+' подгруппа':''}`;
+    $('#nextInfo').textContent=`${when} · ${l.start}–${l.end}${l.groups.length?' · '+l.groups.join(' и ')+' подгруппа':''}`;
   }
   function renderExams(){/* Session calendar is rendered by session.js using the current SGU snapshot. */}
   function render(){
