@@ -17,3 +17,5 @@ body .session-shell .event-date,
  .session-shell .session-day {padding:5px 2px;align-items:center}
  .session-shell .date-label {padding:0 1px}
 }
+
+.session-day .today-number{display:inline-grid;place-items:center;min-width:1.65em;height:1.65em;border-radius:50%;background:var(--ink);color:var(--paper);line-height:1}

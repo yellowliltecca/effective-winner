@@ -475,7 +475,7 @@ body .section-tabs button.active {color:var(--ink)!important}
 .section-tabs button:focus-visible {outline-offset:-3px!important}
 @media(max-width:760px) {
  body .section-tabs {position:fixed;z-index:26;left:50%;bottom:calc(9px + env(safe-area-inset-bottom,0px));
-  transform:translateX(-50%);width:min(440px,calc(100% - 16px));margin:0!important}
+  transform:translateX(-50%);width:min(464px,calc(100% - 8px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));margin:0!important}
  body .shell {padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
  html {scroll-padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 }

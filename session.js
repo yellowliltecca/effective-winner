@@ -3,6 +3,8 @@
 const $=s=>document.querySelector(s);
 const d=iso=>new Date(iso+'T12:00:00Z');
 const iso=date=>date.toISOString().slice(0,10);
+const saratovDate=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Saratov',year:'numeric',month:'2-digit',day:'2-digit'});
+const today=()=>saratovDate.format(new Date());
 const weekdays=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
 let events=[],month='',chosen='',source='';
 const eventType=e=>/экзамен/i.test(e.kind)?'Экзамен':/зач[её]т/i.test(e.kind)?'Зачёт':'Консультация';
@@ -13,8 +15,9 @@ const eventStyles={
 };
 const fmt=day=>new Intl.DateTimeFormat('ru-RU',{timeZone:'UTC',day:'numeric',month:'long',year:'numeric'}).format(d(day));
 const node=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e};
-function setData(next){if(!next||!Array.isArray(next.exams))return;events=next.exams.filter(e=>/^\d{4}-\d\d-\d\d$/.test(e.date||'')).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));source=next.source_updated||'';if(!month){const upcoming=events.find(e=>e.date>=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Saratov',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()));month=(upcoming||events[events.length-1])?.date.slice(0,7)||new Date().toISOString().slice(0,7)}render()}
+function setData(next){if(!next||!Array.isArray(next.exams))return;events=next.exams.filter(e=>/^\d{4}-\d\d-\d\d$/.test(e.date||'')).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));source=next.source_updated||'';if(!month)month=today().slice(0,7);render()}
 function calendar(){
+ const current=today();
  const [year,mo]=month.split('-').map(Number),start=new Date(Date.UTC(year,mo-1,1,12)),days=new Date(Date.UTC(year,mo,0)).getUTCDate(),offset=(start.getUTCDay()+6)%7;
  const title=new Intl.DateTimeFormat('ru-RU',{timeZone:'UTC',month:'long',year:'numeric'}).format(start);
  $('#sessionMonth').textContent=title.charAt(0).toUpperCase()+title.slice(1);
@@ -25,8 +28,13 @@ function calendar(){
   const date=month+'-'+String(i).padStart(2,'0'),group=events.filter(e=>e.date===date);
   const types=Object.keys(eventStyles).filter(type=>group.some(e=>eventType(e)===type));
   const button=node('button',String(i),'session-day'+(chosen===date?' picked':''));
+  if(date===current){
+   button.setAttribute('aria-current','date');
+   const number=node('span',String(i),'today-number');
+   button.replaceChildren(number);
+  }
   button.type='button';
-  button.setAttribute('aria-label',[fmt(date),...types].join(', '));
+  button.setAttribute('aria-label',[fmt(date),...(date===current?['сегодня']:[]),...types].join(', '));
   button.setAttribute('aria-pressed',String(chosen===date));
   if(types.length){
    button.classList.add('event-date',eventStyles[types[0]].name);
@@ -53,7 +61,7 @@ function details(){
   card.append(top,dateLine);
   if(e.teacher)card.append(teacher);
   if(e.location)card.append(room);
-  const past=e.date<new Date().toLocaleDateString('sv-SE',{timeZone:'Europe/Saratov'});
+  const past=e.date<today();
   if(past)card.append(node('small','Дата прошла · остаётся в календаре','session-past'));
   box.append(card);
  }
@@ -69,7 +77,22 @@ function init(){
  $('#sessionPrev').onclick=()=>{const [y,m]=month.split('-').map(Number);month=new Date(Date.UTC(y,m-2,1,12)).toISOString().slice(0,7);chosen='';render()};
  $('#sessionNext').onclick=()=>{const [y,m]=month.split('-').map(Number);month=new Date(Date.UTC(y,m,1,12)).toISOString().slice(0,7);chosen='';render()};
  $('#sessionAll').onclick=()=>{chosen='';render()};
- window.addEventListener('session:open',sync);
+ let lastDate=today();
+ function refreshDate(){
+  const current=today();
+  if(current===lastDate)return;
+  if(!chosen && month===lastDate.slice(0,7))month=current.slice(0,7);
+  lastDate=current;
+  render();
+ }
+ setTimeout(function midnight(){
+  refreshDate();
+  const clock=new Date(Date.now()+4*3600000);
+  const elapsed=((clock.getUTCHours()*60+clock.getUTCMinutes())*60+clock.getUTCSeconds())*1000+clock.getUTCMilliseconds();
+  setTimeout(midnight,86400000-elapsed+30);
+ },0);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshDate()});
+ window.addEventListener('session:open',()=>{refreshDate();sync()});
  window.addEventListener('focus',()=>{if($('#exams').style.display!=='none')sync()});
  setInterval(()=>{if($('#exams').style.display!=='none')sync()},300000);
 }
