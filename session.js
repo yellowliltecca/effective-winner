@@ -30,8 +30,7 @@ function calendar(){
   const button=node('button',String(i),'session-day'+(chosen===date?' picked':''));
   if(date===current){
    button.setAttribute('aria-current','date');
-   const number=node('span',String(i),'today-number');
-   button.replaceChildren(number);
+   button.append(node('span','Сегодня','today-caption'));
   }
   button.type='button';
   button.setAttribute('aria-label',[fmt(date),...(date===current?['сегодня']:[]),...types].join(', '));

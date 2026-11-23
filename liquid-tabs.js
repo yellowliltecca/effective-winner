@@ -49,6 +49,8 @@
   let lift = 0, pressedIndex = 0;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   let position = 0, speed = 0, target = 0, frame = 0, last = 0, pressed = false;
+  let bob = 0, bobSpeed = 0, lastScroll = window.scrollY;
+  const clamp = (value, limit) => Math.max(-limit,Math.min(limit,value));
   let wobble = 0, wobbleSpeed = 0;
   let width = 0, height = 0, step = 0, origin = 0, touch = .3;
 
@@ -99,24 +101,27 @@
 
   function draw() {
     if (!step || !width) return;
-    const cx = origin + (position + .5) * step, cy = height / 2;
-    const stretch = motion.matches ? 0 : Math.min(.15, Math.abs(speed)*.012) + wobble;
+    const cx = origin + (position + .5) * step, cy = height / 2 + clamp(bob,6);
+    const stretch = motion.matches ? 0 : clamp(Math.abs(speed)*.022 + wobble - Math.abs(bob)*.014,.24);
     const w = Math.min(width-2,step*(1+.24*lift+stretch));
     const h = (height-6+(height*.19+6)*lift) / (1+stretch*.52);
     const left = Math.max(-5,Math.min(width-w+5,cx-w/2));
     for (const [key,value] of Object.entries({x:left,y:cy-h/2,width:w,height:h,rx:h/2}))
       shape.setAttribute(key,value);
+    const shear = motion.matches ? 0 : clamp(speed*.019,.19);
+    shape.setAttribute('transform',`matrix(1 0 ${shear} 1 ${-shear*cy} 0)`);
+    const shimmer = Math.min(1, lift + Math.abs(bob)*.13 + Math.abs(stretch)*2);
     const top = cy-h/2;
     local.setAttribute('transform',`translate(${left} ${top})`);
     for (const node of [filter,mapImage]) {
       node.setAttribute('width',w);node.setAttribute('height',h);
     }
     filter.setAttribute('x',0);filter.setAttribute('y',0);
-    displacement.setAttribute('scale',28*lift);
-    seat.setAttribute('opacity',1-lift);
-    surface.setAttribute('opacity',lift*.84);
-    edge.setAttribute('opacity',.16+lift*.74+Math.abs(stretch)*.6);
-    glint.setAttribute('opacity',lift);
+    displacement.setAttribute('scale',28*shimmer);
+    seat.setAttribute('opacity',1-shimmer*.75);
+    surface.setAttribute('opacity',shimmer*.84);
+    edge.setAttribute('opacity',.16+shimmer*.74+Math.abs(stretch)*.6);
+    glint.setAttribute('opacity',shimmer);
     fringes.forEach(node=>node.setAttribute('opacity',lift*.55));
     const zoom = 1+.30*lift;
     lensImage.setAttribute('transform',`translate(${cx-left} ${cy-top}) scale(${zoom+stretch} ${zoom}) translate(${-cx} ${-cy})`);
@@ -129,12 +134,14 @@
     const dt = Math.min(.024,(now-last)/1000 || .016); last=now;
     const desiredLift = pressed ? 1 : 0;
     lift += (desiredLift-lift)*(1-Math.exp(-dt*(pressed?26:18)));
+    bobSpeed += (-260*bob - 8*bobSpeed)*dt;
+    bob += bobSpeed*dt;
     wobbleSpeed += (-360*wobble - 12*wobbleSpeed)*dt;
     wobble += wobbleSpeed*dt;
-    speed += ((target-position)*(pressed?700:360)-speed*(pressed?36:19))*dt;
+    speed += ((target-position)*(pressed?700:360)-speed*(pressed?28:14))*dt;
     position += speed*dt;
-    if (motion.matches || (Math.abs(target-position)<.001 && Math.abs(speed)<.01 && Math.abs(wobble)<.001 && Math.abs(wobbleSpeed)<.015 && Math.abs(lift-desiredLift)<.002)){
-      wobble=0;wobbleSpeed=0;position=target;lift=desiredLift;speed=0;frame=0;draw();return;
+    if (motion.matches || (Math.abs(bob)<.025 && Math.abs(bobSpeed)<.15 && Math.abs(target-position)<.001 && Math.abs(speed)<.01 && Math.abs(wobble)<.001 && Math.abs(wobbleSpeed)<.015 && Math.abs(lift-desiredLift)<.002)){
+      bob=0;bobSpeed=0;wobble=0;wobbleSpeed=0;position=target;lift=desiredLift;speed=0;frame=0;draw();return;
     }
     draw();frame=requestAnimationFrame(animate);
   }
@@ -158,6 +165,14 @@
   bar.classList.add('refractive');
   new ResizeObserver(layout).observe(bar);
   new MutationObserver(update).observe(bar,{attributes:true,subtree:true,attributeFilter:['aria-selected','style'],childList:false});
+  window.addEventListener('scroll',()=>{
+    const current = window.scrollY;
+    const delta = current-lastScroll;
+    lastScroll = current;
+    if (!delta || motion.matches || getComputedStyle(bar).position!=='fixed') return;
+    bobSpeed = clamp(bobSpeed - clamp(delta,60)*2.5,115);
+    update();
+  },{passive:true});
   bar.addEventListener('pointerdown',e=>{
     const index=tabs.indexOf(e.target.closest('[role="tab"]'));
     if(!e.isPrimary || e.button!==0 || index<0)return;

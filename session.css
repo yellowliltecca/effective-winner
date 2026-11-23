@@ -18,4 +18,23 @@ body .session-shell .event-date,
  .session-shell .date-label {padding:0 1px}
 }
 
-.session-day .today-number{display:inline-grid;place-items:center;min-width:1.65em;height:1.65em;border-radius:50%;background:var(--ink);color:var(--paper);line-height:1}
+
+.session-shell .session-day[aria-current="date"] {
+ --today-ink:#164d90;
+ border:2px solid #3876be;
+ background:#e3efff;
+ color:var(--today-ink);
+ align-items:center;
+ justify-content:center;
+ gap:1px;
+}
+.dark .session-shell .session-day[aria-current="date"] {
+ --today-ink:#d9eaff;
+ border-color:#8bbaff;
+ background:#10253e;
+}
+.session-day .today-caption {
+ font-size:clamp(8px,2.2vw,10px);
+ line-height:1.2;
+ font-weight:700;
+}
