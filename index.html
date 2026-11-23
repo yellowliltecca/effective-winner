@@ -1076,7 +1076,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
       if(panel.animate)panelAnimations.push(panel.animate([
         {opacity:0,transform:'translateX('+offset+'px)'},
         {opacity:1,transform:'translateX(0)'}
-      ],{duration:250,easing:'cubic-bezier(.20,.72,.22,1)'}));
+      ],{duration:350,easing:'cubic-bezier(.20,.72,.22,1)'}));
     }
   }
   $('#prev').onclick=()=>{state.week=addDays(state.week,-7);render();};$('#next').onclick=()=>{state.week=addDays(state.week,7);render();};$('#today').onclick=()=>{const now=saratovNow().date;state.week=monday(now);state.day=(now.getUTCDay()+6)%7;state.view='day';localStorage.setItem('sgu111_view','day');setTab('classes');render();};$('#group').onchange=e=>{state.group=e.target.value;localStorage.setItem('sgu111_group',state.group);render();};$('#viewDay').onclick=()=>{state.view='day';localStorage.setItem('sgu111_view','day');render();};$('#viewWeek').onclick=()=>{state.view='week';localStorage.setItem('sgu111_view','week');render();};$('#ics').onclick=downloadICS;$('#refresh').onclick=()=>sync(true);$('#tabClasses').onclick=()=>setTab('classes');$('#tabExams').onclick=()=>setTab('exams');$('#tabAttendance').onclick=()=>setTab('attendance');$('#tabSearch').onclick=()=>setTab('search');$('#theme').onclick=()=>{document.body.classList.toggle('dark');syncThemeColor();localStorage.setItem('sgu111_theme',document.body.classList.contains('dark')?'dark':'light');};
