@@ -541,3 +541,15 @@ body.dark .day-tab.active,body.dark .day-tab.active:hover {
  #classes .attendance-controls {margin:3px 0 0;padding-top:5px;gap:4px 6px}
  #classes .att-choice {padding:5px 8px;min-height:34px}
 }
+
+.calendar-export{margin:10px 0 14px;border:1px solid var(--stroke);border-radius:14px;background:var(--paper);color:var(--ink)}
+.calendar-export summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:50px;padding:8px 15px;font-size:14px;font-weight:740;cursor:pointer;list-style:none}
+.calendar-export summary::-webkit-details-marker{display:none}
+.calendar-export summary::after{content:'';width:7px;height:7px;flex:none;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.calendar-export[open] summary::after{transform:rotate(225deg)}
+.calendar-export-body{display:grid;justify-items:start;gap:10px;padding:0 15px 14px}
+.calendar-export-body p,.calendar-export-body small{margin:0;color:var(--soft);line-height:1.45}
+.calendar-export-body p{font-size:13px}
+.calendar-export-body button{min-height:44px;padding:8px 15px;border:1px solid var(--stroke);border-radius:10px;background:var(--primary-pale);color:var(--primary);font-weight:700}
+#exportStatus:empty{display:none}
+@media(max-width:700px){#classes .tools .toggle{grid-column:1/-1}}

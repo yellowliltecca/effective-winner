@@ -20,18 +20,18 @@ body .session-shell .event-date,
 
 
 .session-shell .session-day[aria-current="date"] {
- --today-ink:#164d90;
- border:2px solid #3876be;
- background:#e3efff;
+ --today-ink:#634800;
+ border:2px solid #946d00;
+ background:#fff7d7;
  color:var(--today-ink);
  align-items:center;
  justify-content:center;
  gap:1px;
 }
 .dark .session-shell .session-day[aria-current="date"] {
- --today-ink:#d9eaff;
- border-color:#8bbaff;
- background:#10253e;
+ --today-ink:#ffe6a0;
+ border-color:#eac65d;
+ background:#211c0c;
 }
 .session-day .today-caption {
  font-size:clamp(8px,2.2vw,10px);

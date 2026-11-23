@@ -92,8 +92,18 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   <section id="classes" aria-label="Расписание занятий">
     <div class="toolbar">
       <div class="week-info"><div class="week-label">Учебная неделя</div><div class="week-title"><h2 id="range">—</h2><div class="week-controls"><button class="arrow-btn" id="prev" type="button" title="Неделя назад" aria-label="Предыдущая неделя"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button class="arrow-btn" id="next" type="button" title="Неделя вперёд" aria-label="Следующая неделя"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div></div><div class="week-note"><span class="parity" id="parity">—</span><span class="sep">•</span><span id="weekLabel">—</span></div></div>
-      <div class="tools"><button id="today" class="today-btn" type="button">↗ Сегодня</button><label class="select-wrap" for="group"><span>Моя подгруппа</span><select id="group"><option value="all">Все</option><option value="1">1-я</option><option value="2">2-я</option><option value="3">3-я</option></select></label><div class="toggle" role="group" aria-label="Как показать расписание"><button type="button" id="viewDay" class="active" aria-pressed="true">День</button><button type="button" id="viewWeek" aria-pressed="false">Неделя</button></div><button id="ics" class="export-btn" type="button" title="Скачать .ics на четыре недели">В календарь ↓</button></div>
+      <div class="tools"><button id="today" class="today-btn" type="button">↗ Сегодня</button><label class="select-wrap" for="group"><span>Моя подгруппа</span><select id="group"><option value="all">Все</option><option value="1">1-я</option><option value="2">2-я</option><option value="3">3-я</option></select></label><div class="toggle" role="group" aria-label="Как показать расписание"><button type="button" id="viewDay" class="active" aria-pressed="true">День</button><button type="button" id="viewWeek" aria-pressed="false">Неделя</button></div></div>
     </div>
+    <details class="calendar-export">
+      <summary>Добавить в календарь для виджетов</summary>
+      <div class="calendar-export-body">
+        <p id="exportRange"></p>
+        <button type="button" id="ics">Скачать пары (.ics)</button>
+        <p>Импортируй файл в свой календарь. Чтобы видеть ближайшую пару на главном экране, добавь виджет календаря и включи в нём календарь с парами.</p>
+        <small>Это копия расписания на четыре недели. Если время пары изменится, обнови событие в своём календаре.</small>
+        <p role="status" id="exportStatus"></p>
+      </div>
+    </details>
     <p class="group-tip" id="groupTip"><i aria-hidden="true">ⓘ</i> Выбери свою подгруппу, чтобы не видеть чужие занятия. Выбор сохранится.</p>
     <div class="day-tabs" id="dayTabs" aria-label="Выберите день"></div>
     <div class="layout"><main class="panel schedule-panel" id="content" aria-live="polite"></main><aside class="aside">
@@ -1001,7 +1011,13 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   }
   function renderChanges(){const changed=data.changes||[];$('#changesBox').hidden=!changed.length;if(changed.length)$('#changes').innerHTML=changed.slice(0,6).map(c=>`<div class="changes-item"><span class="point">●</span><div><strong>${c.event==='removed'?'Убрана: ':c.event==='added'?'Добавлена: ':'Изменена: '}${esc(c.text)}</strong><span>${shortDays[c.day]||''} ${esc(c.time)} · ${esc(c.detail)}</span></div></div>`).join('');}
   function renderExams(){/* Session calendar is rendered by session.js using the current SGU snapshot. */}
-  function render(){renderOverview();renderDays();renderContent();renderChanges();nextLesson();}
+  function render(){
+    const group=state.group==='all'?'Все подгруппы':state.group+'-я подгруппа';
+    const range=fmt(state.week,{day:'numeric',month:'short'})+' — '+fmt(addDays(state.week,27),{day:'numeric',month:'short',year:'numeric'});
+    const caption=group+' · '+range;
+    if($('#exportRange').textContent!==caption)$('#exportStatus').textContent='';
+    $('#exportRange').textContent=caption;
+    renderOverview();renderDays();renderContent();renderChanges();nextLesson();}
   function updateSource(){
     const initial=!!data.initial_snapshot;
     $('#updated').textContent=`На сайте СГУ: ${data.source_updated||'дата не указана'}`;
@@ -1011,7 +1027,8 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   function notice(text,force=false){const el=$('#notice');el.innerHTML=text;el.classList.toggle('visible',!!text);if(force)el.scrollIntoView({behavior:'smooth',block:'nearest'});}
   async function sync(manual=false){if(loading)return;loading=true;$('#refresh').classList.add('spin');try{const response=await fetch(`./data/schedule.json?ts=${Date.now()}`,{cache:'no-store'});if(!response.ok)throw Error('HTTP '+response.status);const incoming=await response.json();if(incoming.group!=='111'||!Array.isArray(incoming.lessons)||incoming.lessons.length<4)throw Error('Неверные данные');const was=JSON.stringify(data.lessons);data=incoming;online=true;render();updateSource();renderExams();if(manual)notice(was!==JSON.stringify(data.lessons)?'Расписание обновилось. Изменения уже показаны на странице.':'Данные сайта проверены. Новых изменений в опубликованном расписании нет.');}catch(e){online=false;updateSource();if(manual)notice(location.protocol==='file:'?'Открыта локальная копия файла. Для автоматического обновления опубликуй проект на GitHub Pages по инструкции в архиве.':'Не удалось загрузить свежую опубликованную копию. Показаны последние доступные данные. Проверь <a href="https://www.sgu.ru/schedule/knt/do/111" target="_blank" rel="noopener noreferrer">официальное расписание</a>.');}finally{loading=false;$('#refresh').classList.remove('spin');}}
   function downloadICS(){const today=saratovNow().date,events=[];let start=state.week;for(let offset=0;offset<28;offset++){const date=addDays(start,offset),day=(date.getUTCDay()+6)%7,week=academicWeek(date).type;for(const l of data.lessons){if(l.day!==day||!(l.week==='both'||l.week===week)||!(state.group==='all'||!l.groups.length||l.groups.includes(+state.group)))continue;const u=val=>val.replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');const utc=hm=>{const [h,m]=hm.split(':').map(Number);const d=new Date(date.getTime()+(h*60+m-240)*60000);return `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`};const uid=`sgu111-${dateISO(date)}-${l.start.replace(':','')}-${l.day}-${Array.from(l.title).reduce((a,c)=>((a*31+c.codePointAt(0))>>>0),0).toString(36)}-${l.groups.join('')||'all'}@sgu111`;events.push(['BEGIN:VEVENT',`UID:${u(uid)}`,`DTSTAMP:${utc('12:00')}`,`DTSTART:${utc(l.start)}`,`DTEND:${utc(l.end)}`,`SUMMARY:${u(l.title)}`,`LOCATION:${u(l.location||'')}`,`DESCRIPTION:${u([kinds[l.kind],teacherInfo(l.teacher).name,l.groups.length?'Подгруппа: '+l.groups.join(' и '):''].filter(Boolean).join(' · '))}`,'END:VEVENT'].join('\r\n'));}}
-    const cal=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//SGU111//Schedule//RU','CALSCALE:GREGORIAN','X-WR-CALNAME:SGU 111 группа',...events,'END:VCALENDAR'].join('\r\n');const blob=new Blob(['\ufeff',cal],{type:'text/calendar;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`SGU_111_${dateISO(start)}.ics`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+    if(!events.length){$('#exportStatus').textContent='Для этой подгруппы в выбранном периоде пар нет.';return;}
+    const cal=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//SGU111//Schedule//RU','CALSCALE:GREGORIAN','X-WR-CALNAME:SGU 111 группа',...events,'END:VCALENDAR'].join('\r\n');const blob=new Blob(['\ufeff',cal],{type:'text/calendar;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`SGU_111_${dateISO(start)}.ics`;document.body.append(a);a.click();a.remove();$('#exportStatus').textContent='Файл подготовлен. Открой его в приложении календаря и подтверди добавление пар.';setTimeout(()=>URL.revokeObjectURL(url),2000);}
   const sectionNav=document.querySelector('.section-tabs');
   const sectionButtons=Array.from(sectionNav.querySelectorAll('[role="tab"]'));
   let gesture=null;
