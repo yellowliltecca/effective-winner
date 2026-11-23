@@ -498,7 +498,7 @@ body .section-tabs.refractive::before {display:none}
 body .section-tabs.refractive,.section-tabs.refractive .liquid-optics {overflow:visible}
 body .section-tabs.refractive {--tab-accent:#17476b;--tab-seat:#dce5e6}
 body.dark .section-tabs.refractive {
- --glass:rgba(1,3,5,.95);--tab-accent:#bad9ed;--tab-seat:#090d12;
+ --glass:rgba(1,3,5,.95);--tab-accent:#55ff18;--tab-seat:#090d12;
  --rim:rgba(162,192,220,.16);--shine:rgba(162,192,220,.10)
 }
 .liquid-optics .glass-seat {fill:var(--tab-seat)}
@@ -608,7 +608,7 @@ body .compact-overview .live-box {
 }
 body .compact-overview .live-header {flex-direction:row!important;align-items:baseline!important;justify-content:space-between;flex-wrap:wrap;gap:4px 10px!important}
 body .compact-overview .live-header span {text-transform:none!important;letter-spacing:0!important}
-body .compact-overview .live-header strong {width:auto;font-size:clamp(18px,5vw,24px)!important;letter-spacing:-.03em!important}
+body .compact-overview .live-header strong {width:auto;font-size:clamp(28px,8vw,40px)!important;letter-spacing:-.045em!important}
 body .compact-overview .live-info {margin-top:2px!important}
 body .compact-overview .overview-left {padding:0 0 0 13px;border-left:1px solid var(--stroke)}
 body .compact-overview h1 {font-size:16px!important;margin:3px 0!important}
