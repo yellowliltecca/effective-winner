@@ -590,3 +590,6 @@ body.secondary-tab :is(.overview,.freshness-strip){display:none!important}
 .journal-screen .section-tabs .liquid-optics,.journal-screen .section-tabs::before{visibility:hidden}
 .journal-screen .section-tabs.refractive button > :is(span,svg){opacity:1}
 .journal-screen #alertButton{color:var(--primary);border-color:var(--primary)}
+
+body .homework-form label{min-width:0}
+body .homework-form input{min-width:0;max-width:100%;box-sizing:border-box}

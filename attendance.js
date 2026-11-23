@@ -124,8 +124,54 @@ function summary(list){
   makeStat('Пропустил',missed,'из них уваж. '+excused),
   makeStat('Посещаемость',percent===null?'—':percent+'%','по отмеченным парам')
  );
- const bar=$('#attendanceProgress');bar.style.width=(percent??0)+'%';
- $('#attendanceProgressLabel').textContent=total?present+' из '+total+' отмеченных занятий посещено':'Отметь хотя бы одно занятие для статистики';
+ renderChart([present,missed-excused,excused],total,percent);
+}
+let chartSelection=-1;
+function renderChart(counts,total,percent){
+ const ring=$('#attendanceRing'), legend=$('#attendanceLegend');
+ const info=$('#attendanceChartInfo'), value=$('#attendanceRingValue');
+ const labels=['Был','Пропустил','Уважительная причина'];
+ const colors=['var(--chart-present)','var(--chart-absent)','var(--chart-excused)'];
+ if(!counts[chartSelection])chartSelection=-1;
+ legend.replaceChildren();
+ let end=0;
+ const segments=counts.map(count=>{
+  const start=end;
+  end+=total?100*count/total:0;
+  return {start,end};
+ });
+ const buttons=labels.map((label,index)=>{
+  const button=el('button',undefined,'attendance-legend-button');
+  button.type='button';
+  button.disabled=!counts[index];
+  button.style.setProperty('--segment-color',colors[index]);
+  button.append(el('span',label),el('strong',String(counts[index])));
+  button.onclick=()=>select(index);
+  legend.append(button);
+  return button;
+ });
+ function paint(){
+  const stops=segments.flatMap(({start,end},index)=>counts[index]?
+   [(chartSelection<0||chartSelection===index?colors[index]:'var(--stroke)')+' '+start+'% '+end+'%']:[]);
+  ring.style.background=stops.length?'conic-gradient('+stops.join(', ')+')':'var(--stroke)';
+  value.textContent=chartSelection<0?(percent===null?'—':percent+'%'):counts[chartSelection];
+  buttons.forEach((button,index)=>button.setAttribute('aria-pressed',String(index===chartSelection)));
+  info.textContent=chartSelection>=0?labels[chartSelection]+' · '+counts[chartSelection]+' из '+total+' ('+Math.round(100*counts[chartSelection]/total)+'%)':
+   total?'Посещено '+counts[0]+' из '+total+' отмеченных пар.':'Диаграмма появится после первой отметки.';
+ }
+ function select(index){
+  chartSelection=chartSelection===index?-1:index;
+  paint();
+ }
+ ring.onclick=event=>{
+  const rect=ring.getBoundingClientRect(),x=event.clientX-rect.left-rect.width/2,y=event.clientY-rect.top-rect.height/2;
+  const radius=Math.hypot(x,y);
+  if(radius>rect.width/2 || radius<rect.width*.34)return;
+  const angle=(Math.atan2(x,-y)*180/Math.PI+360)%360/3.6;
+  const index=segments.findIndex(({start,end})=>angle>=start&&angle<end);
+  if(index>=0)select(index);
+ };
+ paint();
 }
 function groupSubjects(list){
  const subjects=new Map();

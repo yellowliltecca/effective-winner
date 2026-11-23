@@ -120,7 +120,16 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
  <div class="att-intro"><div><h2>Моя посещаемость</h2><p>Отмечай завершившиеся пары и следи за посещаемостью. Неотмеченные пары не считаются пропусками.</p></div><span id="attendanceTotalRecords">0 отметок</span></div>
  <div class="att-toolbar"><label>Период <select id="attendancePeriod"><option value="all">За всё время</option><option value="7">7 дней</option><option value="30">30 дней</option><option value="90">90 дней</option></select></label><label>Тип занятия <select id="attendanceKind"><option value="all">Все типы</option><option value="lecture">Лекции</option><option value="practice">Практики</option><option value="lab">Лабораторные</option></select></label></div>
  <div class="att-warning" id="attendanceGroupTip">Выбраны «Все подгруппы». Для отметок занятий конкретной подгруппы сначала выбери свою в разделе «Занятия».</div>
- <div id="attendanceStats" class="att-stats"></div><div class="att-main-track"><span id="attendanceProgress"></span></div><p id="attendanceProgressLabel" class="att-explain"></p>
+ <div id="attendanceStats" class="att-stats"></div><section class="panel attendance-chart" aria-labelledby="attendanceChartTitle">
+  <h3 id="attendanceChartTitle">Распределение отметок</h3>
+  <div class="attendance-chart-layout">
+    <div id="attendanceRing" class="attendance-ring" aria-hidden="true"><strong id="attendanceRingValue">—</strong></div>
+    <div>
+      <div id="attendanceLegend" class="attendance-legend"></div>
+      <p id="attendanceChartInfo" role="status"></p>
+    </div>
+  </div>
+ </section>
  <details class="panel pending-panel" id="pendingPanel"><summary>Отметить прошедшие пары</summary><small>За последние 7 дней · выбранная подгруппа</small><div id="pendingLessons"></div></details>
  <div class="att-columns"><section class="panel att-panel"><h3>По предметам</h3><div id="attendanceSubjects"></div></section><section class="panel att-panel"><h3>История отметок</h3><div id="attendanceHistory"></div></section></div>
  <div class="att-backup"><div><strong>Личные данные — только на устройстве</strong><p>Сделай резервную копию перед сменой браузера или телефона. Экспорт и импорт выполняются вручную.</p></div><div class="att-backup-actions"><button id="attendanceExport" type="button">Экспорт JSON</button><button id="attendanceImport" type="button">Импорт JSON</button><input id="attendanceFile" type="file" accept=".json,application/json" hidden></div></div><p id="attendanceMessage" class="att-explain" role="status"></p>
@@ -1095,7 +1104,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   function showJournal(trigger){
     if(selectedTab==='alertsPanel')return;
     historyOrigin={tab:selectedTab,top:window.scrollY,trigger};
-    history.pushState({sguJournal:true},'','#changes');
+    history.pushState({sguJournal:true},'');
     setTab('alertsPanel');
   }
   function returnFromJournal(){
@@ -1113,18 +1122,19 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     else returnFromJournal();
   });
   window.addEventListener('popstate',()=>{
-    if(location.hash==='#changes')setTab('alertsPanel');
+    if(history.state?.sguJournal && historyOrigin)setTab('alertsPanel');
     else if(selectedTab==='alertsPanel')returnFromJournal();
   });
-  window.addEventListener('journal:ready',()=>{
-    if(location.hash==='#changes')setTab('alertsPanel');
-  });
+  if(location.hash==='#changes' || history.state?.sguJournal){
+    history.replaceState(null,'',location.pathname+location.search);
+    window.addEventListener('load',()=>window.scrollTo({top:0,behavior:'instant'}),{once:true});
+  }
   function setTab(tab){
     const previous=selectedTab;
     if(previous==='classes' && tab!==previous)classesScroll=window.scrollY;
     document.body.classList.toggle('secondary-tab',tab!=='classes');
     const journal=tab==='alertsPanel';
-    if(previous==='alertsPanel' && !journal && location.hash==='#changes'){
+    if(previous==='alertsPanel' && !journal && history.state?.sguJournal){
       history.replaceState(null,'',location.pathname+location.search);
     }
     document.body.classList.toggle('journal-screen',journal);
@@ -1138,8 +1148,6 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
       sectionButtons[index].classList.toggle('active',active);
       sectionButtons[index].setAttribute('aria-selected',String(active));
     }
-    const homework=$('#homework');
-    if(homework)homework.style.display=tab==='classes'?'block':'none';
     const openEvent={attendance:'attendance:open',search:'search:open',exams:'session:open'}[tab];
     if(journal){
       window.dispatchEvent(new Event('journal:shown'));
@@ -1152,7 +1160,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     panelAnimations=[];
     if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
     const offset=16*Math.sign(tabOrder.indexOf(tab)-tabOrder.indexOf(previous));
-    const panels=tab==='classes' && homework ? [$('#classes'),homework] : [$('#'+tab)];
+    const panels=[$('#'+tab)];
     for(const panel of panels){
       if(panel.animate)panelAnimations.push(panel.animate([
         {opacity:0,transform:'translateX('+offset+'px)'},
