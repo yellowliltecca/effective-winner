@@ -97,6 +97,10 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     <details class="calendar-export">
       <summary>Добавить в календарь для виджетов</summary>
       <div class="calendar-export-body">
+        <strong id="feedGroup"></strong>
+        <a id="calendarFeed">Подписаться на расписание</a>
+        <small>Пары обновляются при синхронизации приложения календаря. Добавь его виджет на главный экран и включи календарь СГУ.</small>
+        <details><summary>Ссылка для другого календаря</summary><input readonly id="feedUrl" aria-label="Адрес подписки" onclick="this.select()"><small>Скопируй адрес и вставь в поле подписки по URL.</small></details>
         <p id="exportRange"></p>
         <button type="button" id="ics">Скачать пары (.ics)</button>
         <p>Импортируй файл в свой календарь. Чтобы видеть ближайшую пару на главном экране, добавь виджет календаря и включи в нём календарь с парами.</p>
@@ -113,10 +117,11 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     </aside></div>
   </section>
 <section id="attendance" style="display:none" role="tabpanel" aria-label="Отчёт посещаемости">
- <div class="att-intro"><div><h2>Моя посещаемость</h2><p>Отмечай занятия в расписании — здесь появится личная статистика. Неотмеченные пары не считаются пропусками.</p></div><span id="attendanceTotalRecords">0 отметок</span></div>
+ <div class="att-intro"><div><h2>Моя посещаемость</h2><p>Отмечай завершившиеся пары и следи за посещаемостью. Неотмеченные пары не считаются пропусками.</p></div><span id="attendanceTotalRecords">0 отметок</span></div>
  <div class="att-toolbar"><label>Период <select id="attendancePeriod"><option value="all">За всё время</option><option value="7">7 дней</option><option value="30">30 дней</option><option value="90">90 дней</option></select></label><label>Тип занятия <select id="attendanceKind"><option value="all">Все типы</option><option value="lecture">Лекции</option><option value="practice">Практики</option><option value="lab">Лабораторные</option></select></label></div>
  <div class="att-warning" id="attendanceGroupTip">Выбраны «Все подгруппы». Для отметок занятий конкретной подгруппы сначала выбери свою в разделе «Занятия».</div>
  <div id="attendanceStats" class="att-stats"></div><div class="att-main-track"><span id="attendanceProgress"></span></div><p id="attendanceProgressLabel" class="att-explain"></p>
+ <details class="panel pending-panel" id="pendingPanel"><summary>Отметить прошедшие пары</summary><small>За последние 7 дней · выбранная подгруппа</small><div id="pendingLessons"></div></details>
  <div class="att-columns"><section class="panel att-panel"><h3>По предметам</h3><div id="attendanceSubjects"></div></section><section class="panel att-panel"><h3>История отметок</h3><div id="attendanceHistory"></div></section></div>
  <div class="att-backup"><div><strong>Личные данные — только на устройстве</strong><p>Сделай резервную копию перед сменой браузера или телефона. Экспорт и импорт выполняются вручную.</p></div><div class="att-backup-actions"><button id="attendanceExport" type="button">Экспорт JSON</button><button id="attendanceImport" type="button">Импорт JSON</button><input id="attendanceFile" type="file" accept=".json,application/json" hidden></div></div><p id="attendanceMessage" class="att-explain" role="status"></p>
 </section>
@@ -909,6 +914,18 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   const fmt=(date,opts)=>new Intl.DateTimeFormat('ru-RU',{timeZone:'UTC',...opts}).format(date);
   function academicWeek(date){const m=monday(date),key=dateISO(m);const explicit=(data.week_calendar||[]).find(w=>w.start===key);if(explicit)return {type:explicit.type,verified:true};const anchor=parseISO('2026-08-31');const diff=Math.round((m-anchor)/604800000);return {type:((diff%2)+2)%2===0?'numerator':'denominator',verified:false};}
   function lessonsFor(day,weekDate=state.week){const week=academicWeek(weekDate).type;return data.lessons.filter(l=>l.day===day && (l.week==='both'||l.week===week) && (state.group==='all'||!l.groups.length||l.groups.includes(+state.group))).sort((a,b)=>a.start.localeCompare(b.start)||a.title.localeCompare(b.title));}
+  window.recentCompletedLessons=()=>{
+    const now=saratovNow(), result=[];
+    for(let offset=0;offset<7;offset++){
+      const date=addDays(now.date,-offset), day=(date.getUTCDay()+6)%7;
+      for(const lesson of lessonsFor(day,date).reverse()){
+        if(offset===0 && timeNumber(lesson.end)>now.minute)continue;
+        if(state.group==='all' && lesson.groups.length)continue;
+        result.push({...lesson,date:dateISO(date)});
+      }
+    }
+    return result;
+  };
   const thisDate=day=>addDays(state.week,day);
   function isToday(d){return dateISO(d)===dateISO(saratovNow().date)}
   const timeNumber=t=>+t.slice(0,2)*60 + +t.slice(3);
@@ -984,7 +1001,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     const name=profile?`<a href="${esc(profile)}" target="_blank" rel="noopener noreferrer" title="Страница преподавателя на сайте СГУ">${esc(full)}</a>`:`<span class="teacher-name">${esc(full)}</span>`;
     return `<div class="teacher-line ${compact?'mini-teacher':''}">${avatar}<span class="teacher-label">${name}${!compact?'<small>Преподаватель</small>':''}</span></div>`;
   }
-  function makeLesson(l,day){const now=isNow(l,day);const tags=[`<span class="tag ${esc(l.kind)}">${kinds[l.kind]||'Занятие'}</span>`];if(l.groups.length)tags.push(`<span class="tag subgroup">${l.groups.join(' и ')} подгруппа</span>`);if(l.week!=='both')tags.push(`<span class="tag shift">${l.week==='numerator'?'Числитель':'Знаменатель'}</span>`);if(l.after_change)tags.push('<span class="tag shift">↺ Изменено СГУ</span>');if(now)tags.push('<span class="tag nowbadge">Идёт сейчас</span>');return `<article class="lesson ${esc(l.kind)} ${now?'now':''}" data-att-date="${dateISO(thisDate(day))}" data-att-time="${esc(l.start)}" data-att-end="${esc(l.end)}" data-att-title="${esc(l.title)}" data-att-kind="${esc(l.kind)}" data-att-groups="${esc(l.groups.join(','))}"><div class="lesson-time">${esc(l.start)}<div class="end">${esc(l.end)}</div></div><div class="type-bar"></div><div class="lesson-info"><div class="lesson-topline">${tags.join('')}</div><h3>${esc(l.title)}</h3><div class="lesson-meta">${l.teacher?teacherBlock(l.teacher):''}${l.location?`<span>${icons.pin}${esc(l.location)}</span>`:''}</div>${l.note?`<div class="lesson-note">${esc(l.note)}</div>`:''}</div></article>`;}
+  function makeLesson(l,day){const now=isNow(l,day);const tags=[`<span class="tag ${esc(l.kind)}">${kinds[l.kind]||'Занятие'}</span>`];if(l.groups.length)tags.push(`<span class="tag subgroup">${l.groups.join(' и ')} подгруппа</span>`);if(l.week!=='both')tags.push(`<span class="tag shift">${l.week==='numerator'?'Числитель':'Знаменатель'}</span>`);if(l.after_change)tags.push('<span class="tag shift">↺ Изменено СГУ</span>');if(now)tags.push('<span class="tag nowbadge">Идёт сейчас</span>');return `<article class="lesson ${esc(l.kind)} ${now?'now':''}" data-att-date="${dateISO(thisDate(day))}" data-att-time="${esc(l.start)}" data-att-end="${esc(l.end)}" data-att-title="${esc(l.title)}" data-att-kind="${esc(l.kind)}" data-att-groups="${esc(l.groups.join(','))}"><div class="lesson-time">${esc(l.start)}<span class="end">–${esc(l.end)}</span></div><div class="type-bar"></div><div class="lesson-info"><div class="lesson-topline">${tags.join('')}</div><h3>${esc(l.title)}</h3><div class="lesson-meta">${l.location?`<span class="lesson-room">${icons.pin}${esc(l.location)}</span>`:''}${l.teacher?teacherBlock(l.teacher):''}</div>${l.note?`<div class="lesson-note">${esc(l.note)}</div>`:''}</div></article>`;}
   function renderContent(){const element=$('#content');if(state.view==='day'){const day=state.day,items=lessonsFor(day);element.innerHTML=`<div class="panel-top"><div><h2 class="panel-title">${fullDays[day]}</h2><div class="panel-sub">${fmt(thisDate(day),{day:'numeric',month:'long',year:'numeric'})} · ${academicWeek(state.week).type==='numerator'?'Числитель':'Знаменатель'}</div></div><span class="count-chip">${items.length} ${plural(items.length,['пара','пары','пар'])}</span></div><div class="lessons">${items.map(l=>makeLesson(l,day)).join('')||emptyMarkup()}</div>`;}else{element.innerHTML=`<div class="panel-top"><div><h2 class="panel-title">Расписание на неделю</h2><div class="panel-sub">Пары всех дней · ${state.group==='all'?'все подгруппы':state.group+'-я подгруппа'}</div></div></div><div class="week-grid">${shortDays.map((day,i)=>{const lessons=lessonsFor(i);return `<section class="mini-day"><div class="mini-day-head"><strong>${fullDays[i]}</strong><span>${fmt(thisDate(i),{day:'numeric',month:'short'})} · ${lessons.length} пар</span></div><div class="mini-day-body">${lessons.map(l=>`<div class="mini-lesson ${esc(l.kind)}"><span class="ml-time">${esc(l.start)}</span><i class="ml-bar"></i><div><strong>${esc(l.title)}</strong><small>${l.groups.length?esc(l.groups.join(' и '))+' под · ':''}${esc(l.location||'')}</small>${l.teacher?teacherBlock(l.teacher,true):''}</div></div>`).join('')||'<div class="mini-none">Пар нет ✨</div>'}</div></section>`}).join('')}</div>`;}}
   function emptyMarkup(){return '<div class="empty"><div class="empty-icon">☀</div><h3>Пар нет</h3><p>Для этого дня, недели и выбранной подгруппы<br>занятий в расписании нет.</p></div>';}
   function plural(n,words){return n%10===1&&n%100!==11?words[0]:n%10>=2&&n%10<=4&&(n%100<12||n%100>14)?words[1]:words[2]}
@@ -1016,8 +1033,12 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     const range=fmt(state.week,{day:'numeric',month:'short'})+' — '+fmt(addDays(state.week,27),{day:'numeric',month:'short',year:'numeric'});
     const caption=group+' · '+range;
     if($('#exportRange').textContent!==caption)$('#exportStatus').textContent='';
-    $('#exportRange').textContent=caption;
-    renderOverview();renderDays();renderContent();renderChanges();nextLesson();}
+    $('#exportRange').textContent='Разовая копия · '+caption;
+    const feed=new URL('./calendars/group-'+state.group+'.ics',document.baseURI);
+    $('#calendarFeed').href=feed.href.replace(/^https?:/,'webcal:');
+    $('#feedUrl').value=feed.href;
+    $('#feedGroup').textContent='Календарь СГУ · '+group;
+    renderOverview();renderDays();renderContent();renderChanges();nextLesson();window.dispatchEvent(new Event('schedule:rendered'));}
   function updateSource(){
     const initial=!!data.initial_snapshot;
     $('#updated').textContent=`На сайте СГУ: ${data.source_updated||'дата не указана'}`;
@@ -1069,9 +1090,12 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
   window.addEventListener('pointerup',finishGesture);
   window.addEventListener('pointercancel',finishGesture);
   const tabOrder=['classes','attendance','search','exams'];
+  let classesScroll=0;
   let panelAnimations=[];
   function setTab(tab){
     const previous=selectedTab;
+    if(previous==='classes' && tab!==previous)classesScroll=window.scrollY;
+    document.body.classList.toggle('secondary-tab',tab!=='classes');
     selectedTab=tab;
     for(const [index,key] of tabOrder.entries()){
       const active=tab===key;
@@ -1084,6 +1108,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     const openEvent={attendance:'attendance:open',search:'search:open',exams:'session:open'}[tab];
     if(openEvent)window.dispatchEvent(new Event(openEvent));
     if(tab===previous)return;
+    window.scrollTo({top:tab==='classes'?classesScroll:0,behavior:'instant'});
     for(const animation of panelAnimations)animation.cancel();
     panelAnimations=[];
     if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;

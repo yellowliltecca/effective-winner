@@ -65,13 +65,25 @@ function details(){
   box.append(card);
  }
 }
-function render(){if(!$('#sessionCalendar'))return;calendar();details();$('#sessionCount').textContent=events.length+' событий · источник СГУ '+(source||'');}
+function render(){if(!$('#sessionCalendar'))return;calendar();details();
+ const clock=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Saratov',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date());
+ const date=today();
+ const upcoming=events.find(e=>e.date>date || (e.date===date && (!e.time || e.time>=clock)));
+ const jump=$('#nextSessionEvent');
+ jump.hidden=!upcoming;
+ if(upcoming){
+  const label={'Экзамен':'Ближайший экзамен','Зачёт':'Ближайший зачёт','Консультация':'Ближайшая консультация'}[eventType(upcoming)];
+  jump.textContent=label+' · '+fmt(upcoming.date)+(upcoming.time?', '+upcoming.time:'')+' →';
+  jump.onclick=()=>{month=upcoming.date.slice(0,7);chosen=upcoming.date;render();$('#sessionCalendar .picked')?.focus({preventScroll:true});};
+ }
+ $('#sessionCount').textContent=events.length+' событий · источник СГУ '+(source||'');}
 async function sync(){try{const r=await fetch('./data/schedule.json?session='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('http');const payload=await r.json();if(payload.group==='111')setData(payload)}catch{}}
 function init(){
  if(!$('#sessionCalendar'))return;
  const legend=node('div',undefined,'session-legend');
  for(const [type,style] of Object.entries(eventStyles))legend.append(node('span',type,'session-type '+style.name));
- $('#sessionCalendar').before(legend);
+ const jump=node('button',undefined,'session-jump');jump.type='button';jump.id='nextSessionEvent';jump.hidden=true;
+ $('#sessionCalendar').before(jump,legend);
  try{setData(JSON.parse($('#initialData').textContent))}catch{}
  $('#sessionPrev').onclick=()=>{const [y,m]=month.split('-').map(Number);month=new Date(Date.UTC(y,m-2,1,12)).toISOString().slice(0,7);chosen='';render()};
  $('#sessionNext').onclick=()=>{const [y,m]=month.split('-').map(Number);month=new Date(Date.UTC(y,m,1,12)).toISOString().slice(0,7);chosen='';render()};

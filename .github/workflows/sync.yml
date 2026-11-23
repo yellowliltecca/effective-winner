@@ -81,6 +81,9 @@ jobs:
             git push origin HEAD:main
           fi
 
+      - name: Build subgroup subscription calendars
+        run: python scripts/calendar_feeds.py
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 

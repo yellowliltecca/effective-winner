@@ -94,7 +94,7 @@ function renderFreshness(){
  const state=offline?'Офлайн':stale?'Данные могут устареть':'Онлайн';
  chip.textContent=(offline?'● ':stale?'● ':'● ')+state;
  chip.className='freshness-badge '+(offline?'offline':stale?'stale':'online');
- title.textContent='Проверено СГУ: '+formatAt(checked);
+ title.textContent=valid?(age>=24?'Проверено '+formatAt(checked):'Проверено в '+new Intl.DateTimeFormat('ru-RU',{timeZone:'Europe/Saratov',hour:'2-digit',minute:'2-digit'}).format(new Date(checked))):'Время проверки неизвестно';
  details.textContent='СГУ изменил расписание: '+(data?.source_updated||'дата не указана')+
   ' · Сайт проверил файл: '+(lastSiteCheck?new Intl.DateTimeFormat('ru-RU',{timeZone:'Europe/Saratov',hour:'2-digit',minute:'2-digit'}).format(lastSiteCheck):'нет соединения');
  chip.title=offline?'Нет доступа к опубликованным данным. Используется сохранённое расписание.':
@@ -120,6 +120,7 @@ $('.overview').insertAdjacentHTML('afterend','<div class="freshness-strip" role=
 window.addEventListener('online',renderFreshness);
 window.addEventListener('offline',renderFreshness);
 setInterval(renderFreshness,60000);
+$('#updated').after($('#freshnessDetails'));
 $('.next-card').insertAdjacentHTML('beforeend','<div class="live-box"><div class="live-header"><span id="liveLabel">До следующей пары</span><strong id="liveValue" role="timer" aria-label="До начала ближайшего занятия">—</strong></div><div id="liveInfo" class="live-info">Время Саратова</div><div class="live-track" id="liveBar" hidden><span></span></div></div>');
 const b=document.createElement('button');b.id='alertButton';b.type='button';b.className='icon-btn alert-button';b.title='Изменения расписания';b.setAttribute('aria-expanded','false');b.innerHTML='<svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16c2-2 2-4 2-7a5 5 0 0 1 10 0c0 3 0 5 2 7H5Zm5 3a2 2 0 0 0 4 0"/></svg><span class="alert-badge" id="alertBadge" hidden></span>';$('.nav').insertBefore(b,$('#theme'));
 const panel=document.createElement('section');panel.className='alerts-panel';panel.id='alertsPanel';panel.hidden=true;panel.innerHTML='<div class="alerts-head"><div><h2>История изменений</h2><p id="alertSummary">Проверка…</p></div><button id="alertsClose" type="button" aria-label="Закрыть">✕</button></div><div class="alerts-actions"><button id="alertsPermission" type="button">Включить уведомления</button><small>Оповещения работают при открытом сайте. При закрытом сайте push-сервис не настроен.</small></div><div id="alertList" class="alert-list"></div>';$('#notice').after(panel);

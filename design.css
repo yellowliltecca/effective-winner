@@ -553,3 +553,24 @@ body.dark .day-tab.active,body.dark .day-tab.active:hover {
 .calendar-export-body button{min-height:44px;padding:8px 15px;border:1px solid var(--stroke);border-radius:10px;background:var(--primary-pale);color:var(--primary);font-weight:700}
 #exportStatus:empty{display:none}
 @media(max-width:700px){#classes .tools .toggle{grid-column:1/-1}}
+
+body.secondary-tab :is(.overview,.freshness-strip){display:none!important}
+#classes .lesson-room{color:var(--ink);font-weight:720}
+#classes .lesson .lesson-meta{display:flex;flex-direction:column;align-items:flex-start}
+#classes .lesson-time .end{display:inline;margin:0;font-size:.88em}
+#classes .lesson{grid-template-columns:max-content minmax(0,1fr)}
+#freshnessDetails{display:block;color:var(--soft);line-height:1.5}
+.pending-panel{padding:14px;margin:12px 0}
+.pending-panel summary,.calendar-export-body summary{cursor:pointer;font-weight:720}
+.pending-lesson{display:grid;gap:4px;border-top:1px solid var(--stroke);padding:10px 0}
+.pending-lesson button{margin-right:6px}
+.pending-panel small{color:var(--soft)}
+.session-jump,#calendarFeed{display:inline-flex;align-items:center;min-height:44px;padding:9px 13px;border:1px solid var(--stroke);border-radius:12px;background:var(--primary-pale);color:var(--primary);font-weight:720;text-decoration:none}
+.session-jump{margin:0 0 10px}.session-jump[hidden]{display:none}
+.calendar-export-body details,.calendar-export-body input{width:100%;min-width:0}
+.calendar-export-body input{padding:9px;color:var(--ink);background:var(--paper);border:1px solid var(--stroke);border-radius:8px}
+@media(max-width:700px){
+ #classes .lesson{grid-template-columns:max-content minmax(0,1fr) auto}
+ #classes .lesson-time{grid-row:1;white-space:nowrap}
+ #classes .lesson h3{grid-column:1/-1}
+}

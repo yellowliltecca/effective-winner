@@ -159,7 +159,7 @@ function markExcused(r){
 }
 function renderHistory(list){
  const root=$('#attendanceHistory');root.replaceChildren();
- if(!list.length){root.append(el('p','Нет сохранённых отметок. Открой прошедший день в расписании и выбери «Был» или «Пропустил».','att-empty'));return}
+ if(!list.length){root.append(el('p','Нет сохранённых отметок. Раскрой «Отметить прошедшие пары» выше.','att-empty'));return}
  for(const r of list.slice(0,120)){
   const item=el('article',undefined,'att-record');
   const badge=el('span',r.status==='present'?'✓ Был':'— Пропустил','att-record-badge '+(r.status==='present'?'present':'absent'));
@@ -179,7 +179,24 @@ function renderHistory(list){
  }
  if(list.length>120)root.append(el('p','Показаны последние 120 отметок. Общая статистика учитывает все записи.','att-empty'));
 }
+function renderPending(){
+ const root=$('#pendingLessons');
+ if(!root || !$('#pendingPanel').open)return;
+ root.replaceChildren();
+ const rows=(window.recentCompletedLessons?.()||[]).filter(r=>!records[keyOf(r)]);
+ for(const lesson of rows){
+  const {date,start,end,title,kind,groups}=lesson;
+  const row={date,start,end,title,kind,groups};
+  const card=el('article',undefined,'pending-lesson');
+  card.append(el('small',formatDate(date)+' · '+start),el('strong',title));
+  const buttons=el('div');
+  buttons.append(action('✓ Был','present',false,()=>change(row,'present')),action('— Пропустил','absent',false,()=>change(row,'absent')));
+  card.append(buttons);root.append(card);
+ }
+ if(!rows.length)root.append(el('p','За последние 7 дней нет завершившихся пар без отметки.','att-empty'));
+}
 function renderReport(){
+ renderPending();
  if(!$('#attendanceStats'))return;
  const list=selectedRecords();
  summary(list);groupSubjects(list);renderHistory(list);
@@ -226,7 +243,10 @@ function init(){
  $('#attendanceFile').onchange=event=>{const file=event.target.files?.[0];if(file)importData(file);event.target.value=''};
  window.addEventListener('storage',event=>{if(event.key!==STORE)return;records=Object.create(null);read();refreshControls();renderReport()});
  window.addEventListener('focus',()=>{refreshControls();renderReport()});
- setInterval(()=>{refreshControls()},60000);
+ $('#pendingPanel').addEventListener('toggle',renderPending);
+ window.addEventListener('attendance:open',renderPending);
+ window.addEventListener('schedule:rendered',renderPending);
+ setInterval(()=>{refreshControls();renderPending()},60000);
  renderReport();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
