@@ -7,94 +7,87 @@ from collections import defaultdict
 from pathlib import Path
 import sys
 
-FIELDS = ('title', 'kind', 'teacher', 'location', 'note', 'end')
+LESSON_FIELDS = ('day', 'start', 'end', 'week', 'groups', 'title', 'kind', 'teacher', 'location', 'note')
+EXAM_FIELDS = ('date', 'time', 'title', 'kind', 'teacher', 'location')
+NAMES = {'day':'День', 'start':'Начало', 'end':'Конец', 'date':'Дата', 'time':'Время',
+         'week':'Неделя', 'groups':'Подгруппа', 'title':'Предмет', 'kind':'Тип',
+         'teacher':'Преподаватель', 'location':'Аудитория', 'note':'Примечание'}
 
-def norm(value):
-    return ' '.join(str(value or '').split()).casefold()
 
-def slot(l):
-    return (l.get('day', 0), l.get('start', ''),
-            l.get('week', 'both'), tuple(sorted(l.get('groups', []))))
+def display(row, field):
+    value = row.get(field)
+    if field == 'day' and isinstance(value, int) and 0 <= value < 7:
+        return ('Пн','Вт','Ср','Чт','Пт','Сб','Вс')[value]
+    if field == 'groups':
+        return ', '.join(map(str, sorted(value or []))) or 'Все'
+    if field == 'date' and value:
+        return dt.date.fromisoformat(value).strftime('%d.%m.%Y')
+    words = {'both':'Каждую неделю','numerator':'Числитель','denominator':'Знаменатель',
+             'lecture':'Лекция','practice':'Практика','lab':'Лабораторная'}
+    return words.get(value, str(value or '—'))
 
-def same(a, b):
-    return all(norm(a.get(k)) == norm(b.get(k)) for k in FIELDS)
 
-def describe(l):
-    if not l:
-        return 'Нет занятия'
-    return ' · '.join(str(x) for x in
-        (l.get('title'), l.get('location'), l.get('teacher')) if x)
+def key(row, fields):
+    return tuple(' '.join(display(row, field).split()).casefold().replace('ё','е') for field in fields)
 
-def make_event(before, after, now, source):
-    item = after or before
-    fields = [f for f in FIELDS if norm((before or {}).get(f)) != norm((after or {}).get(f))]
-    typ = 'changed' if before and after else 'added' if after else 'removed'
-    if typ == 'added':
-        label = 'Добавлена пара'
-    elif typ == 'removed':
-        label = 'Убрана пара'
-    elif fields == ['location']:
-        label = 'Изменилась аудитория'
-    elif fields == ['teacher']:
-        label = 'Заменён преподаватель'
-    elif 'title' in fields:
-        label = 'Изменился предмет'
+
+def compare(old, new, exam, now, source):
+    fields = EXAM_FIELDS if exam else LESSON_FIELDS
+    previous, upcoming = list(old), list(new)
+    pairs = []
+    def match(keys, exact=False):
+        old_keys, new_keys = defaultdict(list), defaultdict(list)
+        for row in previous: old_keys[key(row, keys)].append(row)
+        for row in upcoming: new_keys[key(row, keys)].append(row)
+        for signature in sorted(old_keys.keys() & new_keys.keys()):
+            left, right = old_keys[signature], new_keys[signature]
+            if not exact and (len(left) != 1 or len(right) != 1):
+                continue
+            for a, b in zip(left, right):
+                previous.remove(a)
+                upcoming.remove(b)
+                if not exact: pairs.append((a,b))
+
+    match(fields, exact=True)
+    if exam:
+        match(('title','kind','date','time'))
+        match(('title','kind','teacher'))
+        match(('title','kind'))
     else:
-        label = 'Изменена пара'
-    payload = json.dumps([before, after, now], sort_keys=True, ensure_ascii=False)
-    return dict(
-        id=hashlib.sha256(payload.encode()).hexdigest()[:20],
-        at=now, source_updated=source, event=typ, label=label,
-        day=item.get('day'), time=item.get('start', ''),
-        week=item.get('week', 'both'), groups=item.get('groups', []),
-        title=item.get('title', ''), before=describe(before) if before else '',
-        after=describe(after) if after else ''
-    )
-
-def lesson_changes(old, new, now, source):
-    before, after = defaultdict(list), defaultdict(list)
-    for l in old: before[slot(l)].append(l)
-    for l in new: after[slot(l)].append(l)
-    events = []
-    for key in sorted(set(before) | set(after)):
-        past = list(before[key])
-        upcoming = []
-        for lesson in after[key]:
-            index = next((i for i, previous in enumerate(past)
-                          if same(previous, lesson)), None)
-            if index is None:
-                upcoming.append(lesson)
-            else:
-                past.pop(index)
-        while past and upcoming:
-            previous = past.pop(0)
-            best = max(range(len(upcoming)),
-                key=lambda i: int(norm(previous.get('title')) == norm(upcoming[i].get('title'))))
-            events.append(make_event(previous, upcoming.pop(best), now, source))
-        for lesson in past: events.append(make_event(lesson, None, now, source))
-        for lesson in upcoming: events.append(make_event(None, lesson, now, source))
-    return events
-
-def exam_changes(old, new, now, source):
-    def key(e):
-        return tuple(norm(e.get(k)) for k in ('date','time','kind','title','teacher','location'))
-    oldmap = {key(x):x for x in old}
-    newmap = {key(x):x for x in new}
+        match(('day','start','week','groups','title'))
+        match(('title','kind','teacher','groups'))
+        match(('title','kind','groups'))
+        match(('day','start','week','groups'))
+    pairs.extend((row,None) for row in previous)
+    pairs.extend((None,row) for row in upcoming)
     result = []
-    for key_ in sorted(set(oldmap) ^ set(newmap)):
-        exam = newmap.get(key_) or oldmap[key_]
-        added = key_ in newmap
-        payload = json.dumps([key_,added,now], ensure_ascii=False)
-        result.append(dict(
-            id=hashlib.sha256(payload.encode()).hexdigest()[:20],
-            at=now, source_updated=source,
-            event='exam_added' if added else 'exam_removed',
-            label='Добавлена дата сессии' if added else 'Убрана дата сессии',
-            date=exam.get('date',''), day=None, time=exam.get('time',''),
-            week='both',groups=[],title=exam.get('title',''),
-            before='' if added else describe(exam),
-            after=describe(exam) if added else ''
-        ))
+    for a,b in pairs:
+        row = b or a
+        operation = 'changed' if a and b else 'added' if b else 'removed'
+        labels = ('Добавлена дата сессии','Убрана дата сессии','Изменена дата сессии') if exam else ('Добавлена пара','Убрана пара','Изменена пара')
+        label = dict(zip(('added','removed','changed'),labels))[operation]
+        changes = []
+        if a and b:
+            for field in fields:
+                if key(a,(field,)) != key(b,(field,)):
+                    changes.append((field, display(a,field), display(b,field)))
+            if any(field in ('day','date','start','time') for field,_,_ in changes):
+                label = 'Перенос аттестации' if exam else 'Перенос пары'
+            elif len(changes)==1:
+                label = {'teacher':'Замена преподавателя','location':'Смена аудитории','end':'Новое время окончания'}.get(changes[0][0],label)
+        def description(item, side):
+            if not item: return ''
+            if changes:
+                return ' · '.join(f'{NAMES[c[0]]}: {c[side]}' for c in changes)
+            return ' · '.join(display(item,k) for k in ('kind','location','teacher','note') if item.get(k))
+        groups = sorted(set((a or {}).get('groups',[])) | set((b or {}).get('groups',[])))
+        if any(not x.get('groups') for x in (a,b) if x): groups=[]
+        payload = json.dumps([a,b,now], sort_keys=True, ensure_ascii=False)
+        result.append(dict(id=hashlib.sha256(payload.encode()).hexdigest()[:20], at=now,
+            source_updated=source,event=('exam_' if exam else '')+operation,label=label,
+            title=row['title'],day=row.get('day'),date=row.get('date',''),
+            time=row.get('time',row.get('start','')),week=row.get('week','both'),groups=groups,
+            before=description(a,1),after=description(b,2)))
     return result
 
 def update(before_file, after_file):
@@ -105,8 +98,8 @@ def update(before_file, after_file):
         raise ValueError('Invalid group/schedule: no history changes recorded')
     now = dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')
     source = new.get('source_updated','')
-    events = lesson_changes(old.get('lessons',[]),new.get('lessons',[]),now,source)
-    events += exam_changes(old.get('exams',[]),new.get('exams',[]),now,source)
+    events = compare(old.get('lessons',[]),new.get('lessons',[]),False,now,source)
+    events += compare(old.get('exams',[]),new.get('exams',[]),True,now,source)
     history = list(old.get('history',[]))
     fresh = events
     if fresh:

@@ -69,12 +69,35 @@ function timer(){
  }).format(base+offset*86400000);
  $('#nextInfo').textContent=[dateText+' в '+next.start,next.location,next.groups?.length?next.groups.join(' и ')+' подгруппа':''].filter(Boolean).join(' · ');
 }
-function paint(){const list=events(),ids=seen(),unread=list.filter(e=>!ids.has(e.id));const badge=$('#alertBadge');badge.hidden=!unread.length;badge.textContent=unread.length>99?'99+':unread.length;
-$('#alertSummary').textContent=list.length+' записей · '+unread.length+' непрочитанных';
-$('#alertList').innerHTML=list.length?list.slice(0,80).map(e=>'<article class="alert-item '+(ids.has(e.id)?'':'unread')+'"><div><b>'+esc(e.label||'Изменение')+'</b><time>'+esc(e.at?new Date(e.at).toLocaleString('ru-RU',{timeZone:'Europe/Saratov',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'')+'</time></div><small>'+esc((Number.isInteger(e.day)?['Пн','Вт','Ср','Чт','Пт','Сб'][e.day]+' · ':'')+(e.time||'')+(e.groups?.length?' · '+e.groups.join(', ')+' подгр.':''))+'</small>'+(e.before?'<p>Было: '+esc(e.before)+'</p>':'')+(e.after?'<p><strong>Стало: '+esc(e.after)+'</strong></p>':'')+'</article>').join(''):'<p class="alert-empty">Изменений пока нет. История заполняется при обновлении расписания СГУ.</p>'}
+function archived(e){
+ return e.event==='exam_removed' && e.date && e.at && e.date < new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Saratov'}).format(new Date(e.at));
+}
+function eventCard(e,unread){
+ const when=e.date?new Date(e.date+'T12:00:00Z').toLocaleDateString('ru-RU',{timeZone:'UTC',day:'numeric',month:'short',year:'numeric'}):
+  ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'][e.day]||'';
+ const scope=[when,e.time,e.week==='numerator'?'Числитель':e.week==='denominator'?'Знаменатель':'',e.groups?.length?'Подгр. '+e.groups.join(', '):''].filter(Boolean).join(' · ');
+ const detected=e.at?new Date(e.at).toLocaleString('ru-RU',{timeZone:'Europe/Saratov',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
+ const both=e.before&&e.after;
+ return '<article class="alert-item journal-item'+(unread?' unread':'')+'"><small>'+esc(e.label||'Изменение')+'</small><strong>'+esc(e.title||'Занятие')+'</strong><small>'+esc(scope)+'</small>'+
+ (e.before?'<p>'+(both?'Было: ':'')+esc(e.before)+'</p>':'')+
+ (e.after?'<p>'+(both?'Стало: ':'')+esc(e.after)+'</p>':'')+
+ (detected?'<time>Замечено '+esc(detected)+'</time>':'')+'</article>';
+}
+function paint(){
+ const list=events(),active=list.filter(e=>!archived(e)),past=list.filter(archived),ids=seen();
+ const unread=active.filter(e=>!ids.has(e.id));
+ const badge=$('#alertBadge');badge.hidden=!unread.length;badge.textContent=unread.length>99?'99+':unread.length;
+ $('#alertSummary').textContent='Изменений: '+active.length+' · непрочитанных: '+unread.length;
+ const cards=rows=>rows.map(e=>eventCard(e,!ids.has(e.id))).join('');
+ const empty='<p class="alert-empty">Для выбранной подгруппы пока нет изменений.</p>';
+ $('#alertList').innerHTML=(cards(active)||empty)+(past.length?'<details><summary>Удалённые прошедшие даты сессии ('+past.length+')</summary>'+cards(past)+'</details>':'');
+ $('#changes').innerHTML=cards(active.slice(0,3))||empty;
+ $('#changesBox').hidden=false;
+ $('#changesHistory').hidden=!list.length;
+}
 function open(){opened=true;$('#alertsPanel').hidden=false;$('#alertButton').setAttribute('aria-expanded','true');prefs.seen=[...new Set([...(prefs.seen||[]),...events().map(e=>e.id)])].slice(-400);save();paint()}
 function close(){opened=false;$('#alertsPanel').hidden=true;$('#alertButton').setAttribute('aria-expanded','false')}
-function accept(next){if(next?.group!=='111'||!Array.isArray(next.lessons)||next.lessons.length<5)return;data=next;const ids=(next.history||[]).map(x=>x.id),old=Array.isArray(prefs.known)?new Set(prefs.known):null;const fresh=old?events().filter(x=>!old.has(x.id)):[];prefs.known=ids.slice(0,400);save();if(fresh.length){$('#alertToast').hidden=false;$('#alertToastText').textContent='Изменений расписания: '+fresh.length;if(prefs.notify&&'Notification'in window&&Notification.permission==='granted'){try{new Notification('СГУ — изменения расписания',{body:fresh.length+' новых изменений',tag:'sgu111-alerts',icon:'./icon.svg'})}catch{}}}paint();timer();renderFreshness()}
+function accept(next,seed=false){if(next?.group!=='111'||!Array.isArray(next.lessons)||next.lessons.length<5)return;data=next;const ids=(next.history||[]).map(x=>x.id),old=Array.isArray(prefs.known)?new Set(prefs.known):null;const fresh=!seed&&old?events().filter(x=>!old.has(x.id)&&!archived(x)):[];if(!seed){prefs.known=ids.slice(0,400);save();}if(fresh.length){$('#alertToast').hidden=false;$('#alertToastText').textContent='Изменений расписания: '+fresh.length;if(prefs.notify&&'Notification'in window&&Notification.permission==='granted'){try{new Notification('СГУ — изменения расписания',{body:fresh.length+' новых изменений',tag:'sgu111-alerts',icon:'./icon.svg'})}catch{}}}paint();timer();renderFreshness()}
 let lastReachable=false;
 let lastSiteCheck=null;
 const formatAt=iso=>{
@@ -125,8 +148,9 @@ $('.next-card').insertAdjacentHTML('beforeend','<div class="live-box"><div class
 const b=document.createElement('button');b.id='alertButton';b.type='button';b.className='icon-btn alert-button';b.title='Изменения расписания';b.setAttribute('aria-expanded','false');b.innerHTML='<svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 16c2-2 2-4 2-7a5 5 0 0 1 10 0c0 3 0 5 2 7H5Zm5 3a2 2 0 0 0 4 0"/></svg><span class="alert-badge" id="alertBadge" hidden></span>';$('.nav').insertBefore(b,$('#theme'));
 const panel=document.createElement('section');panel.className='alerts-panel';panel.id='alertsPanel';panel.hidden=true;panel.innerHTML='<div class="alerts-head"><div><h2>История изменений</h2><p id="alertSummary">Проверка…</p></div><button id="alertsClose" type="button" aria-label="Закрыть">✕</button></div><div class="alerts-actions"><button id="alertsPermission" type="button">Включить уведомления</button><small>Оповещения работают при открытом сайте. При закрытом сайте push-сервис не настроен.</small></div><div id="alertList" class="alert-list"></div>';$('#notice').after(panel);
 const toast=document.createElement('div');toast.className='alert-toast';toast.id='alertToast';toast.hidden=true;toast.innerHTML='<span id="alertToastText"></span><button id="alertToastOpen">Посмотреть</button>';document.body.append(toast);
+$('#changesHistory').onclick=()=>{open();panel.scrollIntoView({block:'start'});$('#alertsClose').focus({preventScroll:true});};
 b.onclick=()=>opened?close():open();$('#alertsClose').onclick=close;$('#alertToastOpen').onclick=()=>{$('#alertToast').hidden=true;open()};$('#group').addEventListener('change',()=>{timer();paint()});
 const permission=$('#alertsPermission');function label(){permission.textContent=prefs.notify?'Отключить уведомления':'Включить уведомления';if(!('Notification'in window)||!window.isSecureContext||Notification.permission==='denied'){permission.disabled=true;permission.textContent='Недоступно в браузере'}}permission.onclick=async()=>{if(prefs.notify)prefs.notify=false;else if('Notification'in window){try{prefs.notify=await Notification.requestPermission()==='granted'}catch{prefs.notify=false}}save();label()};label();
-try{accept(JSON.parse($('#initialData').textContent))}catch{}load();setInterval(timer,1000);setInterval(load,90000);window.addEventListener('focus',load);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()})}
+try{accept(JSON.parse($('#initialData').textContent),true)}catch{}load();setInterval(timer,1000);setInterval(load,90000);window.addEventListener('focus',load);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();

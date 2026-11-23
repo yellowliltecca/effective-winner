@@ -113,7 +113,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     <div class="layout"><main class="panel schedule-panel" id="content" aria-live="polite"></main><aside class="aside">
       <section class="panel side-card"><h3 class="side-title">Проверка расписания</h3><p class="source-meta" id="updated">СГУ · обновлено —</p><div class="status"><span class="status-dot" id="statusDot"></span><span id="statusText">Загрузка данных…</span></div><a class="source-button" href="https://www.sgu.ru/schedule/knt/do/111" target="_blank" rel="noopener noreferrer">Сверить с сайтом СГУ ↗</a><details class="expand"><summary>Как обновляется расписание</summary><p class="side-help">На опубликованном сайте данные проверяются автоматически через GitHub Actions. Кнопка ↻ проверяет опубликованную копию. При открытии HTML-файла без сервера показан сохранённый снимок, автоматической синхронизации нет.</p></details></section>
       <section class="panel side-card"><h3 class="side-title">Коротко о неделе</h3><div class="side-kv"><span>Неделя</span><strong id="sideWeek">—</strong></div><div class="side-kv"><span>Всего занятий</span><strong id="sideTotal">—</strong></div><div class="side-kv"><span>Подгруппа</span><strong id="sideGroup">Все</strong></div><details class="expand"><summary>Что такое числитель и знаменатель?</summary><p class="side-help">Некоторые занятия проходят через неделю. <b>Ч</b> — числитель, <b>З</b> — знаменатель. Сайт берёт чередование из опубликованного календаря СГУ, а вне его отмечает неделю как неподтверждённую.</p><div class="legend"><strong>1/2/3</strong> отдельные подгруппы</div></details></section>
-      <section class="panel side-card changes-card" id="changesBox" hidden><h3 class="side-title">Недавние изменения СГУ</h3><div id="changes"></div></section>
+      <section class="panel side-card changes-card" id="changesBox" hidden><h3 class="side-title">Недавние изменения СГУ</h3><div id="changes"></div><button id="changesHistory" type="button">Вся история изменений</button></section>
     </aside></div>
   </section>
 <section id="attendance" style="display:none" role="tabpanel" aria-label="Отчёт посещаемости">
@@ -1026,7 +1026,6 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     $('#nextSubject').textContent=l.title;
     $('#nextInfo').textContent=`${when} · ${l.start}–${l.end}${l.location?' · '+l.location:''}${l.groups.length?' · '+l.groups.join(' и ')+' подгруппа':''}`;
   }
-  function renderChanges(){const changed=data.changes||[];$('#changesBox').hidden=!changed.length;if(changed.length)$('#changes').innerHTML=changed.slice(0,6).map(c=>`<div class="changes-item"><span class="point">●</span><div><strong>${c.event==='removed'?'Убрана: ':c.event==='added'?'Добавлена: ':'Изменена: '}${esc(c.text)}</strong><span>${shortDays[c.day]||''} ${esc(c.time)} · ${esc(c.detail)}</span></div></div>`).join('');}
   function renderExams(){/* Session calendar is rendered by session.js using the current SGU snapshot. */}
   function render(){
     const group=state.group==='all'?'Все подгруппы':state.group+'-я подгруппа';
@@ -1038,7 +1037,7 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     $('#calendarFeed').href=feed.href.replace(/^https?:/,'webcal:');
     $('#feedUrl').value=feed.href;
     $('#feedGroup').textContent='Календарь СГУ · '+group;
-    renderOverview();renderDays();renderContent();renderChanges();nextLesson();window.dispatchEvent(new Event('schedule:rendered'));}
+    renderOverview();renderDays();renderContent();nextLesson();window.dispatchEvent(new Event('schedule:rendered'));}
   function updateSource(){
     const initial=!!data.initial_snapshot;
     $('#updated').textContent=`На сайте СГУ: ${data.source_updated||'дата не указана'}`;
