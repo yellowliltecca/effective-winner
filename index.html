@@ -83,9 +83,9 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
       <button class="icon-btn" id="refresh" type="button" title="Проверить доступные обновления" aria-label="Проверить обновления на моём сайте"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.3 9A8 8 0 0 1 19 6l1 1M4 17l1 1a8 8 0 0 0 13.7-3"/></svg></button>
     </nav>
   </header>
-  <section class="overview compact-overview" aria-label="Ближайшее занятие">
+  <section class="overview" aria-label="Ближайшее занятие">
     <div class="overview-left"><div class="overline"><span id="summaryDate">Расписание 111 группы</span></div><h1 id="todayTitle">Пары на сегодня</h1><p class="overview-sub" id="todaySummary">Загружаем информацию…</p></div>
-    <div class="next-card"><div class="next-label" id="nextLabel">Ближайшая пара</div><h2 id="nextSubject">Проверяем…</h2><p class="next-location" id="nextLocation" hidden></p><div class="next-details" id="nextInfo">По времени Саратова</div></div>
+    <div class="next-card"><div class="next-label" id="nextLabel">Ближайшая пара</div><h2 id="nextSubject">Проверяем…</h2><div class="next-details" id="nextInfo">По времени Саратова</div></div>
   </section>
   <div class="notice" id="notice" role="status" aria-live="polite"></div>
   <nav class="section-tabs" role="tablist" aria-label="Разделы"><button id="tabClasses" role="tab" aria-selected="true" class="active" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v15H4zM4 10h16M8 3v5m8-5v5M8 14h2m3 0h3"/></svg><span>Занятия</span></button><button id="tabAttendance" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4zM8 12l3 3 5-6"/></svg><span>Посещаемость</span></button><button id="tabSearch" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 16l5 5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg><span>Поиск</span></button><button id="tabExams" role="tab" aria-selected="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5-10-5Zm4 3v5q6 5 12 0v-5m3-2v7"/></svg><span>Сессия</span></button></nav>
@@ -1028,14 +1028,12 @@ button.teacher-photo:focus-visible{outline:3px solid var(--primary);outline-offs
     }
     result.sort((a,b)=>a.start.localeCompare(b.start));
     const l=result[0];
-    $('#nextLocation').hidden=!l?.location;
-    $('#nextLocation').textContent=l?.location||'';
     if(!l){$('#nextLabel').textContent='Ближайшая пара';$('#nextSubject').textContent='Занятий пока нет';$('#nextInfo').textContent='Проверь официальный сайт СГУ';return;}
     const during=l.offset===0&&now.minute>=timeNumber(l.start);
     const when=l.offset===0?'Сегодня':l.offset===1?'Завтра':fmt(l.date,{weekday:'long',day:'numeric',month:'short'});
     $('#nextLabel').textContent=during?'Сейчас идёт':'Следующая по расписанию';
     $('#nextSubject').textContent=l.title;
-    $('#nextInfo').textContent=`${when} · ${l.start}–${l.end}${l.groups.length?' · '+l.groups.join(' и ')+' подгруппа':''}`;
+    $('#nextInfo').textContent=`${when} · ${l.start}–${l.end}${l.location?' · '+l.location:''}${l.groups.length?' · '+l.groups.join(' и ')+' подгруппа':''}`;
   }
   function renderExams(){/* Session calendar is rendered by session.js using the current SGU snapshot. */}
   function render(){

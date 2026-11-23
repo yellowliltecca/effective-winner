@@ -63,13 +63,11 @@ function timer(){
  subject.dataset.liveTimer='true';
  $('#nextLabel').textContent='Следующее занятие';
  subject.textContent=next?next.title:'Занятий пока нет';
- $('#nextLocation').hidden=!next?.location;
- $('#nextLocation').textContent=next?.location||'';
  if(!next){$('#nextInfo').textContent='В ближайшие три недели занятий в расписании нет';return;}
  const dateText=offset===0?'Сегодня':offset===1?'Завтра':new Intl.DateTimeFormat('ru-RU',{
    timeZone:'Europe/Saratov',weekday:'short',day:'numeric',month:'long'
  }).format(base+offset*86400000);
- $('#nextInfo').textContent=[dateText+' в '+next.start,next.groups?.length?next.groups.join(' и ')+' подгруппа':''].filter(Boolean).join(' · ');
+ $('#nextInfo').textContent=[dateText+' в '+next.start,next.location,next.groups?.length?next.groups.join(' и ')+' подгруппа':''].filter(Boolean).join(' · ');
 }
 function archived(e){
  return e.event==='exam_removed' && e.date && e.at && e.date < new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Saratov'}).format(new Date(e.at));

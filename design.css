@@ -594,29 +594,7 @@ body.secondary-tab :is(.overview,.freshness-strip){display:none!important}
 body .homework-form label{min-width:0}
 body .homework-form input{min-width:0;max-width:100%;box-sizing:border-box}
 
-body .compact-overview {
- grid-template-columns:minmax(0,1fr) minmax(0,.58fr)!important;
- gap:14px!important;padding:16px 18px!important;border:1px solid var(--stroke);border-radius:16px!important;
-}
-body .compact-overview .next-card {border:0!important;padding:0!important}
-body .compact-overview .next-card h2 {color:var(--ink);font-weight:740!important;margin:4px 0!important}
-body .compact-overview .next-label {text-transform:none;letter-spacing:.01em}
-.compact-overview .next-location {margin:0;font-weight:720;font-size:14px;color:var(--ink)}
-.compact-overview .next-location[hidden] {display:none}
-body .compact-overview .live-box {
- order:1;margin:8px 0 0!important;padding:7px 0 0!important;border:0!important;border-top:1px solid var(--stroke)!important;
-}
-body .compact-overview .live-header {flex-direction:row!important;align-items:baseline!important;justify-content:space-between;flex-wrap:wrap;gap:4px 10px!important}
-body .compact-overview .live-header span {text-transform:none!important;letter-spacing:0!important}
-body .compact-overview .live-header strong {width:auto;font-size:clamp(28px,8vw,40px)!important;letter-spacing:-.045em!important}
-body .compact-overview .live-info {margin-top:2px!important}
-body .compact-overview .overview-left {padding:0 0 0 13px;border-left:1px solid var(--stroke)}
-body .compact-overview h1 {font-size:16px!important;margin:3px 0!important}
-body .compact-overview .overview-sub {line-height:1.4}
-@media(max-width:700px){
- body .compact-overview {grid-template-columns:minmax(0,1fr)!important;gap:9px!important}
- body .compact-overview .overview-left {padding:7px 0 0;border-left:0;border-top:1px solid var(--stroke)}
-}
+
 #attendance .pending-panel {border:0;border-top:1px solid var(--stroke);border-radius:0;background:transparent;padding-inline:0}
 #alertsPanel .journal-item,#changes .journal-item {border:0;border-top:1px solid var(--stroke);border-radius:0;padding:10px 0;background:transparent}
 #alertsPanel .alert-list {gap:0}
